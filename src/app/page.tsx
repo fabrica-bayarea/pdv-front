@@ -6,7 +6,10 @@ export default function Home() {
   return (
    <>
     <Menu>
-      <h3>Teste</h3>
+      <h1>teste</h1>
+      <h1>teste</h1>
+      <h1>teste</h1>
+      <h1>teste</h1>
     </Menu>
    </>
   )

@@ -1,80 +1,71 @@
+"use client"
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { TramSharp } from '@mui/icons-material';
-
-const drawerWidth = 240;
+import items from './data/SideBar.json';
+import styled from "styled-components";
+import SidebarItem from './SideBarItem';
+import { FaList } from "react-icons/fa";
+import logo from '../../../public/logoIesb.png'
+import Image from 'next/image';
 
 interface Props {
-    children: React.ReactNode
+  children?: React.ReactNode
 }
 
-export default function PaginaPadrao({children}: Props) {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
+const Sidebar = styled.div`
+  width: 350px;
+  flex-shrink: 0;
+  background-color: #F6F6F6;
+  height: 100%;
+  overflow: auto;
+  padding-top: 50px;
+  transition: transform 0.3s;
+`;
 
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <TramSharp /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box
-    
-      >
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px; 
+  align-items: center; 
+  padding: 10px; 
+  width: 350px;
+  background-color: #F6F6F6;
+  cursor: pointer;
+`;
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  height: 100%;
+  overflow: auto;
+`;
+
+export default function PaginaPadrao({ children }: Props) {
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  return (
+    <Main>
+      <Header>
+        <FaList onClick={toggleSidebar} size={40} color="#DA2A38" />
+        <Image src={logo} alt='Logo' width={50} height={50} /> 
+      </Header>
+      <FlexContainer>
+        <Sidebar style={{ transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)" }}>
+        {items.map((item, index) => <SidebarItem key={index} item={item} />)}
+      </Sidebar>
+      <div>
         {children}
-      </Box>
-    </Box>
+      </div>
+      </FlexContainer>
+      
+    </Main>
   );
 }
