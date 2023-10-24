@@ -9,7 +9,7 @@
             },
             {
                 "title": "Cadastro de clientes",
-                "path": "/about"
+                "path": "/cadastro/cliente"
             },
             {
                 "title": "Cadastro de vendedores"

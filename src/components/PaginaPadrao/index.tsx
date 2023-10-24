@@ -44,6 +44,10 @@ const FlexContainer = styled.div`
   overflow: auto;
 `;
 
+const Conteudo = styled.div`
+    padding-left: 90px;
+`
+
 export default function PaginaPadrao({ children }: Props) {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
 
@@ -61,9 +65,9 @@ export default function PaginaPadrao({ children }: Props) {
         <Sidebar style={{ transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)" }}>
         {items.map((item, index) => <SidebarItem key={index} item={item} />)}
       </Sidebar>
-      <div>
+      <Conteudo>
         {children}
-      </div>
+      </Conteudo>
       </FlexContainer>
       
     </Main>
