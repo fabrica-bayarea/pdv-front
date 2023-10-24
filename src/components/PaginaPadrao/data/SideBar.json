@@ -1,0 +1,76 @@
+[
+    {
+        "title": "Cadastro",
+        "icon": "FaLocationArrow",
+        "childrens": [
+            {
+                "title": "Cadastro de produtos",
+                "path": "/"
+            },
+            {
+                "title": "Cadastro de clientes",
+                "path": "/about"
+            },
+            {
+                "title": "Cadastro de vendedores"
+            },
+            {
+                "title": "Cadastro de finalizadores"
+            },
+            {
+                "title": "Cadastro de fornecedores",
+                "path": "/about"
+            },
+            {
+                "title": "Cadastro de notas fiscais",
+                "path": "/about"
+            }
+
+        ]
+    },
+    {
+        "title": "Vendas",
+        "icon": "FaHandHoldingDollar",
+        "childrens": [
+            {
+                "title": "Registro de vendas",
+                "path": "/login"
+            }
+        ]
+    },
+    {
+        "title": "Menu Gerencial",
+        "icon": "FaGear",
+        "childrens": [
+            {
+                "title": "Profile",
+                "path": "/profile"
+            },
+            {
+                "title": "Settings"
+            },
+            {
+                "title": "Logout",
+                "path": "/logout"
+            }
+        ]
+    },
+    {
+        "title": "Estoque",
+        "icon": "FaClipboardList",
+        "childrens": [
+            {
+                "title": "Ajuste de estoque",
+                "path": "/profile"
+            },
+            {
+                "title": "Ajuste de custos",
+                "path": "/logout"
+            },
+            {
+                "title": "Contagem mensal",
+                "path": "/logout"
+            }
+        ]
+    }
+]
