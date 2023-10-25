@@ -6,6 +6,7 @@ interface Props {
     placeholder: string
     label?: string
     register?: any 
+    onChange?: (value: any) => void
 }
 
 const Campo = styled.input`
@@ -17,6 +18,7 @@ const Campo = styled.input`
     width: 100%;
     padding: 16px;
     border: none;
+
 `;
 
 const Rotulo = styled.label`
@@ -31,13 +33,18 @@ const Container = styled.div`
     width: 100%;
 `
 
-const CampoDigitacao = ({tipo, placeholder, label, register}: Props) => {
+const CampoDigitacao = ({tipo, placeholder, label, register, onChange}: Props) => {
   return (
     <Container>
       <Rotulo>{label}</Rotulo>
     <Campo 
         type={tipo}
         placeholder={placeholder}
+        onChange={(e) => {
+          if (onChange) {
+              onChange(e.target.value);
+          }
+      }}
         {...register}
     />
     </Container>
