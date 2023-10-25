@@ -46,6 +46,7 @@ const FlexContainer = styled.div`
 
 const Conteudo = styled.div`
     padding-left: 90px;
+    height: 100%;
 `
 
 export default function PaginaPadrao({ children }: Props) {

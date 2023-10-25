@@ -2,11 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-    valor: string
     tipo: string
     placeholder: string
     label?: string
-    onChange: (value: string) => void
+    register?: any 
 }
 
 const Campo = styled.input`
@@ -18,9 +17,6 @@ const Campo = styled.input`
     width: 100%;
     padding: 16px;
     border: none;
-    &:active {
-        
-    }
 `;
 
 const Rotulo = styled.label`
@@ -35,16 +31,14 @@ const Container = styled.div`
     width: 100%;
 `
 
-const CampoDigitacao = ({tipo, valor, placeholder, onChange, label}: Props) => {
+const CampoDigitacao = ({tipo, placeholder, label, register}: Props) => {
   return (
     <Container>
       <Rotulo>{label}</Rotulo>
     <Campo 
         type={tipo}
-        value={valor}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        required
+        {...register}
     />
     </Container>
   )
