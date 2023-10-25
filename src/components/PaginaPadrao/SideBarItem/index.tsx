@@ -6,6 +6,7 @@ import styled from "styled-components";
 import rec from './rec.png';
 import Image from "next/image";
 import { Divider } from "@mui/material";
+import Link from "next/link";
 
 
 const SidebarItemWrapper = styled.div`
@@ -116,7 +117,6 @@ const SidebarItem = ({ item }: { item: any }) => {
 
     return (
       <SidebarItemWrapper className={open ? "open" : ""}>
-  
         <SidebarTitle>
           <IconContainer>
             {iconComponent}
@@ -142,10 +142,7 @@ const SidebarItem = ({ item }: { item: any }) => {
                 {item.title}
                 </SidebarPlainLink> 
             </SideBarSubList>
-                    
- 
         </ContainerLink>
-
     );
   }
 };
