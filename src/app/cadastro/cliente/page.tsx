@@ -7,6 +7,8 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import styled from 'styled-components'
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
+import { ChangeEvent } from 'react'
+import { mask } from 'remask'
 
 type Inputs = {
   cpf: string
@@ -57,11 +59,28 @@ const Cliente = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>(({
     resolver: yupResolver(schema),
   }))
 
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const nome = event.target.name;
+    const valor = event.target.value;
+
+    switch (nome) {
+        case "cpf":
+            setValue("cpf", mask(valor, '999.999.999-99'));
+            break;
+        case "telefone":
+            setValue("telefone", mask(valor, '(99) 99999-9999'));
+            break;
+        case "nascimento":
+            setValue("nascimento", mask(valor, '99/99/9999'));
+            break;    
+    }
+}
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
@@ -74,17 +93,23 @@ const Cliente = () => {
       <Titulo texto="Cadastro de cliente"  />
 
       <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-        <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={register("cpf")}  />  
+        <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={{...register('cpf', {
+                                                                                            onChange: (e) => {handleChange(e)},
+                                                                                      })}}  />
         <Erro>{errors.cpf?.message}</Erro>
         <CampoDigitacao tipo="text" label="Email" placeholder="Insira seu endereço de email" register={register("email")}   />
         <Erro>{errors.email?.message}</Erro>
         <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira seu endereço de email" register={register("nome")} />
         <Erro>{errors.nome?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={register("telefone")} />
+        <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={{...register('telefone', {
+                                                                                            onChange: (e) => {handleChange(e)},
+                                                                                      })}} />
         <Erro>{errors.telefone?.message}</Erro>
         <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")}  />
         <Erro>{errors.endereco?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("nascimento")} />
+        <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={{...register('nascimento', {
+                                                                                            onChange: (e) => {handleChange(e)},
+                                                                                      })}} />
         <Erro>{errors.nascimento?.message}</Erro>
 
       <DivEstilizada>
