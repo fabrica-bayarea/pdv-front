@@ -43,11 +43,6 @@ const SidebarTitle = styled.div`
   justify-content: space-around;
 `;
 
-const SidebarIcon = styled.i`
-  display: inline-block;
-  width: 1.5em;
-`;
-
 const ToggleButton = styled(HiArrowDown)`
   cursor: pointer;
   transition: transform .3s;
@@ -67,7 +62,7 @@ const SidebarContent = styled.div`
   }
 `;
 
-const SidebarPlainLink = styled.a`
+const SidebarPlainLink = styled(Link)`
   color: #000;
   text-decoration: none;
   display: flex;

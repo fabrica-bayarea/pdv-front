@@ -43,8 +43,8 @@
         "icon": "FaGear",
         "childrens": [
             {
-                "title": "Profile",
-                "path": "/profile"
+                "title": "Clientes",
+                "path": "/gerenciamento/cliente"
             },
             {
                 "title": "Settings"
