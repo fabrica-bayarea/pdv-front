@@ -12,7 +12,8 @@
                 "path": "/cadastro/cliente"
             },
             {
-                "title": "Cadastro de vendedores"
+                "title": "Cadastro de vendedores",
+                "path": "/cadastro/vendedor"
             },
             {
                 "title": "Cadastro de finalizadores"
