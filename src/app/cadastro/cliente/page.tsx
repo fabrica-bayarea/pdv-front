@@ -85,10 +85,9 @@ const Cliente = () => {
 }
 
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
-    console.log(data) 
     try {
       http.request({
-          url: '/clientes',
+          url: '/users/add',
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
