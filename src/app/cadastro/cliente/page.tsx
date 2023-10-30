@@ -9,6 +9,8 @@ import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ChangeEvent } from 'react'
 import { mask } from 'remask'
+import { http } from '@/services'
+import { ICliente } from '@/interfaces/ICliente'
 
 type Inputs = {
   cpf: string
@@ -82,10 +84,21 @@ const Cliente = () => {
     }
 }
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-    // vamos colocar a código para consumir a API aqui
-  }
+  const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
+    console.log(data) 
+    try {
+      http.request({
+          url: '/clientes',
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          data: data
+    })
+    }  catch(error) {
+      console.log(error)  
+    }}
+  
 
   return (
     <Menu>
