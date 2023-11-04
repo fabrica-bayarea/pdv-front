@@ -3,12 +3,12 @@ import Botao from '@/components/Botao'
 import CampoDigitacao from '@/components/CampoDigitacao'
 import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
-import { useForm, SubmitHandler } from "react-hook-form"
-import styled from 'styled-components'
-import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
-import { ChangeEvent } from 'react'
+import axios from 'axios'
+import { SubmitHandler, useForm } from "react-hook-form"
 import { mask } from 'remask'
+import styled from 'styled-components'
+import * as Yup from 'yup'
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -34,7 +34,7 @@ type Inputs = {
     nome: string
     telefone: string
     endereco: string
-    nascimento: string
+    dataNascimento: string
 }
 
 
@@ -46,14 +46,12 @@ const form = Yup.object<Inputs>().shape({
         .email("Digite um email válido!")
         .required("O campo e-mail é obrigatório!"),
     nome: Yup.string()
-        .min(10, "O nome precisa ter mais de 10 caracters")
-        .max(100)
-        .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!").required('O campo nome é obrigatório!'),
+        .max(100),
     telefone: Yup.string()
         .required("Telefone é obrigatório!")
         .matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
     endereco: Yup.string().required("Endereço é obrigatório"),
-    nascimento: Yup.string().required("Nascimento é obrigatório"),
+    dataNascimento: Yup.string().required("Nascimento é obrigatório"),
 });
 
 
@@ -80,17 +78,20 @@ export default function Vendedor() {
             case "telefone":
                 setValue("telefone", mask(valor, '(99) 99999-9999'));
                 break;
-            case "nascimento":
-                setValue("nascimento", mask(valor, '99/99/9999'));
+            case "dataNascimento":
+                setValue("dataNascimento", mask(valor, '99/99/9999'));
                 break;
         }
     }
 
 
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // vamos colocar a código para consumir a API aqui
+        // const token = (await axios.get('http://localhost:3000/vendedor')).data;
+        // data.dataNascimento = new Date(data.dataNascimento).toISOString();
+        await axios.post('http://localhost:3000/vendedor', data);
     }
 
     // Objeto para facilitar a adição de mascaras no formulario
@@ -120,8 +121,8 @@ export default function Vendedor() {
                     <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereço" register={register("endereco")} />
                     <Erro>{errors.endereco?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("nascimento", addMasks)} />
-                    <Erro>{errors.nascimento?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("dataNascimento", addMasks)} />
+                    <Erro>{errors.dataNascimento?.message}</Erro>
 
 
 

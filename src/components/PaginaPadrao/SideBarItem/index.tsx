@@ -14,7 +14,7 @@ const SidebarItemWrapper = styled.div`
   display: block;
   transition: background-color .15s;
   border-radius: 5px;
-  background-color: #;
+  background-color: #DDD;
   margin-bottom: 30px;
   &:hover {
     background-color: rgba(255, 255, 255, .1);
@@ -33,7 +33,7 @@ display: flex;
 align-items: center;
 transition: background-color .15s;
 border-radius: 5px;
-background-color: #;
+background-color: #ffff;
 margin-bottom: 10px;
 `
 

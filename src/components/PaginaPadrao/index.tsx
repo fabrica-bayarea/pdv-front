@@ -15,7 +15,7 @@ const Sidebar = styled.div`
   width: 350px;
   flex-shrink: 0;
   background-color: #F6F6F6;
-  height: 100%;
+  /* height: 100%; */
   overflow: auto;
   padding-top: 50px;
   transition: transform 0.3s;
