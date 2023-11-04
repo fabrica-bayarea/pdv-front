@@ -5,7 +5,7 @@
         "childrens": [
             {
                 "title": "Cadastro de produtos",
-                "path": "/"
+                "path": "/cadastro/produto"
             },
             {
                 "title": "Cadastro de clientes",
