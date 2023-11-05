@@ -10,17 +10,17 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { mask } from 'remask'
 import { http } from '@/services'
 import { ICliente } from '@/interfaces/ICliente'
-import { ToastContainer, toast } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { toast, ToastContainer } from 'react-toastify'
 
 type Inputs = {
-  cpf: string
-  nome: string
-  email: string
-  telefone: string
-  endereco: string
-  nascimento: string
+  cpf?: string | undefined
+  nome?: string | undefined
+  email?: string | undefined
+  telefone?: string | undefined
+  endereco?: string | undefined
+  nascimento?: string | undefined
 }
 
 const FormEstilizado = styled.form`
@@ -42,24 +42,21 @@ const Erro = styled.span`
 
 const schema = Yup.object().shape({             // cria as regras para formatação
     cpf: Yup.string()
-      .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
-      .required('CPF é obrigatório'),
+      .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
     email: Yup.string()
-    .email('Digite um email válido!')
-    .required('O campo e-mail é obrigatório!'),
+    .email('Digite um email válido!'),
     nome: Yup.string()
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
-    .required('O campo nome é obrigatório!')
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
-    telefone: Yup.string().required('Telefone é obrigatório!').matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
-    endereco: Yup.string().required('Endereço é obrigatório!'),
-    nascimento: Yup.string().required('Nascimento é obrigatório!'),
+    telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
+    endereco: Yup.string(),
+    nascimento: Yup.string()
 });
 
 
-const Cliente = () => {
-
+const FormCliente = () => {
+  const params = useParams()
   const { push } = useRouter()
 
   const {
@@ -67,9 +64,9 @@ const Cliente = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Inputs>(({
+  } = useForm<Inputs>({
     resolver: yupResolver(schema),
-  }))
+  });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const nome = event.target.name;
@@ -88,19 +85,33 @@ const Cliente = () => {
     }
 }
 
+useEffect(() => {
+  if (params) {
+    http.get('/users/' + params.id).then(resultado => {
+      const autor = resultado.data;
+  
+      for (let atributo in autor) {
+        if (atributo === "cpf" || atributo === "email" || atributo === "nome" || atributo === "telefone" || atributo === "endereco" || atributo === "nascimento") {
+          setValue(atributo, autor[atributo]);
+        }
+      }
+    });
+  }
+
+}, [params])
+
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
-    console.log(data)
     try {
       http.request({
-          url: '/users',
-          method: 'POST',
+          url: '/users/' + 2,
+          method: 'PUT',
           headers: {
               'Content-Type': 'application/json'
           },
           data: data
     })
 
-    toast.success('Cadastro feito!', {
+    toast.success('Usuário editado!', {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -111,20 +122,12 @@ const Cliente = () => {
       theme: "light",
       });
 
-      push('/gerenciamento/cliente')
+      setTimeout(() => {
+        push('/gerenciamento/cliente');
+      }, 500);
 
     }  catch(error) {
-      console.log(error) 
-      toast.error('Erro ao fazer o cadastro!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        }); 
+      console.log(error)  
     }}
   
 
@@ -171,9 +174,9 @@ const Cliente = () => {
         <Botao texto='Cancelar' secundario={true.toString()} />        
       </DivEstilizada>  
       </FormEstilizado>
-     
+
     </Menu>
   )
 }
 
-export default Cliente
+export default FormCliente

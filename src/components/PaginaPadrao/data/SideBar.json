@@ -48,7 +48,8 @@
                 "path": "/gerenciamento/cliente"
             },
             {
-                "title": "Settings"
+                "title": "Vendedores",
+                "path": "/gerenciamento/vendedor"
             },
             {
                 "title": "Logout",

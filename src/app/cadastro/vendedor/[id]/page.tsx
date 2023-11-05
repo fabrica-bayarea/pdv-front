@@ -5,8 +5,8 @@ import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
 import { http } from '@/services'
 import { yupResolver } from "@hookform/resolvers/yup"
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast, ToastContainer } from 'react-toastify'
 import { mask } from 'remask'
@@ -31,34 +31,50 @@ const Erro = styled.span`
 `
 
 type Inputs = {
-    cpf: string
-    email: string
-    nome: string
-    telefone: string
-    endereco: string
-    nascimento: string
+    cpf?: string
+    email?: string
+    nome?: string
+    telefone?: string
+    endereco?: string
+    nascimento?: string
 }
 
 
 const form = Yup.object().shape({             // cria as regras para formatação
     cpf: Yup.string()
-      .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
-      .required('CPF é obrigatório'),
+      .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
     email: Yup.string()
-    .email('Digite um email válido!')
-    .required('O campo e-mail é obrigatório!'),
+    .email('Digite um email válido!'),
     nome: Yup.string()
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
-    .required('O campo nome é obrigatório!')
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
-    telefone: Yup.string().required('Telefone é obrigatório!').matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
-    endereco: Yup.string().required('Endereço é obrigatório!'),
-    nascimento: Yup.string().required('Nascimento é obrigatório!'),
+    telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
+    endereco: Yup.string(),
+    nascimento: Yup.string(),
 });
 
 
 export default function Vendedor() {
+
+    const params = useParams()
+    const { push } = useRouter()
+
+    useEffect(() => {
+        if (params) {
+          http.get('/vendedores/' + params.id).then(resultado => {
+            const vendedor = resultado.data;
+        
+            for (let atributo in vendedor) {
+              if (atributo === "cpf" || atributo === "email" || atributo === "nome" || atributo === "telefone" || atributo === "endereco" || atributo === "nascimento") {
+                setValue(atributo, vendedor[atributo]);
+              }
+            }
+          });
+        }
+      
+      }, [params])
+    
     const {
         register,
         handleSubmit,
@@ -67,8 +83,6 @@ export default function Vendedor() {
       } = useForm<Inputs>(({
         resolver: yupResolver(form),
       }))
-
-    const { push } = useRouter()
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -87,14 +101,12 @@ export default function Vendedor() {
         }
     }
 
-
-
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
         try{
-            await http.post('/vendedores', data);
-            toast.success('Cadastro feito!', {
+            await http.put('/vendedores/' + params.id, data);
+            toast.success('Edição feita!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -117,8 +129,9 @@ export default function Vendedor() {
                 pauseOnHover
                 theme="light"
             />
-          
-                push('/gerenciamento/vendedor')
+            
+            push('/gerenciamento/vendedor')
+                
         } catch(error){
             console.log(error)
         }    

@@ -1,9 +1,9 @@
 
 
 export interface ICliente {
-    cpf: string,
-    nome: string,
-    telefone: string,
-    endereco: string,
-    nascimento: string
+    cpf?: string | undefined,
+    nome?: string | undefined,
+    telefone?: string | undefined,
+    endereco?: string | undefined,
+    nascimento?: string | undefined,
 }

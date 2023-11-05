@@ -8,17 +8,12 @@ import Image from "next/image";
 import { Divider } from "@mui/material";
 import Link from "next/link";
 
-
 const SidebarItemWrapper = styled.div`
   padding: .75em 1em;
   display: block;
   transition: background-color .15s;
   border-radius: 5px;
-  background-color: #DDD;
   margin-bottom: 30px;
-  &:hover {
-    background-color: rgba(255, 255, 255, .1);
-  }
 
   &.open {
     .toggle-btn { 
@@ -33,7 +28,6 @@ display: flex;
 align-items: center;
 transition: background-color .15s;
 border-radius: 5px;
-background-color: #ffff;
 margin-bottom: 10px;
 `
 

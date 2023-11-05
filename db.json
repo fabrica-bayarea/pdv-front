@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "cpf": "975.848.382-38",
+      "email": "davieu123@outlook.com",
+      "endereco": "34 QNN 21 CONJUNTO D",
+      "nascimento": "23/09/2009",
+      "nome": "davi",
+      "telefone": "(61) 92697-1046"
+    },
+    {
+      "id": 2,
+      "cpf": "058.358.841-76",
+      "email": "teste@gmail.com",
+      "nome": "Mateus Castro",
+      "telefone": "(61) 99492-9595",
+      "endereco": "show de morar",
+      "nascimento": "04/09/2023"
+    }
+  ],
+  "vendedores": [
+    {
+      "id": 1,
+      "cpf": "123.456.789-01",
+      "email": "vendedor1@example.com",
+      "endereco": "Rua das Vendas, 123",
+      "nascimento": "15/03/1990",
+      "nome": "João Vendedor",
+      "telefone": "(61) 98765-4321"
+    },
+    {
+      "cpf": "987.654.321-09",
+      "email": "vendedor2@gmail.com",
+      "nome": "Maria Vendedora",
+      "telefone": "(61) 99203-3708",
+      "endereco": "Avenida das Vendas, 456",
+      "nascimento": "21/07/1985",
+      "id": 2
+    }
+  ]
+}

@@ -10,23 +10,23 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import BuildIcon from '@mui/icons-material/Build';
 import Link from 'next/link'
 
-const GerenciamentoCliente = () => {
+const GerenciamentoVendedor = () => {
 
-  const [usuarios, setUsuarios] = useState<any[]>([])
+  const [vendedor, setVendedor] = useState<any[]>([])
 
   useEffect(() => {
-      http.get('/users').then(resultado => {
-          setUsuarios(resultado.data)
+      http.get('/vendedores').then(resultado => {
+          setVendedor(resultado.data)
       })
       
   }, [])
 
   function excluir(id: number) {
-    if (confirm('Deseja realmente excluir o usuário?')) {
+    if (confirm('Deseja realmente excluir o vendedor?')) {
       try {
-        http.delete(`users/${id}`).then(resultado => {
+        http.delete(`vendedores/${id}`).then(resultado => {
           if (resultado.status == 200) {
-            setUsuarios(usuarios => usuarios.filter(usuario => usuario.id !== id))
+            setVendedor(vendedores => vendedores.filter(vendedor => vendedor.id !== id))
           }})
       } catch(error) {
         console.log(error)
@@ -37,7 +37,7 @@ const GerenciamentoCliente = () => {
 
   return (
     <PaginaPadrao>
-      <Titulo texto='Gerenciamento de Cliente' />
+      <Titulo texto='Gerenciamento de Vendedores' />
 
       <TableContainer component={Paper} sx={{ marginTop: 10}} >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -51,18 +51,18 @@ const GerenciamentoCliente = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-        {usuarios?.map((usuario) => (
+        {vendedor?.map((vendedor) => (
             <TableRow
-              key={usuario.id}
+              key={vendedor.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {usuario.nome}
+                {vendedor.nome}
               </TableCell>
-              <TableCell align="right">{usuario.email}</TableCell>
-              <TableCell align="right">{usuario.telefone}</TableCell>
-              <TableCell align="right">{usuario.nascimento}</TableCell>
-              <TableCell align="right"> <Link href={'/cadastro/cliente/' + usuario.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(usuario.id)} /> </TableCell>
+              <TableCell align="right">{vendedor.email}</TableCell>
+              <TableCell align="right">{vendedor.telefone}</TableCell>
+              <TableCell align="right">{vendedor.nascimento}</TableCell>
+              <TableCell align="right"> <Link href={'/cadastro/vendedor/' + vendedor.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(vendedor.id)} /> </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -72,4 +72,4 @@ const GerenciamentoCliente = () => {
   )
 }
 
-export default GerenciamentoCliente
+export default GerenciamentoVendedor
