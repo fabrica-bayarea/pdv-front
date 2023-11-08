@@ -26,8 +26,6 @@ const Erro = styled.span`
   font-size: 13px;
   color: #DA2A38;
 `
-
-
 type Inputs = {
     codigo: string
     nome: string

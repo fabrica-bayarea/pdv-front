@@ -1,22 +1,13 @@
 {
   "users": [
     {
-      "id": 1,
-      "cpf": "975.848.382-38",
+      "cpf": "076.994.701-84",
       "email": "davieu123@outlook.com",
+      "nome": "Davi Costa",
+      "telefone": "(61) 92697-1046",
       "endereco": "34 QNN 21 CONJUNTO D",
       "nascimento": "23/09/2009",
-      "nome": "davi",
-      "telefone": "(61) 92697-1046"
-    },
-    {
-      "id": 2,
-      "cpf": "058.358.841-76",
-      "email": "teste@gmail.com",
-      "nome": "Mateus Castro",
-      "telefone": "(61) 99492-9595",
-      "endereco": "show de morar",
-      "nascimento": "04/09/2023"
+      "id": 1
     }
   ],
   "vendedores": [
@@ -36,6 +27,26 @@
       "telefone": "(61) 99203-3708",
       "endereco": "Avenida das Vendas, 456",
       "nascimento": "21/07/1985",
+      "id": 2
+    }
+  ],
+  "fornecedores": [
+    {
+      "id": 1,
+      "tipo": "Física",
+      "cnpj": "05.842.088/0001-02",
+      "inscricao": "Teste",
+      "razao": "Oficina X",
+      "nome": "João Empresa",
+      "data": "04/09/2000"
+    },
+    {
+      "tipo": "Pessoa Física",
+      "cnpj": "23.434.343/4343-24",
+      "inscricao": "Teste",
+      "nome": "camisetasa",
+      "razao": "teste",
+      "data": "09/12/1909",
       "id": 2
     }
   ]

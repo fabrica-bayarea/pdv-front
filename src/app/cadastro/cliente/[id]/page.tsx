@@ -103,7 +103,7 @@ useEffect(() => {
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
     try {
       http.request({
-          url: '/users/' + 2,
+          url: '/users/' + params.id,
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ useEffect(() => {
 
     toast.success('Usuário editado!', {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

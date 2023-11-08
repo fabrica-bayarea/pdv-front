@@ -20,7 +20,7 @@
             },
             {
                 "title": "Cadastro de fornecedores",
-                "path": "/about"
+                "path": "/cadastro/fornecedor"
             },
             {
                 "title": "Cadastro de notas fiscais",
@@ -52,8 +52,8 @@
                 "path": "/gerenciamento/vendedor"
             },
             {
-                "title": "Logout",
-                "path": "/logout"
+                "title": "Fornecedores",
+                "path": "/gerenciamento/fornecedor"
             }
         ]
     },
