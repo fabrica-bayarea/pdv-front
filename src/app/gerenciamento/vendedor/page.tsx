@@ -61,7 +61,7 @@ const GerenciamentoVendedor = () => {
               </TableCell>
               <TableCell align="right">{vendedor.email}</TableCell>
               <TableCell align="right">{vendedor.telefone}</TableCell>
-              <TableCell align="right">{vendedor.nascimento}</TableCell>
+              <TableCell align="right">{new Date(vendedor.dataNascimento).toLocaleDateString()}</TableCell>
               <TableCell align="right"> <Link href={'/cadastro/vendedor/' + vendedor.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(vendedor.id)} /> </TableCell>
             </TableRow>
           ))}

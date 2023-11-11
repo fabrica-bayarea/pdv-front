@@ -36,7 +36,7 @@ type Inputs = {
     nome?: string
     telefone?: string
     endereco?: string
-    nascimento?: string
+    dataNascimento?: string
 }
 
 
@@ -51,7 +51,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
     telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
     endereco: Yup.string(),
-    nascimento: Yup.string(),
+    dataNascimento: Yup.string(),
 });
 
 
@@ -66,7 +66,10 @@ export default function Vendedor() {
             const vendedor = resultado.data;
         
             for (let atributo in vendedor) {
-              if (atributo === "cpf" || atributo === "email" || atributo === "nome" || atributo === "telefone" || atributo === "endereco" || atributo === "nascimento") {
+              if(atributo === "dataNascimento"){
+                setValue(atributo, new Date(vendedor[atributo]).toLocaleDateString());
+              }
+              if (atributo === "cpf" || atributo === "email" || atributo === "nome" || atributo === "telefone" || atributo === "endereco") {
                 setValue(atributo, vendedor[atributo]);
               }
             }
@@ -95,8 +98,8 @@ export default function Vendedor() {
             case "telefone":
                 setValue("telefone", mask(valor, '(99) 99999-9999'));
                 break;
-            case "nascimento":
-                setValue("nascimento", mask(valor, '99/99/9999'));
+            case "dataNascimento":
+                setValue("dataNascimento", mask(valor, '99/99/9999'));
                 break;
         }
     }
@@ -164,8 +167,8 @@ export default function Vendedor() {
                     <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereço" register={register("endereco")} />
                     <Erro>{errors.endereco?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("nascimento", addMasks)} />
-                    <Erro>{errors.nascimento?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("dataNascimento", addMasks)} />
+                    <Erro>{errors.dataNascimento?.message}</Erro>
 
 
 

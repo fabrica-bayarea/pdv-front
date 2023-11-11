@@ -32,25 +32,25 @@ const Erro = styled.span`
 
 type Inputs = {
     cnpj?: string | undefined
-    inscricao?: string | undefined
-    nome?: string | undefined
-    razao?: string | undefined
-    data?: string | undefined
-    tipo?: string | undefined
+    inscricao_estadual?: string | undefined,
+    nome_fantasia?: string | undefined,
+    razao_social?: string | undefined,
+    data_registro?: string | undefined,
+    tipo_pessoa?: string | undefined,
 }
 
 
 const form = Yup.object().shape({             // cria as regras para formatação
     cnpj: Yup.string()
       .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, 'CNPJ inválido'),
-    inscricao: Yup.string(),
-    nome: Yup.string()
+      inscricao_estadual: Yup.string(),
+      nome_fantasia: Yup.string()
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
-    razao: Yup.string(),
-    data: Yup.string(),
-    tipo: Yup.string(),
+    razao_social: Yup.string(),
+    data_registro: Yup.string(),
+    tipo_pessoa: Yup.string(),
 });
 
 
@@ -74,7 +74,10 @@ export default function Fornecedor() {
             const fornecedor = resultado.data;
         
             for (let atributo in fornecedor) {
-                if (atributo === "cnpj" || atributo === "inscricao" || atributo === "nome" || atributo === "razao" || atributo === "data" || atributo === "tipo") {
+                if(atributo === "data_registro"){
+                    setValue(atributo, fornecedor[atributo]);
+                }
+                if (atributo === "cnpj" || atributo === "inscricao_estadual" || atributo === "nome_fantasia" || atributo === "razao_social" || atributo === "tipo_pessoa") {
                   setValue(atributo, fornecedor[atributo]);
                 }
               }
@@ -92,8 +95,8 @@ export default function Fornecedor() {
             case "cnpj":
                 setValue("cnpj", mask(valor, '99.999.999/9999-99'));
                 break;
-            case "data":
-                setValue("data", mask(valor, '99/99/9999'));
+            case "data_registro":
+                setValue("data_registro", mask(valor, '99/99/9999'));
                 break;
         }
     }
@@ -144,23 +147,23 @@ export default function Fornecedor() {
                 <Titulo texto="Cadastro de fornecedor" />
 
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo', addMasks)} />
-                    <Erro>{errors.tipo?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
+                    <Erro>{errors.tipo_pessoa?.message}</Erro>
 
                     <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
                     <Erro>{errors.cnpj?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao")} />
-                    <Erro>{errors.inscricao?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
+                    <Erro>{errors.inscricao_estadual?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome")} />
-                    <Erro>{errors.nome?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
+                    <Erro>{errors.nome_fantasia?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao", addMasks)} />
-                    <Erro>{errors.razao?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
+                    <Erro>{errors.razao_social?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data", addMasks)} />
-                    <Erro>{errors.data?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
+                    <Erro>{errors.data_registro?.message}</Erro>
 
 
                     <DivEstilizada>

@@ -31,11 +31,11 @@ const Erro = styled.span`
 
 type Inputs = {
     cnpj: string
-    inscricao: string
-    nome: string
-    razao: string
-    data: string
-    tipo: string
+    inscricao_estadual: string
+    nome_fantasia: string
+    razao_social: string
+    data_registro: string
+    tipo_pessoa: string
 }
 
 
@@ -43,16 +43,16 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     cnpj: Yup.string()
       .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, 'CNPJ inválido')
       .required('CNPJ é obrigatório'),
-    inscricao: Yup.string()
+    inscricao_estadual: Yup.string()
     .required('O campo inscrição é obrigatório!'),
-    nome: Yup.string()
+    nome_fantasia: Yup.string()
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
     .required('O campo nome é obrigatório!')
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
-    razao: Yup.string().required('Endereço é obrigatório!'),
-    data: Yup.string().required('Data é obrigatório!'),
-    tipo: Yup.string().required('Tipo é obrigatório!'),
+    razao_social: Yup.string().required('Endereço é obrigatório!'),
+    data_registro: Yup.string().required('Data é obrigatório!'),
+    tipo_pessoa: Yup.string().required('Tipo é obrigatório!'),
 });
 
 
@@ -77,7 +77,7 @@ export default function Fornecedor() {
                 setValue("cnpj", mask(valor, '99.999.999/9999-99'));
                 break;
             case "data":
-                setValue("data", mask(valor, '99/99/9999'));
+                setValue("data_registro", mask(valor, '99/99/9999'));
                 break;
         }
     }
@@ -128,23 +128,23 @@ export default function Fornecedor() {
                 <Titulo texto="Cadastro de fornecedor" />
 
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo', addMasks)} />
-                    <Erro>{errors.tipo?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
+                    <Erro>{errors.tipo_pessoa?.message}</Erro>
 
                     <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
                     <Erro>{errors.cnpj?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao")} />
-                    <Erro>{errors.inscricao?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
+                    <Erro>{errors.inscricao_estadual?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome")} />
-                    <Erro>{errors.nome?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
+                    <Erro>{errors.nome_fantasia?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao", addMasks)} />
-                    <Erro>{errors.razao?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
+                    <Erro>{errors.razao_social?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data", addMasks)} />
-                    <Erro>{errors.data?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
+                    <Erro>{errors.data_registro?.message}</Erro>
 
 
                     <DivEstilizada>
