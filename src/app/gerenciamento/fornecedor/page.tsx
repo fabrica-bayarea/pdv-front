@@ -23,8 +23,10 @@ const GerenciamentoFornecedor = () => {
     if (confirm('Deseja realmente excluir o fornecedor?')) {
       try {
         http.delete(`fornecedores/${id}`).then(resultado => {
-          if (resultado.status == 200) {
-            setFornecedores(fornecedores => fornecedores.filter(fornecedor => fornecedor.id !== id))
+          if (resultado.status == 204) {
+            setFornecedores(fornecedores => {
+              return fornecedores.filter(fornecedor => fornecedor.id !== id)
+            })
           }
         })
       } catch(error) {
@@ -53,7 +55,7 @@ const GerenciamentoFornecedor = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {fornecedor.nome}
+                {fornecedor.nome_fantasia}
               </TableCell>
               <TableCell align="right">{fornecedor.cnpj}</TableCell>
               <TableCell align="right"> <Link href={'/cadastro/fornecedor/' + fornecedor.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(fornecedor.id)} /> </TableCell>

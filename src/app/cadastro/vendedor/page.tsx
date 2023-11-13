@@ -36,7 +36,7 @@ type Inputs = {
     nome: string
     telefone: string
     endereco: string
-    nascimento: string
+    dataNascimento: string
 }
 
 
@@ -54,7 +54,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
     telefone: Yup.string().required('Telefone é obrigatório!').matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
     endereco: Yup.string().required('Endereço é obrigatório!'),
-    nascimento: Yup.string().required('Nascimento é obrigatório!'),
+    dataNascimento: Yup.string().required('Nascimento é obrigatório!'),
 });
 
 
@@ -81,8 +81,8 @@ export default function Vendedor() {
             case "telefone":
                 setValue("telefone", mask(valor, '(99) 99999-9999'));
                 break;
-            case "nascimento":
-                setValue("nascimento", mask(valor, '99/99/9999'));
+            case "dataNascimento":
+                setValue("dataNascimento", mask(valor, '99/99/9999'));
                 break;
         }
     }
@@ -151,8 +151,8 @@ export default function Vendedor() {
                     <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereço" register={register("endereco")} />
                     <Erro>{errors.endereco?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("nascimento", addMasks)} />
-                    <Erro>{errors.nascimento?.message}</Erro>
+                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("dataNascimento", addMasks)} />
+                    <Erro>{errors.dataNascimento?.message}</Erro>
 
 
 

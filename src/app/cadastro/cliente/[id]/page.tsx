@@ -87,11 +87,14 @@ const FormCliente = () => {
 
 useEffect(() => {
   if (params) {
-    http.get('/users/' + params.id).then(resultado => {
+    http.get('/clientes/' + params.id).then(resultado => {
       const autor = resultado.data;
-  
+      const atributos:any[] = ["cpf", "email", "nome", "telefone", "endereco"];
       for (let atributo in autor) {
-        if (atributo === "cpf" || atributo === "email" || atributo === "nome" || atributo === "telefone" || atributo === "endereco" || atributo === "nascimento") {
+        if (atributo === 'nascimento') {
+          setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
+        }
+        if (atributos.includes(atributo)) {
           setValue(atributo, autor[atributo]);
         }
       }
@@ -103,7 +106,7 @@ useEffect(() => {
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
     try {
       http.request({
-          url: '/users/' + params.id,
+          url: '/clientes/' + params.id,
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'
