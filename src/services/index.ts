@@ -8,3 +8,10 @@ export const http = axios.create({
     }
 })
 
+export const httpTeste = axios.create({
+    baseURL: 'http://localhost:3004',
+    headers: {
+        Accept: 'application/json',
+        Content: 'application/json'
+    }
+})

@@ -90,6 +90,7 @@ useEffect(() => {
     http.get('/clientes/' + params.id).then(resultado => {
       const autor = resultado.data;
       const atributos:any[] = ["cpf", "email", "nome", "telefone", "endereco"];
+      
       for (let atributo in autor) {
         if (atributo === 'nascimento') {
           setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
