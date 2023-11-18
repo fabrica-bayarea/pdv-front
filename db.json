@@ -49,5 +49,16 @@
       "data": "09/12/1909",
       "id": 2
     }
+  ],
+  "produtos": [
+    {
+      "id": 1,
+      "codigo": "2 939423 732189",
+      "nome": "camisetas",
+      "unimedida": "centímetros",
+      "grupo": "vestuario",
+      "valor": "R$: 30",
+      "registro": ""
+    }
   ]
 }
