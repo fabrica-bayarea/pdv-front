@@ -40,7 +40,7 @@ const CampoDigitacao = ({tipo, placeholder, label, register, onChange}: Props) =
     <Campo 
         type={tipo}
         placeholder={placeholder}
-        onChange={(e) => {
+        onChange={(e: any) => {
           if (onChange) {
               onChange(e.target.value);
           }

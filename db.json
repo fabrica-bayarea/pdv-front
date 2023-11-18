@@ -60,5 +60,53 @@
       "valor": "R$: 30",
       "registro": ""
     }
+  ],
+  "finalizadores": [
+    {
+      "codigo_finalizador": "343.545.454-54",
+      "nome_finalizador": "Cartão de débito",
+      "situacao_finalizador": "Ativo",
+      "grupo_receita": "Boa pergunta",
+      "bandeira": {
+        "label": "Alelo"
+      },
+      "id": 2
+    },
+    {
+      "codigo_finalizador": "343.545.454-54",
+      "nome_finalizador": "Cartão de crédito",
+      "situacao_finalizador": "Ativo",
+      "grupo_receita": "Boa pergunta",
+      "bandeira": {
+        "label": "Master"
+      },
+      "id": 3
+    }
+  ],
+  "notas": [
+    {
+      "fornecedorId": "1",
+      "dataEntrada": "13/09/2023",
+      "dataEmissao": "12/09/2023",
+      "tipoDeNota": {
+        "label": "Entrada"
+      },
+      "modelo": {
+        "label": "NFAe"
+      },
+      "id": 3
+    },
+    {
+      "fornecedorId": "5",
+      "dataEntrada": "13/09/2023",
+      "dataEmissao": "12/09/2024",
+      "tipoDeNota": {
+        "label": "Saída"
+      },
+      "modelo": {
+        "label": "NFAe"
+      },
+      "id": 4
+    }
   ]
 }
