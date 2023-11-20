@@ -13,6 +13,8 @@ import { ICliente } from '@/interfaces/ICliente'
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
 
 type Inputs = {
   cpf?: string | undefined

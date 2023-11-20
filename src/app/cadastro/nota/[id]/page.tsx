@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 import Select from "react-select";
 import { useEffect } from 'react'
+import "react-toastify/dist/ReactToastify.css";
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -108,12 +109,21 @@ export default function NotaFiscal() {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
+        const tipoDeNotaSelecionado = data.tipoDeNota ? data.tipoDeNota.label : null;
+        const modeloSelecionado = data.modelo ? data.modelo.label : null;
+
+        const dadosParaEnviar = {
+          ...data,
+          tipoDeNota: tipoDeNotaSelecionado,
+          modelo: modeloSelecionado,
+        };
+
         try {
-          await httpTeste.put('/notas/' + params.id, data);
+          await httpTeste.put('/notas/' + params.id, dadosParaEnviar);
   
         toast.success('Edição feita!', {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

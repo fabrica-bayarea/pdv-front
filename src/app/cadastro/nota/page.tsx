@@ -12,6 +12,7 @@ import { mask } from 'remask'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import Select from "react-select";
+import "react-toastify/dist/ReactToastify.css";
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -90,6 +91,14 @@ export default function NotaFiscal() {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
+        const tipoDeNotaSelecionado = data.tipoDeNota ? data.tipoDeNota.label : null;
+        const modeloSelecionado = data.modelo ? data.modelo.label : null;
+
+        const dadosParaEnviar = {
+          ...data,
+          tipoDeNota: tipoDeNotaSelecionado,
+          modelo: modeloSelecionado,
+        };
         try {
             await httpTeste.request({
               url: '/notas',
@@ -97,12 +106,12 @@ export default function NotaFiscal() {
               headers: {
                 'Content-Type': 'application/json'
               },
-              data: data
+              data: dadosParaEnviar
             });
 
             <ToastContainer
             position="top-right"
-            autoClose={5000}
+            autoClose={2000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -115,7 +124,7 @@ export default function NotaFiscal() {
       
             toast.success('Cadastro feito!', {
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -126,7 +135,7 @@ export default function NotaFiscal() {
       
             setTimeout(() => {
               push('/gerenciamento/notas');
-            }, 4000);
+            }, 1000);
       
           } catch (error) {
             console.error(error);

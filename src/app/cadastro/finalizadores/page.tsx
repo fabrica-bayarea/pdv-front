@@ -51,7 +51,7 @@ const schema = Yup.object().shape({             // cria as regras para formataç
     codigo_finalizador: Yup.string()
       .required('Código obrigatório'),
     nome_finalizador: Yup.string()
-    .min(4, 'O nome precisa ter mais de 10 caracteres!')
+    .min(3, 'O nome precisa ter mais de 3 caracteres!')
     .max(100)
     .required('O campo nome é obrigatório!'),
     situacao_finalizador: Yup.string().required('Situação é obrigatório!'),
@@ -86,6 +86,11 @@ const Finalizador = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data)
+    const bandeiraSelecionada = data.bandeira ? data.bandeira.label : null;
+      const dadosParaEnviar = {
+        ...data,
+        bandeira: bandeiraSelecionada,
+      };
     // try {
     //   http.request({
     //       url: '/finalizadores',
@@ -129,7 +134,7 @@ const Finalizador = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        data: data
+        data: dadosParaEnviar
       });
 
       toast.success('Cadastro feito!', {

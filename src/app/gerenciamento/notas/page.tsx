@@ -56,9 +56,9 @@ const GerenciamentoNota = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {nota.tipoDeNota.label}
+                {nota.tipoDeNota}
               </TableCell>
-              <TableCell align="right">{nota.modelo.label}</TableCell>
+              <TableCell align="right">{nota.modelo}</TableCell>
               <TableCell align="right">{nota.dataEmissao}</TableCell>
               <TableCell align="right"> <Link href={'/cadastro/nota/' + nota.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(nota.id)} /> </TableCell>
             </TableRow>
