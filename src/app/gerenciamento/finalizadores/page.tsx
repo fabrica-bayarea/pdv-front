@@ -58,7 +58,7 @@ const GerenciamentoFinalizador = () => {
                 {finalizador.nome_finalizador}
               </TableCell>
               <TableCell align="right">{finalizador.situacao_finalizador}</TableCell>
-              <TableCell align="right">{finalizador.bandeira.label}</TableCell>
+              <TableCell align="right">{finalizador.bandeira}</TableCell>
               <TableCell align="right"> <Link href={'/cadastro/finalizadores/' + finalizador.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(finalizador.id)} /> </TableCell>
             </TableRow>
           ))}

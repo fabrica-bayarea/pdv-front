@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import { useParams, useRouter } from 'next/navigation'
 import Select from "react-select";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type Inputs = {
   codigo_finalizador?: string | undefined
@@ -51,7 +51,7 @@ const Rotulo = styled.label`
 const schema = Yup.object().shape({             // cria as regras para formatação
     codigo_finalizador: Yup.string(),
     nome_finalizador: Yup.string()
-    .min(4, 'O nome precisa ter mais de 10 caracteres!')
+    .min(3, 'O nome precisa ter mais de 3 caracteres!')
     .max(100),
     situacao_finalizador: Yup.string(),
     grupo_receita: Yup.string(),
@@ -64,12 +64,13 @@ const Finalizador = () => {
     const params = useParams()
     const { push } = useRouter()
 
+    const [bandeiraFinalizador, setBandeiraFinalizador] = useState('')
 
   useEffect(() => {
     if (params) {
       httpTeste.get('/finalizadores/' + params.id).then(resultado => {
         const finalizador = resultado.data;
-    
+        setBandeiraFinalizador(finalizador?.bandeira)
         for (let atributo in finalizador) {
             if (atributo === "codigo_finalizador" || atributo === "nome_finalizador" || atributo === "situacao_finalizador" || atributo === "grupo_receita" || atributo === "bandeira") {
               setValue(atributo, finalizador[atributo]);
@@ -138,11 +139,17 @@ const Finalizador = () => {
     //     }); 
     // }
     try {
-        await httpTeste.put('/finalizadores/' + params.id, data);
+      const bandeiraSelecionada = data.bandeira ? data.bandeira.label : null;
+      const dadosParaEnviar = {
+        ...data,
+        bandeira: bandeiraSelecionada,
+      };
+
+      await httpTeste.put('/finalizadores/' + params.id, dadosParaEnviar);
 
       toast.success('Edição feita!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -153,7 +160,7 @@ const Finalizador = () => {
 
       setTimeout(() => {
         push('/gerenciamento/finalizadores');
-      }, 5000);
+      }, 3000);
 
     } catch (error) {
       console.error(error);

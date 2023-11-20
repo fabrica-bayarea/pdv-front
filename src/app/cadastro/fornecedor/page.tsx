@@ -11,6 +11,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import { mask } from 'remask'
 import styled from 'styled-components'
 import * as Yup from 'yup'
+import "react-toastify/dist/ReactToastify.css";
+
 
 const FormEstilizado = styled.form`
     display: flex;
