@@ -15,7 +15,7 @@ const GerenciamentoVendedor = () => {
   const [vendedor, setVendedor] = useState<any[]>([])
 
   useEffect(() => {
-      http.get('/vendedores').then(resultado => {
+      http.get('/vendedor').then(resultado => {
           setVendedor(resultado.data)
       })
       

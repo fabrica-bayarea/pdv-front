@@ -128,8 +128,8 @@ const Finalizador = () => {
     //     }); 
     // }
     try {
-      await httpTeste.request({
-        url: '/finalizadores',
+      await http.request({
+        url: '/finalizador',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -162,7 +162,7 @@ const Finalizador = () => {
             />
 
       setTimeout(() => {
-        push('/gerenciamento/finalizadores');
+        push('/gerenciamento/finalizador');
       }, 5000);
 
     } catch (error) {

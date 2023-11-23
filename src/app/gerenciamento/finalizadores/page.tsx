@@ -14,7 +14,7 @@ const GerenciamentoFinalizador = () => {
   const [finalizador, setFinalizador] = useState<any[]>([])
 
   useEffect(() => {
-      httpTeste.get('/finalizadores').then(resultado => {
+      http.get('/finalizador').then(resultado => {
           setFinalizador(resultado.data)
       })
       
@@ -23,7 +23,7 @@ const GerenciamentoFinalizador = () => {
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir o finalizador?')) {
       try {
-        httpTeste.delete(`finalizadores/${id}`).then(resultado => {
+        http.delete(`finalizador/${id}`).then(resultado => {
           if (resultado.status == 200) {
             setFinalizador(finalizadores => finalizadores.filter(finalizador => finalizador.id !== id))
           }})

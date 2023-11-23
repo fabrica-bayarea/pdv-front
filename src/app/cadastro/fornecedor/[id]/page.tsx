@@ -106,7 +106,7 @@ export default function Fornecedor() {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
         try{
-            await http.put('/fornecedores/' + params.id, data);
+            await http.put('/fornecedor/' + params.id, data);
             toast.success('Cadastro feito!', {
                 position: "top-right",
                 autoClose: 5000,

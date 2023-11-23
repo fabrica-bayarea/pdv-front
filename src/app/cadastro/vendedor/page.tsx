@@ -94,7 +94,7 @@ export default function Vendedor() {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
         try{
-            await http.post('/vendedores', data);
+            await http.post('/vendedor', data);
             toast.success('Cadastro feito!', {
                 position: "top-right",
                 autoClose: 5000,

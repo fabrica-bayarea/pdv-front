@@ -14,7 +14,7 @@ const GerenciamentoFornecedor = () => {
   const [fornecedores, setFornecedores] = useState<any[]>([])
 
   useEffect(() => {
-      http.get('/fornecedores').then(resultado => {
+      http.get('/fornecedor').then(resultado => {
           setFornecedores(resultado.data)
       })
   }, [])

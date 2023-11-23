@@ -100,8 +100,8 @@ export default function NotaFiscal() {
           modelo: modeloSelecionado,
         };
         try {
-            await httpTeste.request({
-              url: '/notas',
+            await http.request({
+              url: '/nota-fiscal',
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ export default function NotaFiscal() {
             });
       
             setTimeout(() => {
-              push('/gerenciamento/notas');
+              push('/gerenciamento/nota-fiscal');
             }, 1000);
       
           } catch (error) {

@@ -63,7 +63,7 @@ export default function Vendedor() {
 
     useEffect(() => {
         if (params) {
-          http.get('/vendedores/' + params.id).then(resultado => {
+          http.get('/vendedor/' + params.id).then(resultado => {
             const vendedor = resultado.data;
         
             for (let atributo in vendedor) {
@@ -109,7 +109,7 @@ export default function Vendedor() {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
         try{
-            await http.put('/vendedores/' + params.id, data);
+            await http.put('/vendedor/' + params.id, data);
             toast.success('Edição feita!', {
                 position: "top-right",
                 autoClose: 5000,

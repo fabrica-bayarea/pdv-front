@@ -68,7 +68,7 @@ export default function NotaFiscal() {
 
   useEffect(() => {
     if (params) {
-      httpTeste.get('/notas/' + params.id).then(resultado => {
+      http.get('/nota-fiscal/' + params.id).then(resultado => {
         const notas = resultado.data;
     
         for (let atributo in notas) {
@@ -119,7 +119,7 @@ export default function NotaFiscal() {
         };
 
         try {
-          await httpTeste.put('/notas/' + params.id, dadosParaEnviar);
+          await http.put('/nota-fiscal/' + params.id, dadosParaEnviar);
   
         toast.success('Edição feita!', {
           position: "top-right",
@@ -133,7 +133,7 @@ export default function NotaFiscal() {
         });
   
         setTimeout(() => {
-          push('/gerenciamento/notas');
+          push('/gerenciamento/nota-fiscal');
         }, 5000);
   
       } catch (error) {

@@ -68,7 +68,7 @@ const Finalizador = () => {
 
   useEffect(() => {
     if (params) {
-      httpTeste.get('/finalizadores/' + params.id).then(resultado => {
+      http.get('/finalizador/' + params.id).then(resultado => {
         const finalizador = resultado.data;
         setBandeiraFinalizador(finalizador?.bandeira)
         for (let atributo in finalizador) {
@@ -159,7 +159,7 @@ const Finalizador = () => {
       });
 
       setTimeout(() => {
-        push('/gerenciamento/finalizadores');
+        push('/gerenciamento/finalizador');
       }, 3000);
 
     } catch (error) {

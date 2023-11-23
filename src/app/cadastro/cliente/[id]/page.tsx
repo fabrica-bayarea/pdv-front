@@ -109,7 +109,7 @@ useEffect(() => {
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
     try {
       http.request({
-          url: '/clientes/' + params.id,
+          url: '/cliente/' + params.id,
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'

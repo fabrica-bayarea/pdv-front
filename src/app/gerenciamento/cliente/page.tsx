@@ -14,7 +14,7 @@ const GerenciamentoCliente = () => {
   const [usuarios, setUsuarios] = useState<any[]>([])
 
   useEffect(() => {
-      http.get('/clientes').then(resultado => {
+      http.get('/cliente').then(resultado => {
           setUsuarios(resultado.data)
       })
       
@@ -23,7 +23,7 @@ const GerenciamentoCliente = () => {
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir o usuário?')) {
       try {
-        http.delete(`clientes/${id}`).then(resultado => {
+        http.delete(`cliente/${id}`).then(resultado => {
           if (resultado.status == 200) {
             setUsuarios(usuarios => usuarios.filter(usuario => usuario.id !== id))
           }})

@@ -14,7 +14,7 @@ const GerenciamentoNota = () => {
   const [notas, setNotas] = useState<any[]>([])
 
   useEffect(() => {
-      httpTeste.get('/notas').then(resultado => {
+      http.get('/nota-fiscal').then(resultado => {
           setNotas(resultado.data)
       })
   }, [])
@@ -22,7 +22,7 @@ const GerenciamentoNota = () => {
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir a nota?')) {
       try {
-        httpTeste.delete(`notas/${id}`).then(resultado => {
+        http.delete(`nota-fiscal/${id}`).then(resultado => {
           if (resultado.status == 204 || resultado.status == 200) {
             setNotas(notas => {
               return notas.filter(nota => nota.id !== id)
