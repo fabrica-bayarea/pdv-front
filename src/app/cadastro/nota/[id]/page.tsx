@@ -44,6 +44,7 @@ type Inputs = {
     tipoDeNota: { label?: string | undefined}
     modelo: { label?: string | undefined}
     fornecedorId?: string | undefined
+    numeroDaNota?: string | undefined
     dataEmissao?: string | undefined
     dataEntrada?: string | undefined
 }
@@ -54,6 +55,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
       }),
     dataEmissao: Yup.string(),
     fornecedorId: Yup.string(),
+    numeroDaNota: Yup.string().required(),
     dataEntrada: Yup.string(),
     modelo: Yup.object().shape({
         label: Yup.string(),
@@ -72,7 +74,7 @@ export default function NotaFiscal() {
         const notas = resultado.data;
     
         for (let atributo in notas) {
-            if (atributo === "tipoDeNota" || atributo === "dataEmissao" || atributo === "fornecedorId" || atributo === "dataEntrada" || atributo === "modelo") {
+            if (atributo === "tipoDeNota" || atributo === "dataEmissao" || atributo === "fornecedorId" || atributo === "dataEntrada" || atributo === "modelo" || atributo === "numeroDaNota") {
               setValue(atributo, notas[atributo]);
             }
           }
@@ -117,6 +119,7 @@ export default function NotaFiscal() {
           tipoDeNota: tipoDeNotaSelecionado,
           modelo: modeloSelecionado,
         };
+        console.log(dadosParaEnviar)
 
         try {
           await http.put('/nota-fiscal/' + params.id, dadosParaEnviar);
@@ -200,6 +203,9 @@ export default function NotaFiscal() {
 
                 <CampoDigitacao tipo="text" label="Fornecedor" placeholder="Insira o fornecedor" register={register("fornecedorId", addMasks)} />
                 <Erro>{errors.fornecedorId?.message}</Erro>
+
+                <CampoDigitacao tipo="text" label="Número da nota" placeholder="Insira o número da nota" register={register("numeroDaNota", addMasks)} />
+                <Erro>{errors.numeroDaNota?.message}</Erro>
 
                 <CampoDigitacao tipo="text" label="Data da entrada" placeholder="Insira a data da entrada" register={register("dataEntrada", addMasks)} />
                 <Erro>{errors.dataEntrada?.message}</Erro>

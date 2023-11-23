@@ -45,6 +45,8 @@ type Inputs = {
     fornecedorId: string
     dataEmissao: string
     dataEntrada: string
+    numeroDaNota: string
+    
 }
 
 
@@ -55,6 +57,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     dataEmissao: Yup.string().required('Data é obrigatório!'),
     fornecedorId: Yup.string().required('Data é obrigatório!'),
     dataEntrada: Yup.string().required('Data é obrigatório!'),
+    numeroDaNota: Yup.string().required('Número é obrigatório!'),
     modelo: Yup.object().shape({
         label: Yup.string().required("Required"),
       }),
@@ -88,17 +91,18 @@ export default function NotaFiscal() {
         }
     }
 
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // data.nascimento = new Date(data.nascimento).toISOString();
-        const tipoDeNotaSelecionado = data.tipoDeNota ? data.tipoDeNota.label : null;
-        const modeloSelecionado = data.modelo ? data.modelo.label : null;
+    const onSubmit: SubmitHandler<Inputs> = async (dados) => {
+        console.log(dados) // o dados vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
+        // dados.nascimento = new Date(dados.nascimento).toISOString();
+        const tipoDeNotaSelecionado = dados.tipoDeNota ? dados.tipoDeNota.label : null;
+        const modeloSelecionado = dados.modelo ? dados.modelo.label : null;
 
         const dadosParaEnviar = {
-          ...data,
+          ...dados,
           tipoDeNota: tipoDeNotaSelecionado,
           modelo: modeloSelecionado,
         };
+        console.log(dadosParaEnviar)
         try {
             await http.request({
               url: '/nota-fiscal',
@@ -215,10 +219,14 @@ export default function NotaFiscal() {
                 <CampoDigitacao tipo="text" label="Fornecedor" placeholder="Insira o fornecedor" register={register("fornecedorId", addMasks)} />
                 <Erro>{errors.fornecedorId?.message}</Erro>
 
+                <CampoDigitacao tipo="text" label="Número da nota" placeholder="Insira o número da nota" register={register("numeroDaNota", addMasks)} />
+                <Erro>{errors.numeroDaNota?.message}</Erro>
+
                 <CampoDigitacao tipo="text" label="Data da entrada" placeholder="Insira a data da entrada" register={register("dataEntrada", addMasks)} />
                 <Erro>{errors.dataEntrada?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="Data da emissão" placeholder="Insira a data da emissão" register={register("dataEmissao", addMasks)} />                 <Erro>{errors.dataEmissao?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Data da emissão" placeholder="Insira a data da emissão" register={register("dataEmissao", addMasks)} />                 
+                <Erro>{errors.dataEmissao?.message}</Erro>
                     
                 <DivEstilizada>
                         <Botao texto='Confirmar' tipo='submit' />

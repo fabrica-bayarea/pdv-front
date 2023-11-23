@@ -16,10 +16,10 @@ import Select from "react-select";
 import { useEffect, useState } from 'react'
 
 type Inputs = {
-  codigo_finalizador?: string | undefined
-  nome_finalizador?: string | undefined
-  situacao_finalizador?: string | undefined
-  grupo_receita?: string | undefined
+  codigo?: string | undefined
+  nome?: string | undefined
+  situacao?: string | undefined
+  grupoReceita?: string | undefined
   bandeira: { label?: string | '' };
 }
 
@@ -49,12 +49,12 @@ const Rotulo = styled.label`
 `
 
 const schema = Yup.object().shape({             // cria as regras para formatação
-    codigo_finalizador: Yup.string(),
-    nome_finalizador: Yup.string()
+    codigo: Yup.string(),
+    nome: Yup.string()
     .min(3, 'O nome precisa ter mais de 3 caracteres!')
     .max(100),
-    situacao_finalizador: Yup.string(),
-    grupo_receita: Yup.string(),
+    situacao: Yup.string(),
+    grupoReceita: Yup.string(),
     bandeira: Yup.object().shape({
       label: Yup.string(),
     }),
@@ -72,7 +72,7 @@ const Finalizador = () => {
         const finalizador = resultado.data;
         setBandeiraFinalizador(finalizador?.bandeira)
         for (let atributo in finalizador) {
-            if (atributo === "codigo_finalizador" || atributo === "nome_finalizador" || atributo === "situacao_finalizador" || atributo === "grupo_receita" || atributo === "bandeira") {
+            if (atributo === "codigo" || atributo === "nome" || atributo === "situacao" || atributo === "grupoReceita" || atributo === "bandeira") {
               setValue(atributo, finalizador[atributo]);
             }
           }
@@ -95,8 +95,8 @@ const Finalizador = () => {
     const valor = event.target.value;
 
     switch (nome) {
-        case "codigo_finalizador":
-            setValue("codigo_finalizador", mask(valor, '999.999.999-99'));
+        case "codigo":
+            setValue("codigo", mask(valor, '999.999.999-99'));
             break;
     }
 }
@@ -138,6 +138,7 @@ const Finalizador = () => {
     //     theme: "light",
     //     }); 
     // }
+
     try {
       const bandeiraSelecionada = data.bandeira ? data.bandeira.label : null;
       const dadosParaEnviar = {
@@ -196,18 +197,18 @@ const Finalizador = () => {
       <Titulo texto="Cadastro de finalizador"  />
 
       <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-        <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo_finalizador', {
+        <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}}  />
-        <Erro>{errors.codigo_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome_finalizador")} />
-        <Erro>{errors.nome_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao_finalizador")}  />
-        <Erro>{errors.situacao_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupo_receita', {
+        <Erro>{errors.codigo?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome")} />
+        <Erro>{errors.nome?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao")}  />
+        <Erro>{errors.situacao?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupoReceita', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}} />
-        <Erro>{errors.grupo_receita?.message}</Erro>
+        <Erro>{errors.grupoReceita?.message}</Erro>
         
         <Rotulo>Bandeira</Rotulo>
         <Controller

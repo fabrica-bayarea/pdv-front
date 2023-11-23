@@ -15,10 +15,10 @@ import { useRouter } from 'next/navigation'
 import Select from "react-select";
 
 type Inputs = {
-  codigo_finalizador: string
-  nome_finalizador: string
-  situacao_finalizador: string
-  grupo_receita: string
+  codigo: string
+  nome: string
+  situacao: string
+  grupoReceita: string
   bandeira: { label: string };
 }
 
@@ -48,14 +48,14 @@ const Rotulo = styled.label`
 `
 
 const schema = Yup.object().shape({             // cria as regras para formatação
-    codigo_finalizador: Yup.string()
+    codigo: Yup.string()
       .required('Código obrigatório'),
-    nome_finalizador: Yup.string()
+    nome: Yup.string()
     .min(3, 'O nome precisa ter mais de 3 caracteres!')
     .max(100)
     .required('O campo nome é obrigatório!'),
-    situacao_finalizador: Yup.string().required('Situação é obrigatório!'),
-    grupo_receita: Yup.string().required('O grupo da receita é obrigatório!'),
+    situacao: Yup.string().required('Situação é obrigatório!'),
+    grupoReceita: Yup.string().required('O grupo da receita é obrigatório!'),
     bandeira: Yup.object().shape({
       label: Yup.string().required("Required"),
     }),
@@ -78,8 +78,8 @@ const Finalizador = () => {
     const valor = event.target.value;
 
     switch (nome) {
-        case "codigo_finalizador":
-            setValue("codigo_finalizador", mask(valor, '999.999.999-99'));
+        case "codigo":
+            setValue("codigo", mask(valor, '999.999.999-99'));
             break;
     }
 }
@@ -91,6 +91,7 @@ const Finalizador = () => {
         ...data,
         bandeira: bandeiraSelecionada,
       };
+      console.log(dadosParaEnviar)
     // try {
     //   http.request({
     //       url: '/finalizadores',
@@ -212,18 +213,18 @@ const Finalizador = () => {
       <Titulo texto="Cadastro de finalizador"  />
 
       <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-        <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo_finalizador', {
+        <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}}  />
-        <Erro>{errors.codigo_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome_finalizador")} />
-        <Erro>{errors.nome_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao_finalizador")}  />
-        <Erro>{errors.situacao_finalizador?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupo_receita', {
+        <Erro>{errors.codigo?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome")} />
+        <Erro>{errors.nome?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao")}  />
+        <Erro>{errors.situacao?.message}</Erro>
+        <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupoReceita', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}} />
-        <Erro>{errors.grupo_receita?.message}</Erro>
+        <Erro>{errors.grupoReceita?.message}</Erro>
         
         <Rotulo>Bandeira</Rotulo>
         <Controller
