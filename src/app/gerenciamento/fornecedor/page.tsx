@@ -22,7 +22,7 @@ const GerenciamentoFornecedor = () => {
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir o fornecedor?')) {
       try {
-        http.delete(`fornecedores/${id}`).then(resultado => {
+        http.delete(`fornecedor/${id}`).then(resultado => {
           if (resultado.status == 204) {
             setFornecedores(fornecedores => {
               return fornecedores.filter(fornecedor => fornecedor.id !== id)

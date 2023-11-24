@@ -71,7 +71,7 @@ export default function Fornecedor() {
 
       useEffect(() => {
         if (params) {
-          http.get('/fornecedores/' + params.id).then(resultado => {
+          http.get('/fornecedor/' + params.id).then(resultado => {
             const fornecedor = resultado.data;
         
             for (let atributo in fornecedor) {
