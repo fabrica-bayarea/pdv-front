@@ -92,7 +92,7 @@ const Cliente = () => {
     console.log(data)
     try {
       http.request({
-          url: '/clientes',
+          url: '/cliente',
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

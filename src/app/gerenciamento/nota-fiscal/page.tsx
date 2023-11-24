@@ -60,7 +60,7 @@ const GerenciamentoNota = () => {
               </TableCell>
               <TableCell align="right">{nota.modelo}</TableCell>
               <TableCell align="right">{nota.dataEmissao}</TableCell>
-              <TableCell align="right"> <Link href={'/cadastro/nota/' + nota.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(nota.id)} /> </TableCell>
+              <TableCell align="right"> <Link href={'/cadastro/nota-fiscal/' + nota.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(nota.id)} /> </TableCell>
             </TableRow>
           ))}
         </TableBody>

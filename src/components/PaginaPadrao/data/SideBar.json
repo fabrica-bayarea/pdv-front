@@ -17,7 +17,7 @@
             },
             {
                 "title": "Cadastro de finalizadores",
-                "path": "/cadastro/finalizadores"
+                "path": "/cadastro/finalizador"
             },
             {
                 "title": "Cadastro de fornecedores",
@@ -25,7 +25,7 @@
             },
             {
                 "title": "Cadastro de notas fiscais",
-                "path": "/cadastro/nota"
+                "path": "/cadastro/nota-fiscal"
             }
 
         ]
@@ -58,11 +58,11 @@
             },
             {
                 "title": "Finalizadores",
-                "path": "/gerenciamento/finalizadores"
+                "path": "/gerenciamento/finalizador"
             },
             {
                 "title": "Notas Fiscais",
-                "path": "/gerenciamento/notas"
+                "path": "/gerenciamento/nota-fiscal"
             }
         ]
     },
