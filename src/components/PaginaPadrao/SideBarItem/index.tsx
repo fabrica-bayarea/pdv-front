@@ -115,7 +115,7 @@ const SidebarItem = ({ item }: { item: any }) => {
           <ToggleButton className="bi-chevron-down toggle-btn" onClick={() => setOpen(!open)} />
         </SidebarTitle>
         <SidebarContent className={open ? "open" : ""}>
-          {item.childrens.map((child: { child: any }, index: { index: any }) => (
+          {item.childrens.map((child: { child: any }, index: { index: any  }) => (
             <SidebarItem item={child} />
           ))}
         </SidebarContent>

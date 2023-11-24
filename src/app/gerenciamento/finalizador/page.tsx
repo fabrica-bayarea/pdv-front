@@ -55,9 +55,9 @@ const GerenciamentoFinalizador = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {finalizador.nome_finalizador}
+                {finalizador.nome}
               </TableCell>
-              <TableCell align="right">{finalizador.situacao_finalizador}</TableCell>
+              <TableCell align="right">{finalizador.situacao}</TableCell>
               <TableCell align="right">{finalizador.bandeira}</TableCell>
               <TableCell align="right"> <Link href={'/cadastro/finalizadores/' + finalizador.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(finalizador.id)} /> </TableCell>
             </TableRow>

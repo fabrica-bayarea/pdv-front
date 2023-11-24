@@ -100,19 +100,7 @@ export default function Fornecedor() {
                 theme: "light",
                 });
 
-                <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
-          
+                
                 push('/gerenciamento/fornecedor')
         } catch(error){
             console.log(error)
@@ -128,7 +116,19 @@ export default function Fornecedor() {
         <div>
             <Menu>
                 <Titulo texto="Cadastro de fornecedor" />
-
+                    <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    />
+          
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
                     <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
                     <Erro>{errors.tipo_pessoa?.message}</Erro>

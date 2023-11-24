@@ -20,7 +20,7 @@ type Inputs = {
   email: string
   telefone: string
   endereco: string
-  nascimento: string
+  data_nascimento: string
 }
 
 const FormEstilizado = styled.form`
@@ -54,7 +54,7 @@ const schema = Yup.object().shape({             // cria as regras para formataç
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
     telefone: Yup.string().required('Telefone é obrigatório!').matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
     endereco: Yup.string().required('Endereço é obrigatório!'),
-    nascimento: Yup.string().required('Nascimento é obrigatório!'),
+    data_nascimento: Yup.string().required('Nascimento é obrigatório!'),
 });
 
 
@@ -82,8 +82,8 @@ const Cliente = () => {
         case "telefone":
             setValue("telefone", mask(valor, '(99) 99999-9999'));
             break;
-        case "nascimento":
-            setValue("nascimento", mask(valor, '99/99/9999'));
+        case "data_nascimento":
+            setValue("data_nascimento", mask(valor, '99/99/9999'));
             break;    
     }
 }
@@ -161,10 +161,10 @@ const Cliente = () => {
         <Erro>{errors.telefone?.message}</Erro>
         <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")}  />
         <Erro>{errors.endereco?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={{...register('nascimento', {
+        <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu data_nascimento" register={{...register('data_nascimento', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}} />
-        <Erro>{errors.nascimento?.message}</Erro>
+        <Erro>{errors.data_nascimento?.message}</Erro>
 
       <DivEstilizada>
         <Botao texto='Confirmar' tipo='submit' />
