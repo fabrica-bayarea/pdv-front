@@ -5,31 +5,14 @@ import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
 import { http } from '@/services'
 import { yupResolver } from "@hookform/resolvers/yup"
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"
 import { mask } from 'remask'
-import styled from 'styled-components'
 import * as Yup from 'yup'
-import "react-toastify/dist/ReactToastify.css";
+import { DivEstilizada, Erro, FormEstilizado } from './vendedor_styled'
 
-const FormEstilizado = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-bottom: 30px;
-    margin-top: 25px;
-`
-
-const DivEstilizada = styled.div`
-    display: flex;
-`
-
-const Erro = styled.span`
-  font-size: 13px;
-  color: #DA2A38;
-`
 
 type Inputs = {
     cpf: string

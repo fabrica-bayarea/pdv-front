@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import StyledComponentsRegistry from './styled-components-register'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +21,7 @@ export default function RootLayout({
       <Head>
          <script async src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/bootstrap-icons.svg"/>      
      </Head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}><StyledComponentsRegistry>{children}</StyledComponentsRegistry></body>
     </html>
   )
 }
