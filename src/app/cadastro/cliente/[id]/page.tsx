@@ -22,7 +22,7 @@ type Inputs = {
   email?: string | undefined
   telefone?: string | undefined
   endereco?: string | undefined
-  nascimento?: string | undefined
+  data_nascimento?: string | undefined
 }
 
 const FormEstilizado = styled.form`
@@ -53,7 +53,7 @@ const schema = Yup.object().shape({             // cria as regras para formataç
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
     telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
     endereco: Yup.string(),
-    nascimento: Yup.string()
+    data_nascimento: Yup.string()
 });
 
 
@@ -81,8 +81,8 @@ const FormCliente = () => {
         case "telefone":
             setValue("telefone", mask(valor, '(99) 99999-9999'));
             break;
-        case "nascimento":
-            setValue("nascimento", mask(valor, '99/99/9999'));
+        case "data_nascimento":
+            setValue("data_nascimento", mask(valor, '99/99/9999'));
             break;    
     }
 }
@@ -94,7 +94,7 @@ useEffect(() => {
       const atributos:any[] = ["cpf", "email", "nome", "telefone", "endereco"];
       
       for (let atributo in autor) {
-        if (atributo === 'nascimento') {
+        if (atributo === 'data_nascimento') {
           setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
         }
         if (atributos.includes(atributo)) {
@@ -170,10 +170,10 @@ useEffect(() => {
         <Erro>{errors.telefone?.message}</Erro>
         <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")}  />
         <Erro>{errors.endereco?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={{...register('nascimento', {
+        <CampoDigitacao tipo="text" label="data_nascimento" placeholder="Insira sua data" register={{...register('data_nascimento', {
                                                                                             onChange: (e) => {handleChange(e)},
                                                                                       })}} />
-        <Erro>{errors.nascimento?.message}</Erro>
+        <Erro>{errors.data_nascimento?.message}</Erro>
 
       <DivEstilizada>
         <Botao texto='Confirmar' tipo='submit' />
