@@ -59,7 +59,7 @@ const GerenciamentoFinalizador = () => {
               </TableCell>
               <TableCell align="right">{finalizador.situacao}</TableCell>
               <TableCell align="right">{finalizador.bandeira}</TableCell>
-              <TableCell align="right"> <Link href={'/cadastro/finalizadores/' + finalizador.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(finalizador.id)} /> </TableCell>
+              <TableCell align="right"> <Link href={'/cadastro/finalizador/' + finalizador.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(finalizador.id)} /> </TableCell>
             </TableRow>
           ))}
         </TableBody>

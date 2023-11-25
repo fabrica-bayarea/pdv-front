@@ -24,7 +24,7 @@ const GerenciamentoVendedor = () => {
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir o vendedor?')) {
       try {
-        http.delete(`vendedores/${id}`).then(resultado => {
+        http.delete(`vendedor/${id}`).then(resultado => {
           if (resultado.status == 200) {
             setVendedor(vendedores => vendedores.filter(vendedor => vendedor.id !== id))
           }})

@@ -118,6 +118,7 @@ export default function NotaFiscal() {
           ...data,
           tipoDeNota: tipoDeNotaSelecionado,
           modelo: modeloSelecionado,
+          fornecedorId: Number(data.fornecedorId)
         };
         console.log(dadosParaEnviar)
 

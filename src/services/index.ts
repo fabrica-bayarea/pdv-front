@@ -3,7 +3,7 @@ import axios from "axios";
 export const http = axios.create({
     baseURL: 'http://localhost:3000',
     headers: {
-       Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IlBEVlVTUiIsImVtYWlsIjoicGR2dXNyQGdtYWlsLmNvbSIsImlhdCI6MTcwMDgzMDMzMSwiZXhwIjoxNzAwODMzMzMxfQ.x7dFspEjVj52s_mmnn76Lp5wqOqDbBDqNQYTfSMS8JE',
+       Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IlBEVlVTUiIsImVtYWlsIjoicGR2dXNyQGdtYWlsLmNvbSIsImlhdCI6MTcwMDg4NDczNSwiZXhwIjoxNzAwODg3NzM1fQ.QRrd2cDd3n7uFMe7xxSHYeyPZb3aGWRc_r2rUHXXTOQ',
         Accept: 'application/json',
         Content: 'application/json'
     }
