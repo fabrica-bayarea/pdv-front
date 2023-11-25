@@ -146,7 +146,7 @@ const Finalizador = () => {
         bandeira: bandeiraSelecionada,
       };
 
-      await httpTeste.put('/finalizadores/' + params.id, dadosParaEnviar);
+      await httpTeste.put('/finalizador/' + params.id, dadosParaEnviar);
 
       toast.success('Edição feita!', {
         position: "top-right",
