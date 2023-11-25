@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { HiArrowDown } from 'react-icons/hi';
-import { FaClipboardList, FaLocationArrow, FaList } from "react-icons/fa";
+import { FaClipboardList, FaLocationArrow } from "react-icons/fa";
 import { FaHandHoldingDollar, FaGear } from "react-icons/fa6";
 import styled from "styled-components";
 import rec from './rec.png';
@@ -115,8 +115,8 @@ const SidebarItem = ({ item }: { item: any }) => {
           <ToggleButton className="bi-chevron-down toggle-btn" onClick={() => setOpen(!open)} />
         </SidebarTitle>
         <SidebarContent className={open ? "open" : ""}>
-          {item.childrens.map((child: { child: any }, index: { index: any  }) => (
-            <SidebarItem item={child} />
+          {item.childrens.map((child: { child: any }, index: number) => (
+            <SidebarItem key={index} item={child} />
           ))}
         </SidebarContent>
         <Divider variant="middle" sx={{marginTop: '10px'}} />
