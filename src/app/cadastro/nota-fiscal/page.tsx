@@ -45,8 +45,7 @@ type Inputs = {
     fornecedorId: string
     dataEmissao: string
     dataEntrada: string
-    numeroDaNota: string
-    
+    numeroDaNota: string  
 }
 
 

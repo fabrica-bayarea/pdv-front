@@ -180,7 +180,7 @@ const Finalizador = () => {
       draggable
       pauseOnHover
       theme="light"
-        />
+      />
 
       toast.error('Erro ao fazer o cadastro!', {
         position: "top-right",
