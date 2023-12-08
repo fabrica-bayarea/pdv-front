@@ -59,17 +59,20 @@ const schema = Yup.object().shape({
 
 const Cliente = () => {
   const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState('');
 
   const { push } = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setTimeout(() => {
-      if (!token) {
-        push('/erro');
+      if (token) {
+        setLoading(false);
+        setAccessToken(token);
       }
-      setLoading(false);
+      push('/erro');
     }, 2000);
+
   }, [push]);
 
   const {
@@ -98,14 +101,15 @@ const Cliente = () => {
     }
   }
 
-  const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data: ICliente) => {
     console.log(data);
     try {
-      http.request({
+      await http.request({
         url: '/cliente',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + accessToken
         },
         data: data,
       });
@@ -122,6 +126,7 @@ const Cliente = () => {
       });
 
       push('/gerenciamento/cliente');
+      
     } catch (error) {
       console.log(error);
       toast.error('Erro ao fazer o cadastro!', {

@@ -17,12 +17,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const form = Yup.object().shape({             // cria as regras para formatação
-  usuario: Yup.string().required('Usuário é obrigatório!'),
+  email: Yup.string().required('E-mail é obrigatório!').email('Insira um e-mail válido!'),
   senha: Yup.string().required('Senha é obrigatório!'),
 });
 
 type Inputs = {
-  usuario: string
+  email: string
   senha: string
 }
 
@@ -105,7 +105,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<Inputs> = async (dados) => {
     try {
       const response = await http.request({
-        url: '/login',
+        url: '/auth/login',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ const Login = () => {
         data: dados
       });
 
-      console.log('token:', response.data.token);
+      console.log('token:', response.data.access_token);
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
@@ -130,7 +130,6 @@ const Login = () => {
   }
 
 
-  
 
   return (
     <>
@@ -166,11 +165,11 @@ const Login = () => {
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
                   <CampoDigitacao 
                     tipo="text" 
-                    label="Usuário" 
-                    placeholder="Insira o usuário" 
-                    register={register("usuario")} />
+                    label="E-mail" 
+                    placeholder="Insira o e-mail" 
+                    register={register("email")} />
 
-                  <Erro>{errors.usuario?.message}</Erro>
+                  <Erro>{errors.email?.message}</Erro>
 
                   <CampoDigitacao 
                     tipo="password" 
