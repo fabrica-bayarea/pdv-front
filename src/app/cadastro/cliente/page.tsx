@@ -42,6 +42,13 @@ const Erro = styled.span`
   color: #da2a38;
 `;
 
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 const schema = Yup.object().shape({
   cpf: Yup.string()
     .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
@@ -143,19 +150,24 @@ const Cliente = () => {
   };
 
   return (
-    <Menu>
+    <>
       {loading ? (
-        <CircularProgress
+        <Loading>
+          <CircularProgress
           size={68}
           sx={{
             top: -6,
             left: -6,
             zIndex: 1,
-            color: "#da2a38"
+            color: "#da2a38",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         />
+        </Loading>    
       ) : (
         <>
+        <Menu>
           <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -228,9 +240,10 @@ const Cliente = () => {
               <Botao texto="Cancelar" secundario={true.toString()} />
             </DivEstilizada>
           </FormEstilizado>
+        </Menu>  
         </>
       )}
-    </Menu>
+    </>
   );
 };
 

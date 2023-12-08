@@ -2,16 +2,26 @@
 import PaginaPadrao from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
 import { http } from '@/services'
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import BuildIcon from '@mui/icons-material/Build';
 import Link from 'next/link'
+import LogoutIcon from '@mui/icons-material/Logout';
+import styled from 'styled-components'
+import { useRouter } from 'next/navigation'
 
 const GerenciamentoCliente = () => {
 
   const [usuarios, setUsuarios] = useState<any[]>([])
+  const { push } = useRouter();
+
+  const Logout = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+`
 
   useEffect(() => {
       http.get('/cliente').then(resultado => {
@@ -34,8 +44,21 @@ const GerenciamentoCliente = () => {
 
   }
 
+  function logout() {
+    localStorage.removeItem("token");
+    push('/login')
+  }
+
   return (
     <PaginaPadrao>
+      
+      <Logout>
+        <IconButton onClick={logout}>
+          <LogoutIcon />
+        </IconButton>
+      </Logout>
+
+
       <Titulo texto='Gerenciamento de Cliente' />
 
       <TableContainer component={Paper} sx={{ marginTop: 10}} >
