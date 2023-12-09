@@ -115,10 +115,10 @@ const Login = () => {
 
       console.log('token:', response.data.access_token);
 
-      if (response.data.token) {
+      if (response.data.access_token) {
         localStorage.setItem('token', response.data.token);
         setTimeout(() => {
-          push('/gerenciamento/cliente');
+          push('/cadastro/cliente');
         }, 1000);
       } else {
         throw new Error("Acesso negado!");

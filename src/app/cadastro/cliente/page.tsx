@@ -76,8 +76,9 @@ const Cliente = () => {
       if (token) {
         setLoading(false);
         setAccessToken(token);
+      } else {
+        push('/erro');
       }
-      push('/erro');
     }, 2000);
 
   }, [push]);
