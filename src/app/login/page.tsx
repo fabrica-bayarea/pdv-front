@@ -116,7 +116,7 @@ const Login = () => {
       console.log('token:', response.data.access_token);
 
       if (response.data.access_token) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('token', response.data.access_token);
         setTimeout(() => {
           push('/cadastro/cliente');
         }, 1000);

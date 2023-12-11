@@ -76,6 +76,7 @@ const Cliente = () => {
       if (token) {
         setLoading(false);
         setAccessToken(token);
+        console.log(token);
       } else {
         push('/erro');
       }
