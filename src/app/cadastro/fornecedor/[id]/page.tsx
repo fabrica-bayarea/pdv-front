@@ -6,13 +6,14 @@ import Titulo from '@/components/Titulo'
 import { http } from '@/services'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast, ToastContainer } from 'react-toastify'
 import { mask } from 'remask'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from '@mui/material'
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -29,6 +30,13 @@ const DivEstilizada = styled.div`
 const Erro = styled.span`
   font-size: 13px;
   color: #DA2A38;
+`
+
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 `
 
 type Inputs = {
@@ -59,6 +67,20 @@ export default function Fornecedor() {
     const params = useParams()
     const { push } = useRouter()
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setTimeout(() => {
+        if (token) {
+          setLoading(false);
+        } else {
+          push('/erro');
+        }
+      }, 2000);
+  
+    }, [push]);
+
     const {
         register,
         handleSubmit,
@@ -68,9 +90,8 @@ export default function Fornecedor() {
         resolver: yupResolver(form),
       }))
 
-
       useEffect(() => {
-        if (params) {
+        if (params && loading === false) {
           http.get('/fornecedor/' + params.id).then(resultado => {
             const fornecedor = resultado.data;
         
@@ -117,19 +138,6 @@ export default function Fornecedor() {
                 progress: undefined,
                 theme: "light",
                 });
-
-                <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
           
                 push('/gerenciamento/fornecedor')
         } catch(error){
@@ -143,38 +151,64 @@ export default function Fornecedor() {
     };
 
     return (
-        <div>
+        <>
+            {loading ? (
+                <Loading>
+                    <CircularProgress
+                    size={68}
+                    sx={{
+                        top: -6,
+                        left: -6,
+                        zIndex: 1,
+                        color: "#da2a38",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                    />
+                </Loading>
+            ) : (
             <Menu>
                 <Titulo texto="Cadastro de fornecedor" />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
 
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
-                    <Erro>{errors.tipo_pessoa?.message}</Erro>
+                <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
+                <Erro>{errors.tipo_pessoa?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
-                    <Erro>{errors.cnpj?.message}</Erro>
+                <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
+                <Erro>{errors.cnpj?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
-                    <Erro>{errors.inscricao_estadual?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
+                <Erro>{errors.inscricao_estadual?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
-                    <Erro>{errors.nome_fantasia?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
+                <Erro>{errors.nome_fantasia?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
-                    <Erro>{errors.razao_social?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
+                <Erro>{errors.razao_social?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
-                    <Erro>{errors.data_registro?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
+                <Erro>{errors.data_registro?.message}</Erro>
 
-
-                    <DivEstilizada>
-                        <Botao texto='Confirmar' tipo='submit' />
-                        <Botao texto='Cancelar' secundario={true.toString()} />
-                    </DivEstilizada>
+                <DivEstilizada>
+                    <Botao texto='Confirmar' tipo='submit' />
+                    <Botao texto='Cancelar' secundario={true.toString()} />
+                </DivEstilizada>
                 </FormEstilizado>
-
             </Menu>
-        </div>
+            )}
+        </>
     )
 
 

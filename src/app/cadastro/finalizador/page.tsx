@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from 'next/navigation'
 import Select from "react-select";
+import { useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
 
 type Inputs = {
   codigo: string
@@ -47,6 +49,13 @@ const Rotulo = styled.label`
     color: #DA2A38;
 `
 
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 const schema = Yup.object().shape({             // cria as regras para formatação
     codigo: Yup.string()
       .required('Código obrigatório'),
@@ -62,8 +71,21 @@ const schema = Yup.object().shape({             // cria as regras para formataç
 });
 
 const Finalizador = () => {
+  const [loading, setLoading] = useState(true);
 
   const { push } = useRouter()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setTimeout(() => {
+      if (token) {
+        setLoading(false);
+      } else {
+        push('/erro');
+      }
+    }, 2000);
+
+  }, [push]);
 
   const {
     register,
@@ -149,38 +171,12 @@ const Finalizador = () => {
         theme: "light",
       });
 
-      <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-            />
-
       setTimeout(() => {
         push('/gerenciamento/finalizador');
       }, 5000);
 
     } catch (error) {
       console.error(error);
-
-      <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-        />
 
       toast.error('Erro ao fazer o cadastro!', {
         position: "top-right",
@@ -195,63 +191,83 @@ const Finalizador = () => {
     }
   }
   return (
-    <Menu>
+    <>
+      {loading ? (
+        <Loading>
+          <CircularProgress
+          size={68}
+          sx={{
+            top: -6,
+            left: -6,
+            zIndex: 1,
+            color: "#da2a38",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        />
+        </Loading>    
+      ) : (
+        <>
+        <Menu>
 
-    <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-    />
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+          />
 
-      <Titulo texto="Cadastro de finalizador"  />
+            <Titulo texto="Cadastro de finalizador"  />
 
-      <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-        <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo', {
-                                                                                            onChange: (e) => {handleChange(e)},
-                                                                                      })}}  />
-        <Erro>{errors.codigo?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome")} />
-        <Erro>{errors.nome?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao")}  />
-        <Erro>{errors.situacao?.message}</Erro>
-        <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupoReceita', {
-                                                                                            onChange: (e) => {handleChange(e)},
-                                                                                      })}} />
-        <Erro>{errors.grupoReceita?.message}</Erro>
-        
-        <Rotulo>Bandeira</Rotulo>
-        <Controller
-          name="bandeira"
-          control={control}
-          render={({ field }) => (
-            <Select
-              {...field}
-              options={[
-                { label: "Elo" },
-                { label: "Alelo" },
-                { label: "Visa" },
-                { label: "Master" },
-                { label: "Pix" },
-                { label: "Dinheiro" },
-              ]}
-            />
-          )}
-        />                                                                      
+            <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
+              <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo', {
+                                                                                                  onChange: (e) => {handleChange(e)},
+                                                                                            })}}  />
+              <Erro>{errors.codigo?.message}</Erro>
+              <CampoDigitacao tipo="text" label="Nome"  placeholder="Insira o nome do finalizador" register={register("nome")} />
+              <Erro>{errors.nome?.message}</Erro>
+              <CampoDigitacao tipo="text" label="Situação" placeholder="Insira a situação do finalizador" register={register("situacao")}  />
+              <Erro>{errors.situacao?.message}</Erro>
+              <CampoDigitacao tipo="text" label="Grupo da Receita" placeholder="Insira o grupo da receita" register={{...register('grupoReceita', {
+                                                                                                  onChange: (e) => {handleChange(e)},
+                                                                                            })}} />
+              <Erro>{errors.grupoReceita?.message}</Erro>
+              
+              <Rotulo>Bandeira</Rotulo>
+              <Controller
+                name="bandeira"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={[
+                      { label: "Elo" },
+                      { label: "Alelo" },
+                      { label: "Visa" },
+                      { label: "Master" },
+                      { label: "Pix" },
+                      { label: "Dinheiro" },
+                    ]}
+                  />
+                )}
+              />                                                                      
 
-      <DivEstilizada>
-        <Botao texto='Confirmar' tipo='submit' />
-        <Botao texto='Cancelar' secundario={true.toString()} />        
-      </DivEstilizada>  
-      </FormEstilizado>
-     
-    </Menu>
+            <DivEstilizada>
+              <Botao texto='Confirmar' tipo='submit' />
+              <Botao texto='Cancelar' secundario={true.toString()} />        
+            </DivEstilizada>  
+            </FormEstilizado>
+          
+          </Menu>
+        </>
+      )}
+ </>
   )
 }
 

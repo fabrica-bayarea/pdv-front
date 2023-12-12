@@ -11,8 +11,9 @@ import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { mask } from 'remask'
 import * as Yup from 'yup'
-import { DivEstilizada, Erro, FormEstilizado } from './vendedor_styled'
-
+import { DivEstilizada, Erro, FormEstilizado, Loading } from './vendedor_styled'
+import { useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
 
 type Inputs = {
     cpf: string
@@ -22,7 +23,6 @@ type Inputs = {
     endereco: string
     dataNascimento: string
 }
-
 
 const form = Yup.object().shape({             // cria as regras para formatação
     cpf: Yup.string()
@@ -43,6 +43,21 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 
 export default function Vendedor() {
+    const { push } = useRouter()
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setTimeout(() => {
+        if (token) {
+          setLoading(false);
+        } else {
+          push('/erro');
+        }
+      }, 2000);
+  
+    }, [push]);
+
     const {
         register,
         handleSubmit,
@@ -52,7 +67,6 @@ export default function Vendedor() {
         resolver: yupResolver(form),
       }))
 
-    const { push } = useRouter()
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -71,8 +85,6 @@ export default function Vendedor() {
         }
     }
 
-
-
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
         // data.nascimento = new Date(data.nascimento).toISOString();
@@ -89,22 +101,19 @@ export default function Vendedor() {
                 theme: "light",
                 });
 
-                <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
           
                 push('/gerenciamento/vendedor')
         } catch(error){
-            console.log(error)
+            toast.error('Erro no cadastro!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
         }    
     }
 
@@ -114,40 +123,69 @@ export default function Vendedor() {
     };
 
     return (
-        <div>
-            <Menu>
+        <>
+        
+        {loading ? (
+        <Loading>
+            <CircularProgress
+            size={68}
+            sx={{
+                top: -6,
+                left: -6,
+                zIndex: 1,
+                color: "#da2a38",
+                alignItems: "center",
+                justifyContent: "center"
+            }}
+            />
+        </Loading>
+        ) : (
+        <Menu>
 
-                <Titulo texto="Cadastro de vendedor" />
+            <Titulo texto="Cadastro de vendedor" />
 
-                <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={register('cpf', addMasks)} />
-                    <Erro>{errors.cpf?.message}</Erro>
+            <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            />
 
-                    <CampoDigitacao tipo="text" label="E-mail" placeholder="Insira seu e-mail" register={register("email")} />
-                    <Erro>{errors.email?.message}</Erro>
+            <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
+            <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={register('cpf', addMasks)} />
+            <Erro>{errors.cpf?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nome" placeholder="Insira seu nome" register={register("nome")} />
-                    <Erro>{errors.nome?.message}</Erro>
+            <CampoDigitacao tipo="text" label="E-mail" placeholder="Insira seu e-mail" register={register("email")} />
+            <Erro>{errors.email?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={register("telefone", addMasks)} />
-                    <Erro>{errors.telefone?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Nome" placeholder="Insira seu nome" register={register("nome")} />
+            <Erro>{errors.nome?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereço" register={register("endereco")} />
-                    <Erro>{errors.endereco?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={register("telefone", addMasks)} />
+            <Erro>{errors.telefone?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("dataNascimento", addMasks)} />
-                    <Erro>{errors.dataNascimento?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereço" register={register("endereco")} />
+            <Erro>{errors.endereco?.message}</Erro>
 
+            <CampoDigitacao tipo="text" label="Nascimento" placeholder="Insira seu nascimento" register={register("dataNascimento", addMasks)} />
+            <Erro>{errors.dataNascimento?.message}</Erro>
 
+            <DivEstilizada>
+                <Botao texto='Confirmar' tipo='submit' />
+                <Botao texto='Cancelar' secundario={true.toString()} />
+            </DivEstilizada>
+            </FormEstilizado>
 
-                    <DivEstilizada>
-                        <Botao texto='Confirmar' tipo='submit' />
-                        <Botao texto='Cancelar' secundario={true.toString()} />
-                    </DivEstilizada>
-                </FormEstilizado>
+        </Menu>
+        )}
 
-            </Menu>
-        </div>
+    </>
     )
 
 
