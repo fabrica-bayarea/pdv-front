@@ -2,22 +2,50 @@
 import PaginaPadrao from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
 import { http, httpTeste } from '@/services'
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, CircularProgress, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import BuildIcon from '@mui/icons-material/Build';
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import styled from 'styled-components'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const GerenciamentoNota = () => {
 
-  const [notas, setNotas] = useState<any[]>([])
+  const [notas, setNotas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { push } = useRouter();
 
   useEffect(() => {
-      http.get('/nota-fiscal').then(resultado => {
+    const token = localStorage.getItem('token');
+    setTimeout(() => {
+      if (token) {
+        http.get('/nota-fiscal').then(resultado => {
           setNotas(resultado.data)
-      })
-  }, [])
+        });
+        setLoading(false);
+      } else {
+        push('/erro');
+      }
+    }, 2000);
+
+  }, []);
+  
+
+const Loading = styled.div`
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+  
+const Logout = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+ `
 
   function excluir(id: number) {
     if (confirm('Deseja realmente excluir a nota?')) {
@@ -35,38 +63,73 @@ const GerenciamentoNota = () => {
     }
   }
 
-  return (
-    <PaginaPadrao>
-      <Titulo texto='Gerenciamento de Notas' />
+  function logout() {
+    localStorage.removeItem("token");
+    push('/login')
+  }
 
-      <TableContainer component={Paper} sx={{ marginTop: 10}} >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Tipo</TableCell>
-            <TableCell align="right">Modelo</TableCell>
-            <TableCell align="right">Data da emissão</TableCell>
-            <TableCell align="right"> <BuildIcon /> </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {notas?.map((nota) => (
-            <TableRow
-              key={nota.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {nota.tipoDeNota}
-              </TableCell>
-              <TableCell align="right">{nota.modelo}</TableCell>
-              <TableCell align="right">{nota.dataEmissao}</TableCell>
-              <TableCell align="right"> <Link href={'/cadastro/nota-fiscal/' + nota.id}> <EditIcon /> </Link>  <DeleteForeverIcon onClick={() => excluir(nota.id)} /> </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </PaginaPadrao>
+  return (
+    <>
+      {loading ? (
+        <Loading>
+          <CircularProgress
+            size={68}
+            sx={{
+              top: -6,
+              left: -6,
+              zIndex: 1,
+              color: "#da2a38",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          />
+        </Loading>
+      ) : (
+        <PaginaPadrao>
+          <Logout>
+              <IconButton onClick={logout}>
+                <LogoutIcon />
+              </IconButton>
+          </Logout>
+
+          <Titulo texto='Gerenciamento de Notas' />
+
+          <TableContainer component={Paper} sx={{ marginTop: 10 }}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Tipo</TableCell>
+                  <TableCell align="right">Modelo</TableCell>
+                  <TableCell align="right">Data da emissão</TableCell>
+                  <TableCell align="right"> <BuildIcon /> </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {notas?.map((nota) => (
+                  <TableRow
+                    key={nota.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {nota.tipoDeNota}
+                    </TableCell>
+                    <TableCell align="right">{nota.modelo}</TableCell>
+                    <TableCell align="right">{nota.dataEmissao}</TableCell>
+                    <TableCell align="right">
+                      <Link href={'/cadastro/nota-fiscal/' + nota.id}>
+                        <EditIcon />
+                      </Link>
+                      <DeleteForeverIcon onClick={() => excluir(nota.id)} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </PaginaPadrao>
+)}
+
+    </>
   )
 }
 

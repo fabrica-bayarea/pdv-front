@@ -12,8 +12,9 @@ import { mask } from 'remask'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import Select from "react-select";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from '@mui/material'
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -39,6 +40,14 @@ const Rotulo = styled.label`
     line-height: 19px;
     color: #DA2A38;
 `
+
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 
 type Inputs = {
     tipoDeNota: { label?: string | undefined}
@@ -67,9 +76,22 @@ export default function NotaFiscal() {
   const params = useParams()
   const { push } = useRouter()
 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (params) {
+    const token = localStorage.getItem('token');
+    setTimeout(() => {
+      if (token) {
+        setLoading(false);
+      } else {
+        push('/erro');
+      }
+    }, 2000);
+
+  }, [push]);
+
+  useEffect(() => {
+    if (params && loading === false) {
       http.get('/nota-fiscal/' + params.id).then(resultado => {
         const notas = resultado.data;
     
@@ -162,66 +184,96 @@ export default function NotaFiscal() {
     };
 
     return (
-        <div>
-            <Menu>
-                <Titulo texto="Cadastro de nota fiscal" />
+      <>
+          {loading ? (
+          <Loading>
+          <CircularProgress
+            size={68}
+            sx={{
+              top: -6,
+              left: -6,
+              zIndex: 1,
+              color: "#da2a38",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          />
+        </Loading>
+      ) : (
+        <Menu>
+          <Titulo texto="Cadastro de nota fiscal" />
 
-                <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
+          <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
 
-                <Rotulo>Tipo</Rotulo>
-                    <Controller
-                    name="tipoDeNota"
-                    control={control}
-                    render={({ field }) => (
-                        <Select
-                        {...field}
-                        options={[
-                            { label: "Entrada" },
-                            { label: "Saída" },
-                        ]}
-                        />
-                )}
-                />    
-                <Erro>{errors.tipoDeNota?.message}</Erro>
-     
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+              />
+      
 
-                <Rotulo>Modelo</Rotulo>
-                    <Controller
-                    name="modelo"
-                    control={control}
-                    render={({ field }) => (
-                        <Select
-                        {...field}
-                        options={[
-                            { label: "NF-e" },
-                            { label: "NFAe" },
-                            { label: "Nota Fiscal de Remessa" },
-                        ]}
-                        />
-                )}
-                />    
-                <Erro>{errors.tipoDeNota?.message}</Erro>
+            <Rotulo>Tipo</Rotulo>
+            <Controller
+              name="tipoDeNota"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={[
+                    { label: "Entrada" },
+                    { label: "Saída" },
+                  ]}
+                />
+              )}
+            />
+            <Erro>{errors.tipoDeNota?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="Fornecedor" placeholder="Insira o fornecedor" register={register("fornecedorId", addMasks)} />
-                <Erro>{errors.fornecedorId?.message}</Erro>
+            <Rotulo>Modelo</Rotulo>
+            <Controller
+              name="modelo"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={[
+                    { label: "NF-e" },
+                    { label: "NFAe" },
+                    { label: "Nota Fiscal de Remessa" },
+                  ]}
+                />
+              )}
+            />
+            <Erro>{errors.modelo?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="Número da nota" placeholder="Insira o número da nota" register={register("numeroDaNota", addMasks)} />
-                <Erro>{errors.numeroDaNota?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Fornecedor" placeholder="Insira o fornecedor" register={register("fornecedorId", addMasks)} />
+            <Erro>{errors.fornecedorId?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="Data da entrada" placeholder="Insira a data da entrada" register={register("dataEntrada", addMasks)} />
-                <Erro>{errors.dataEntrada?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Número da nota" placeholder="Insira o número da nota" register={register("numeroDaNota", addMasks)} />
+            <Erro>{errors.numeroDaNota?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="Data da emissão" placeholder="Insira a data da emissão" register={register("dataEmissao", addMasks)} />                 <Erro>{errors.dataEmissao?.message}</Erro>
-                <Erro>{errors.dataEmissao?.message}</Erro>
-   
-                <DivEstilizada>
-                        <Botao texto='Confirmar' tipo='submit' />
-                        <Botao texto='Cancelar' secundario={true.toString()} />
-                </DivEstilizada>
-                </FormEstilizado>
+            <CampoDigitacao tipo="text" label="Data da entrada" placeholder="Insira a data da entrada" register={register("dataEntrada", addMasks)} />
+            <Erro>{errors.dataEntrada?.message}</Erro>
 
-            </Menu>
-        </div>
+            <CampoDigitacao tipo="text" label="Data da emissão" placeholder="Insira a data da emissão" register={register("dataEmissao", addMasks)} />
+            <Erro>{errors.dataEmissao?.message}</Erro>
+
+            <DivEstilizada>
+              <Botao texto='Confirmar' tipo='submit' />
+              <Botao texto='Cancelar' secundario={true.toString()} />
+            </DivEstilizada>
+          </FormEstilizado>
+
+        </Menu>
+  )}
+
+</>
     )
 
 

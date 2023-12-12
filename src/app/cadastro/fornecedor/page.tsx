@@ -12,6 +12,8 @@ import { mask } from 'remask'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
 
 
 const FormEstilizado = styled.form`
@@ -30,6 +32,14 @@ const Erro = styled.span`
   font-size: 13px;
   color: #DA2A38;
 `
+
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 
 type Inputs = {
     cnpj: string
@@ -59,6 +69,23 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 
 export default function Fornecedor() {
+
+    const { push } = useRouter()
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setTimeout(() => {
+        if (token) {
+          setLoading(false);
+        } else {
+          push('/erro');
+        }
+      }, 2000);
+  
+    }, [push]);
+    
     const {
         register,
         handleSubmit,
@@ -68,7 +95,6 @@ export default function Fornecedor() {
         resolver: yupResolver(form),
       }))
 
-    const { push } = useRouter()
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -103,7 +129,16 @@ export default function Fornecedor() {
                 
                 push('/gerenciamento/fornecedor')
         } catch(error){
-            console.log(error)
+            toast.error('Erro no cadastro!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
         }    
     }
 
@@ -113,10 +148,25 @@ export default function Fornecedor() {
     };
 
     return (
-        <div>
+        <>
+            {loading ? (
+                <Loading>
+                    <CircularProgress
+                    size={68}
+                    sx={{
+                        top: -6,
+                        left: -6,
+                        zIndex: 1,
+                        color: "#da2a38",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                    />
+                </Loading>
+            ) : (
             <Menu>
                 <Titulo texto="Cadastro de fornecedor" />
-                    <ToastContainer
+                <ToastContainer
                     position="top-right"
                     autoClose={5000}
                     hideProgressBar={false}
@@ -127,37 +177,34 @@ export default function Fornecedor() {
                     draggable
                     pauseOnHover
                     theme="light"
-                    />
-          
+                />
+
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
-                    <Erro>{errors.tipo_pessoa?.message}</Erro>
+                <CampoDigitacao tipo="text" label="tipo" placeholder="Insira o tipo" register={register('tipo_pessoa', addMasks)} />
+                <Erro>{errors.tipo_pessoa?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
-                    <Erro>{errors.cnpj?.message}</Erro>
+                <CampoDigitacao tipo="text" label="CNPJ" placeholder="Insira o CNPJ" register={register('cnpj', addMasks)} />
+                <Erro>{errors.cnpj?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
-                    <Erro>{errors.inscricao_estadual?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Inscrição Estadual" placeholder="Inscrição Estadual" register={register("inscricao_estadual")} />
+                <Erro>{errors.inscricao_estadual?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
-                    <Erro>{errors.nome_fantasia?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Nome Fantasia" placeholder="Insira o nome fantasia" register={register("nome_fantasia")} />
+                <Erro>{errors.nome_fantasia?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
-                    <Erro>{errors.razao_social?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Razão Social" placeholder="Insira a razão social" register={register("razao_social", addMasks)} />
+                <Erro>{errors.razao_social?.message}</Erro>
 
-                    <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
-                    <Erro>{errors.data_registro?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Data da inscrição" placeholder="Insira a data da inscrição" register={register("data_registro", addMasks)} />
+                <Erro>{errors.data_registro?.message}</Erro>
 
-
-                    <DivEstilizada>
-                        <Botao texto='Confirmar' tipo='submit' />
-                        <Botao texto='Cancelar' secundario={true.toString()} />
-                    </DivEstilizada>
+                <DivEstilizada>
+                    <Botao texto='Confirmar' tipo='submit' />
+                    <Botao texto='Cancelar' secundario={true.toString()} />
+                </DivEstilizada>
                 </FormEstilizado>
-
             </Menu>
-        </div>
+            )}
+        </>
     )
-
-
 }

@@ -10,11 +10,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { mask } from 'remask'
 import { http } from '@/services'
 import { ICliente } from '@/interfaces/ICliente'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
-
+import { CircularProgress } from '@mui/material'
 
 type Inputs = {
   cpf?: string | undefined
@@ -42,6 +42,13 @@ const Erro = styled.span`
   color: #DA2A38;
 `
 
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
 const schema = Yup.object().shape({             // cria as regras para formatação
     cpf: Yup.string()
       .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
@@ -60,6 +67,22 @@ const schema = Yup.object().shape({             // cria as regras para formataç
 const FormCliente = () => {
   const params = useParams()
   const { push } = useRouter()
+
+  const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setTimeout(() => {
+      if (token) {
+        setLoading(false);
+        setAccessToken(token);
+      } else {
+        push('/erro');
+      }
+    }, 2000);
+
+  }, [push]);
 
   const {
     register,
@@ -138,9 +161,25 @@ useEffect(() => {
   
 
   return (
-    <Menu>
-
-    <ToastContainer
+    <>
+      {loading ? (
+        <Loading>
+          <CircularProgress
+          size={68}
+          sx={{
+            top: -6,
+            left: -6,
+            zIndex: 1,
+            color: "#da2a38",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        />
+        </Loading>    
+  ) : (
+   <>
+     <Menu>
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -182,6 +221,9 @@ useEffect(() => {
       </FormEstilizado>
 
     </Menu>
+  </>
+)}
+    </>
   )
 }
 
