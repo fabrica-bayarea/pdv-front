@@ -3,12 +3,19 @@ import Botao from '@/components/Botao'
 import CampoDigitacao from '@/components/CampoDigitacao'
 import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
-import { useForm, SubmitHandler } from "react-hook-form"
-import styled from 'styled-components'
-import * as Yup from 'yup';
+import { http } from '@/services'
 import { yupResolver } from "@hookform/resolvers/yup"
-import { ChangeEvent } from 'react'
+import { useRouter } from 'next/navigation'
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { toast, ToastContainer } from 'react-toastify'
 import { mask } from 'remask'
+import styled from 'styled-components'
+import * as Yup from 'yup'
+import Select from "react-select";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
+
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -26,131 +33,231 @@ const Erro = styled.span`
   font-size: 13px;
   color: #DA2A38;
 `
+
+const Rotulo = styled.label`
+    display: block;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #DA2A38;
+`
+
+const Loading = styled.div`
+  height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+`
+
+
 type Inputs = {
-    codigo: string
-    nome: string
-    unimedida: string
-    grupo: string
-    valor: string
-    registro: string
+    nome: string 
+    marca: string 
+    descricao: string 
+    id_fornecedor: string 
+    codigo_produto: string 
+    id_categoria: string 
+    unidade_medida: { label: string }
+    preco: string 
+    estoque_atual: string 
 }
 
 
-const form = Yup.object<Inputs>().shape({
-    codigo: Yup.string()
-        .matches(/^\d{1}\ \d{6}\ \d{6}$/, "Código Inválido")
-        .required("O código é obrigatório é obrigatório"),
-    nome: Yup.string()
-        .min(10, "O nome precisa ter mais de 10 caracters")
-        .max(100)
-        .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!").required('O campo nome é obrigatório!'),
-    valor: Yup.string()
-        .matches(/^\d{1}\ \d{6}\ \d{6}$/, "Código Inválido")
-        .required("O código é obrigatório é obrigatório"),
-        
-   
-
+const form = Yup.object().shape({             // cria as regras para formatação
+    nome: Yup.string() .required('O campo nome é obrigatório!'),
+    marca: Yup.string() .required('O campo marca é obrigatório!'),
+    descricao: Yup.string()
+    .min(4, 'O nome precisa ter mais de 10 caracteres!')
+    .max(100)
+    .required('O campo descrição é obrigatório!'),
+    id_fornecedor: Yup.string() 
+    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    .required('O campo obrigatório!'),
+    codigo_produto: Yup.string()
+    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    .required('O campo obrigatório!'),
+    id_categoria: Yup.string()
+    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    .required('O campo obrigatório!'),
+    unidade_medida: Yup.object().shape({
+        label: Yup.string().required("Required"),
+      }),
+    preco: Yup.string()
+    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    .required('O campo obrigatório!'),
+    estoque_atual: Yup.string()
+    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    .required('O campo obrigatório!'),
 });
 
 
+export default function Fornecedor() {
 
-export default function Produto() {
+    const { push } = useRouter()
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setTimeout(() => {
+        if (token) {
+          setLoading(false);
+        } else {
+          push('/erro');
+        }
+      }, 2000);
+  
+    }, [push]);
+    
     const {
         register,
         handleSubmit,
         setValue,
+        control,
         formState: { errors },
-    } = useForm<Inputs>(({
-        //resolver: yupResolver(form),
-    }))
-
-
-    function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
-        const nome = event.target.name;
-        const valor = event.target.value;
-
-        switch (nome) {
-            case "codigo":
-                setValue("codigo", mask(valor, '9 999999 999999'));
-                break;
-            case "valor":
-                setValue("valor", mask(valor, '999,99'));
-                break;
-            
-            
-        }
-    }
+      } = useForm<Inputs>(({
+        resolver: yupResolver(form),
+      }))
 
 
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // vamos colocar a código para consumir a API aqui
-    }
+    const onSubmit: SubmitHandler<Inputs> = async (dados) => {
+        console.log(dados) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
+        // data.nascimento = new Date(data.nascimento).toISOString();
+        const unidade_medidaSelecionado = dados.unidade_medida ? dados.unidade_medida.label : null;
 
-    // Objeto para facilitar a adição de mascaras no formulario
-    const addMasks = {
-        onChange: formatMask,
-    };
+        const dadosParaEnviar = {
+            ...dados,
+            unidade_medida: unidade_medidaSelecionado
+        };
+        console.log(dadosParaEnviar)
+
+        try {
+            await http.request({
+              url: '/produto',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: dadosParaEnviar
+            });
+
+            toast.success('Cadastro feito!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        
+              setTimeout(() => {
+                push('/gerenciamento/produto');
+              }, 1000);
+        
+            } catch (error) {
+              console.error(error);
+  
+              toast.error('Erro ao fazer o cadastro!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }
+      }
+
+  
 
     return (
-        <div>
+        <>
+            {loading ? (
+                <Loading>
+                    <CircularProgress
+                    size={68}
+                    sx={{
+                        top: -6,
+                        left: -6,
+                        zIndex: 1,
+                        color: "#da2a38",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                    />
+                </Loading>
+            ) : (
             <Menu>
-
-                <Titulo texto="Cadastro de produtos" />
+                <Titulo texto="Cadastro de Produto" />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
 
                 <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-                    <CampoDigitacao
-                     tipo="text" 
-                     label="Codigo" 
-                     placeholder="Insira o Código" 
-                     register={register('codigo', addMasks)} />
-                    <Erro>{errors.codigo?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Nome" placeholder="Insira o nome" register={register('nome')} />
+                <Erro>{errors.nome?.message}</Erro>
 
-                    <CampoDigitacao 
-                    tipo="text" 
-                    label="Nome" 
-                    placeholder="Insira o nome"
-                    register={register("nome")} />
-                    <Erro>{errors.nome?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Marca" placeholder="Insira a marca" register={register('marca')} />
+                <Erro>{errors.marca?.message}</Erro>
 
-                    <CampoDigitacao 
-                    tipo="text" 
-                    label="Grupo" 
-                    placeholder="Insira o grupo"
-                    register={register("grupo")} />
-                    <Erro>{errors.grupo?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Descrição" placeholder="Inscrição Estadual" register={register("descricao")} />
+                <Erro>{errors.descricao?.message}</Erro>
 
-                    <CampoDigitacao 
-                    tipo="dropdown" 
-                    label="Unidade de Medida"
-                    placeholder="Informe a Unidade de Medida" 
-                    register={register("unimedida")} />
-                    <Erro>{errors.unimedida?.message}</Erro>
+                <CampoDigitacao tipo="text" label="ID do Fornecedor" placeholder="Insira o ID do fornecedor" register={register("id_fornecedor")} />
+                <Erro>{errors.id_fornecedor?.message}</Erro>
 
-                    <CampoDigitacao 
-                    tipo="text" 
-                    label="Valor" 
-                    placeholder="Insira o Valor"
-                    register={register("valor")} />
-                    <Erro>{errors.valor?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Código do Produto" placeholder="Insira o código do produto" register={register("codigo_produto")} />
+                <Erro>{errors.codigo_produto?.message}</Erro>
 
-                    <CampoDigitacao 
-                    tipo="text" 
-                    label="Registro" 
-                    placeholder="Insira o registro"
-                    register={register("registro")} />
-                    <Erro>{errors.registro?.message}</Erro>
+                <CampoDigitacao tipo="text" label="ID Categoria" placeholder="Insira o ID da Catedoria" register={register("id_categoria")} />
+                <Erro>{errors.id_categoria?.message}</Erro>
 
-                    <DivEstilizada>
-                        <Botao texto='Confirmar' tipo='submit' />
-                        <Botao texto='Cancelar' secundario={true.toString()} />
-                    </DivEstilizada>
+                <Rotulo>Unidade de Medida</Rotulo>
+                <Controller
+                  name="unidade_medida"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "kg - quilograma" },
+                        { label: "mg - miligrama" },
+                        { label: "cm - centimetros" },
+                        { label: "mm - milimetros" },
+                        { label: "l - litros" },
+                        { label: "ml - mililitros" },
+                      ]}
+                    />
+                  )}
+                />
+
+                <CampoDigitacao tipo="text" label="Preço" placeholder="Insira o preço" register={register("preco")} />
+                <Erro>{errors.preco?.message}</Erro>
+
+                <CampoDigitacao tipo="text" label="Estoque Atual" placeholder="Insira o estoque atual" register={register("estoque_atual")} />
+                <Erro>{errors.estoque_atual?.message}</Erro>
+
+                <DivEstilizada>
+                    <Botao texto='Confirmar' tipo='submit' />
+                    <Botao texto='Cancelar' secundario={true.toString()} />
+                </DivEstilizada>
                 </FormEstilizado>
-
             </Menu>
-        </div>
+            )}
+        </>
     )
-
-
 }
