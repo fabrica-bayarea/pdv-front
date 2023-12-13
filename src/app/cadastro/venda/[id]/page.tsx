@@ -4,7 +4,7 @@ import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo'
 import { http } from '@/services'
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { toast, ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
@@ -12,9 +12,12 @@ import * as Yup from 'yup'
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
-import { ICliente } from '@/interfaces/ICliente'
-import { IVendedor } from '@/interfaces/IVendedor'
+import { Button, CircularProgress, IconButton } from '@mui/material'
+import CampoDigitacao from '@/components/CampoDigitacao'
+import { IProduto } from '@/interfaces/IProduto'
+import Drawer from '@mui/material/Drawer';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -49,58 +52,53 @@ const Loading = styled.div`
 `
 
 type Inputs = {
-    vendedorId: { label?: string | undefined, value?: number | undefined }
-    clienteId: { label?: string | undefined, value?: number | undefined },
+    produto: { label?: string | undefined, value?: string | undefined },
+    quantidade: number,
+    descricao?: string
 }
 
 const form = Yup.object().shape({             // cria as regras para formatação
-    vendedorId: Yup.object().shape({
+    produto: Yup.object().shape({
         label: Yup.string(),
-        value: Yup.number(),
+        value: Yup.string(),
       }),
-
-    clienteId: Yup.object().shape({
-        label: Yup.string(),
-        value: Yup.number(),
-      }),
+    quantidade: Yup.number().required(''),
+    descricao: Yup.string(),
 });
 
 
 export default function Venda() {
   const { push } = useRouter()
+  const params = useParams()
   const [loading, setLoading] = useState(true);
-  const [solicitacaoCompraId, setSolicitacaoCompraId] = useState(0);
-  const [clientes, setClientes] = useState<ICliente[]>([]);
-  const [vendedores, setVendedores] = useState<IVendedor[]>([]);
+  const [produtos, setProdutos] = useState<IProduto[]>([]);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [carrinho, setCarrinho] = useState([])
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setTimeout(() => {
       if (token) {
         http.request({
-            url: '/cliente',
+            url: '/produtos',
             method: 'GET',
           })
             .then(response => {
-              const clientesData = response.data;
-              setClientes(clientesData);
+              const produtosData = response.data;
+              setProdutos(produtosData);
             })
             .catch(error => {
               console.error('Erro :', error);
             });
-      
-        http.request({
-            url: '/vendedor',
-            method: 'GET',
-         })
-        .then(response => {
-              const vendedoresData = response.data;
-              setVendedores(vendedoresData);
-            })
-            .catch(error => {
-              console.error('Erro:', error);
-            });
-
+    
         setLoading(false);
       } else {
         push('/erro');
@@ -109,10 +107,10 @@ export default function Venda() {
 
   }, [push]);
 
-
     const {
         handleSubmit,
         control,
+        register,
         formState: { errors },
       } = useForm<Inputs>(({
         resolver: yupResolver(form),
@@ -120,18 +118,16 @@ export default function Venda() {
 
       const onSubmit: SubmitHandler<Inputs> = async (dados) => {
         try {
-          const vendedorSelecionado = dados.vendedorId ? dados.vendedorId.value : null;
-          const clienteSelecionado = dados.clienteId ? dados.clienteId.value : null;
+          const produtoSelecionado = dados.produto ? dados.produto.value : null;
       
           const dadosParaEnviar = {
-            vendedorId: vendedorSelecionado,
-            clienteId: clienteSelecionado,
+            ...dados,
+            solicitacaoCompraId: Array.isArray(params.id) ? parseInt(params.id[0]) : parseInt(params.id),
+            codigo_produto: produtoSelecionado,
           };
       
-          console.log(dadosParaEnviar);
-      
-          const response = await http.request({
-            url: '/solicitacao-compra',
+          await http.request({
+            url: '/produto-solicitacao',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -139,9 +135,7 @@ export default function Venda() {
             data: dadosParaEnviar
           });
       
-          setSolicitacaoCompraId(response.data.solicitacaoCompraId);
-      
-          toast.success(`Cadastro feito! SolicitacaoCompraId: ${solicitacaoCompraId}`, {
+          toast.success(`Produto adicionado!`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -152,11 +146,17 @@ export default function Venda() {
             theme: "light",
           });
       
-          push('/cadastro/venda/' + solicitacaoCompraId);
+          const carrinhoAPI = await http.request({
+            url: `/produto-solicitacao/${params.id}`,  
+            method: 'GET',
+          });
+      
+          const carrinhoData = carrinhoAPI.data;
+          setCarrinho(carrinhoData);
       
         } catch (error) {
           console.error('Erro na requisição:', error);
-          toast.error(`Erro ao cadastrar. Tente novamente.`, {
+          toast.error(`Erro ao adicionar produto. Tente novamente.`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -168,7 +168,10 @@ export default function Venda() {
           });
         }
       };
-      
+
+      const irParaCupom = () => {
+        push('/nota')
+      };
       
     return (
         <>
@@ -202,44 +205,55 @@ export default function Venda() {
             pauseOnHover
             theme="light"
               />
+             
+             <IconButton color="error" aria-label="add to shopping cart" onClick={handleDrawerOpen}>
+              <AddShoppingCartIcon />
+            </IconButton>
+
+            <Drawer
+              anchor="right"
+              open={openDrawer}
+              onClose={handleDrawerClose}
+            >
+              <div style={{ width: 250, padding: 16 }}>
+                <h2>Carrinho</h2>
+                <ul>
+                  {carrinho?.map((item, index) => (
+                    <li key={index}>
+                      {item.nome} - Quantidade: {item.quantidade}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Drawer>
       
           <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
 
-            <Rotulo>Selecione o cliente</Rotulo>
+            <Rotulo>Selecione o produto</Rotulo>
             <Controller
-              name="clienteId"
+              name="produto"
               control={control}
               render={({ field }) => (
                 <Select
                   {...field}
-                  options={clientes?.map(cliente => ({
-                    label: cliente.nome,
-                    value: cliente.id,
+                  options={produtos?.map(produto => ({
+                    label: produto.nome,
+                    value: produto.codigo_produto,
                   }))}
                 />
               )}
             />
-            <Erro>{errors.clienteId?.message}</Erro>
+            <Erro>{errors.produto?.message}</Erro>
 
-            <Rotulo>Selecione o vendedor</Rotulo>
-            <Controller
-              name="vendedorId"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  options={vendedores.map(vendedor => ({
-                    label: vendedor.nome,
-                    value: vendedor.id,
-                  }))}
-                />
-              )}
-            />
-            <Erro>{errors.vendedorId?.message}</Erro>
+            <CampoDigitacao tipo="text" label="Quantidade" placeholder="Insira a quantidade" register={register('quantidade')} />
+            <Erro>{errors.quantidade?.message}</Erro>
+
+            <CampoDigitacao tipo="text" label="Descrição" placeholder="Insira a a descrição" register={register('descricao')} />
+            <Erro>{errors.descricao?.message}</Erro>
 
             <DivEstilizada>
-              <Botao texto='Confirmar' tipo='submit' />
-              <Botao texto='Cancelar' secundario={true.toString()} />
+              <Botao texto='Adicionar produto' tipo='submit' />
+              <Botao texto='Finalizar compra' onClick={irParaCupom} />
             </DivEstilizada>
           </FormEstilizado>
 

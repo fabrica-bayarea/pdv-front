@@ -1,6 +1,6 @@
 
 export interface IVendedor {
-    id?: string | number | undefined,
+    id?: number | undefined,
     cpf?: string | undefined,
     nome?: string | undefined,
     telefone?: string | undefined,
