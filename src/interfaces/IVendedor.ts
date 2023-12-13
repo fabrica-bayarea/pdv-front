@@ -1,6 +1,5 @@
 
-
-export interface ICliente {
+export interface IVendedor {
     id?: string | number | undefined,
     cpf?: string | undefined,
     nome?: string | undefined,
