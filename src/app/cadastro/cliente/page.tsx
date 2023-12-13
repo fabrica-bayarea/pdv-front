@@ -197,7 +197,9 @@ const Cliente = () => {
                 }),
               }}
             />
+
             <Erro>{errors.cpf?.message}</Erro>
+
             <CampoDigitacao
               tipo="text"
               label="Email"
@@ -205,7 +207,8 @@ const Cliente = () => {
               register={register('email')}
             />
             <Erro>{errors.email?.message}</Erro>
-            <CampoDigitacao tipo="text" label="Nome" placeholder="Insira seu endereço de email" register={register('nome')} />
+
+            <CampoDigitacao tipo="text" label="Nome" placeholder="Insira o nome" register={register('nome')} />
             <Erro>{errors.nome?.message}</Erro>
             <CampoDigitacao
               tipo="text"
