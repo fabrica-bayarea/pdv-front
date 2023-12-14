@@ -1,8 +1,10 @@
 "use client"
 import { IconButton } from '@mui/material';
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import PrintIcon from '@mui/icons-material/Print';
+import { useReactToPrint } from 'react-to-print';
+
 
 const PrinterTicketTable = styled.table`
   display: table !important;
@@ -10,9 +12,10 @@ const PrinterTicketTable = styled.table`
   max-width: 400px;
   font-weight: light;
   line-height: 1.3em;
-  margin: 0 auto; /* Center the table */
+  margin: 0 auto; 
   font-family: Tahoma, Geneva, sans-serif;
   font-size: 10px;
+  padding-top: 30px;
 
   th:nth-child(2),
   td:nth-child(2) {
@@ -64,10 +67,24 @@ const PrinterTicketTable = styled.table`
   }
 `;
 
+const Botao = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+`
+
 const CupomVenda = () => {
+
+  const componentRef = useRef(null);
+
+  const imprimirNota = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <>
-    <PrinterTicketTable className="printer-ticket">
+    <PrinterTicketTable className="printer-ticket" ref={componentRef}>
           <thead>
            <tr>
                <th className="title" colSpan={3}>PDV</th>
@@ -161,9 +178,12 @@ const CupomVenda = () => {
        </tfoot>
     </PrinterTicketTable>
 
-    <IconButton color="error" aria-label="add to shopping cart" >
-        <PrintIcon />
-    </IconButton>
+    <Botao>
+      <IconButton color="error" aria-label="add to shopping cart" onClick={imprimirNota}>
+          <PrintIcon />
+      </IconButton>
+    </Botao>
+
     </>
   );
 };
