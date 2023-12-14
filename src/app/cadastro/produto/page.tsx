@@ -54,12 +54,12 @@ type Inputs = {
     nome: string 
     marca: string 
     descricao: string 
-    id_fornecedor: string 
+    id_fornecedor: number 
     codigo_produto: string 
-    id_categoria: string 
+    id_categoria: number 
     unidade_medida: { label: string }
-    preco: string 
-    estoque_atual: string 
+    preco: number 
+    estoque_atual: number 
 }
 
 
@@ -70,23 +70,20 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
     .required('O campo descrição é obrigatório!'),
-    id_fornecedor: Yup.string() 
-    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    id_fornecedor: Yup.number()
     .required('O campo obrigatório!'),
     codigo_produto: Yup.string()
     .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
     .required('O campo obrigatório!'),
-    id_categoria: Yup.string()
-    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    id_categoria: Yup.number()
     .required('O campo obrigatório!'),
     unidade_medida: Yup.object().shape({
         label: Yup.string().required("Required"),
       }),
-    preco: Yup.string()
-    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    preco: Yup.number()
     .required('O campo obrigatório!'),
-    estoque_atual: Yup.string()
-    .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
+    estoque_atual: Yup.number()
+    .positive()
     .required('O campo obrigatório!'),
 });
 

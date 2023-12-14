@@ -54,12 +54,12 @@ type Inputs = {
     nome?: string | undefined
     marca?: string | undefined
     descricao?: string | undefined
-    id_fornecedor?: string | undefined
+    id_fornecedor?: number | undefined
     codigo_produto?: string | undefined
-    id_categoria?: string | undefined
+    id_categoria?: number | undefined
     unidade_medida: { label?: string | undefined}
-    preco?: string | undefined
-    estoque_atual?: string | undefined
+    preco?: number | undefined
+    estoque_atual?: number | undefined
 
 }
 
@@ -67,15 +67,15 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     
     nome: Yup.string(),
     marca: Yup.string(),
-    descricao: Yup.string().required(),
-    id_fornecedor: Yup.string(),
+    descricao: Yup.string(),
+    id_fornecedor: Yup.number(),
     codigo_produto: Yup.string(),
-    id_categoria: Yup.string(),
+    id_categoria: Yup.number(),
     unidade_medida: Yup.object().shape({
         label: Yup.string(),
       }),
-    preco: Yup.string(),
-    estoque_atual: Yup.string(),
+    preco: Yup.number(),
+    estoque_atual: Yup.number(),
 });
 
 
@@ -103,9 +103,18 @@ export default function Produto() {
         const produtos = resultado.data;
     
         for (let atributo in produtos) {
-            if (atributo === "unidade_medida") {
-              setValue(atributo, produtos[atributo]);
-            }
+          if (
+            atributo === "nome" ||
+            atributo === "marca" ||
+            atributo === "descricao" ||
+            atributo === "id_fornecedor" ||
+            atributo === "codigo_produto" ||
+            atributo === "id_categoria" ||
+            atributo === "preco" ||
+            atributo === "estoque_atual"
+          ) {
+            setValue(atributo, produtos[atributo]);
+          }
           }
           
       });
