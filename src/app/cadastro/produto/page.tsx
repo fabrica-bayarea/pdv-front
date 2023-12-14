@@ -54,9 +54,9 @@ type Inputs = {
     nome: string 
     marca: string 
     descricao: string 
-    id_fornecedor: number 
+    cnpj_fornecedor: string 
     codigo_produto: string 
-    id_categoria: number 
+    nome_categoria: string 
     unidade_medida: { label: string }
     preco: number 
     estoque_atual: number 
@@ -70,12 +70,12 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     .min(4, 'O nome precisa ter mais de 10 caracteres!')
     .max(100)
     .required('O campo descrição é obrigatório!'),
-    id_fornecedor: Yup.number()
+    cnpj_fornecedor: Yup.string()
     .required('O campo obrigatório!'),
     codigo_produto: Yup.string()
     .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
     .required('O campo obrigatório!'),
-    id_categoria: Yup.number()
+    nome_categoria: Yup.string()
     .required('O campo obrigatório!'),
     unidade_medida: Yup.object().shape({
         label: Yup.string().required("Required"),
@@ -214,14 +214,14 @@ export default function Fornecedor() {
                 <CampoDigitacao tipo="text" label="Descrição" placeholder="Inscrição Estadual" register={register("descricao")} />
                 <Erro>{errors.descricao?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="ID do Fornecedor" placeholder="Insira o ID do fornecedor" register={register("id_fornecedor")} />
-                <Erro>{errors.id_fornecedor?.message}</Erro>
+                <CampoDigitacao tipo="text" label="ID do Fornecedor" placeholder="Insira o ID do fornecedor" register={register("cnpj_fornecedor")} />
+                <Erro>{errors.cnpj_fornecedor?.message}</Erro>
 
                 <CampoDigitacao tipo="text" label="Código do Produto" placeholder="Insira o código do produto" register={register("codigo_produto")} />
                 <Erro>{errors.codigo_produto?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="ID Categoria" placeholder="Insira o ID da Catedoria" register={register("id_categoria")} />
-                <Erro>{errors.id_categoria?.message}</Erro>
+                <CampoDigitacao tipo="text" label="ID Categoria" placeholder="Insira o ID da Catedoria" register={register("nome_categoria")} />
+                <Erro>{errors.nome_categoria?.message}</Erro>
 
                 <Rotulo>Unidade de Medida</Rotulo>
                 <Controller
