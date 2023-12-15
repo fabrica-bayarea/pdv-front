@@ -127,12 +127,14 @@ export default function Venda() {
         try {
           const produtoSelecionado = dados.produto ? dados.produto.value : null;
       
+          const { produto, ...dadosSemProduto } = dados;
+
           const dadosParaEnviar = {
-            ...dados,
-            solicitacaoCompraId: Array.isArray(params.id) ? parseInt(params.id[0]) : parseInt(params.id),
-            codigo_produto: produtoSelecionado,
+          ...dadosSemProduto,
+          solicitacaoCompraId: Array.isArray(params.id) ? parseInt(params.id[0]) : parseInt(params.id),
+          codigo_produto: produtoSelecionado,
           };
-      
+          
           await http.request({
             url: '/produto-solicitacao',
             method: 'POST',

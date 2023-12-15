@@ -69,7 +69,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 export default function Venda() {
   const { push } = useRouter()
   const [loading, setLoading] = useState(true);
-  const [solicitacaoCompraId, setSolicitacaoCompraId] = useState(0);
+  const [solicitacaoCompraId, setSolicitacaoCompraId] = useState();
   const [clientes, setClientes] = useState<ICliente[]>([]);
   const [vendedores, setVendedores] = useState<IVendedor[]>([]);
 
@@ -138,8 +138,9 @@ export default function Venda() {
             },
             data: dadosParaEnviar
           });
-      
-          setSolicitacaoCompraId(response.data.solicitacaoCompraId);
+
+          console.log(response.data.id);
+          setSolicitacaoCompraId(response.data.id);
       
           toast.success(`Cadastro feito! SolicitacaoCompraId: ${solicitacaoCompraId}`, {
             position: "top-right",
@@ -151,9 +152,8 @@ export default function Venda() {
             progress: undefined,
             theme: "light",
           });
-      
-          push('/cadastro/venda/' + solicitacaoCompraId);
-      
+          
+
         } catch (error) {
           console.error('Erro na requisição:', error);
           toast.error(`Erro ao cadastrar. Tente novamente.`, {
@@ -169,6 +169,11 @@ export default function Venda() {
         }
       };
       
+      useEffect(() => {
+        if (solicitacaoCompraId) {
+          push('/cadastro/venda/' + solicitacaoCompraId);
+        }
+      }, [solicitacaoCompraId, push]);
       
     return (
         <>
