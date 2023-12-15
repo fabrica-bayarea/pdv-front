@@ -100,7 +100,7 @@ export default function Venda() {
     const carregarProdutos = async () => {
       try {
         const response = await http.request({
-          url: '/produtos',
+          url: '/produto',
           method: 'GET',
         });
   
