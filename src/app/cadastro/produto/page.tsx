@@ -214,13 +214,13 @@ export default function Fornecedor() {
                 <CampoDigitacao tipo="text" label="Descrição" placeholder="Inscrição Estadual" register={register("descricao")} />
                 <Erro>{errors.descricao?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="ID do Fornecedor" placeholder="Insira o CNPJ do fornecedor" register={register("cnpj_fornecedor")} />
+                <CampoDigitacao tipo="text" label="CNPJ do Fornecedor" placeholder="Insira o CNPJ do fornecedor" register={register("cnpj_fornecedor")} />
                 <Erro>{errors.cnpj_fornecedor?.message}</Erro>
 
                 <CampoDigitacao tipo="text" label="Código do Produto" placeholder="Insira o código do produto" register={register("codigo_produto")} />
                 <Erro>{errors.codigo_produto?.message}</Erro>
 
-                <CampoDigitacao tipo="text" label="ID Categoria" placeholder="Insira o nome da Catedoria" register={register("nome_categoria")} />
+                <CampoDigitacao tipo="text" label="Categoria" placeholder="Insira o nome da Catedoria" register={register("nome_categoria")} />
                 <Erro>{errors.nome_categoria?.message}</Erro>
 
                 <Rotulo>Unidade de Medida</Rotulo>

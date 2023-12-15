@@ -87,18 +87,6 @@ export default function Venda() {
     const token = localStorage.getItem('token');
     setTimeout(() => {
       if (token) {
-        http.request({
-            url: '/produtos',
-            method: 'GET',
-          })
-            .then(response => {
-              const produtosData = response.data;
-              setProdutos(produtosData);
-            })
-            .catch(error => {
-              console.error('Erro :', error);
-            });
-    
         setLoading(false);
       } else {
         push('/erro');
@@ -106,6 +94,25 @@ export default function Venda() {
     }, 2000);
 
   }, [push]);
+
+
+  useEffect(() => {
+    const carregarProdutos = async () => {
+      try {
+        const response = await http.request({
+          url: '/produtos',
+          method: 'GET',
+        });
+  
+        const produtosData = response.data;
+        setProdutos(produtosData);
+      } catch (error) {
+        console.error('Erro:', error);
+      }
+    };
+  
+    carregarProdutos(); 
+  }, []);
 
     const {
         handleSubmit,
@@ -220,7 +227,7 @@ export default function Venda() {
                 <ul>
                   {carrinho?.map((item, index) => (
                     <li key={index}>
-                      {item.nome} - Quantidade: {item.quantidade}
+                      teste
                     </li>
                   ))}
                 </ul>

@@ -53,6 +53,10 @@
                 "path": "/gerenciamento/vendedor"
             },
             {
+                "title": "Produtos",
+                "path": "/gerenciamento/produto"
+            },
+            {
                 "title": "Fornecedores",
                 "path": "/gerenciamento/fornecedor"
             },
