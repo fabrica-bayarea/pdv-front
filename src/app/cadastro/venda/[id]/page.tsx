@@ -156,7 +156,7 @@ export default function Venda() {
           });
       
           const carrinhoAPI = await http.request({
-            url: `/produto-solicitacao/${params.id}`,  
+            url: `/produto-solicitacao/solicitacao/${params.id}`,  
             method: 'GET',
           });
       
@@ -165,7 +165,7 @@ export default function Venda() {
       
         } catch (error) {
           console.error('Erro na requisição:', error);
-          toast.error(`Erro ao adicionar produto. Tente novamente.`, {
+          toast.error(`Erro ao carregar carrinho. Tente novamente.`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -178,8 +178,8 @@ export default function Venda() {
         }
       };
 
-      const irParaCupom = () => {
-        push('/nota')
+      const finalizarCompra = () => {
+        push('/nota/' + params.id)
       };
       
     return (
@@ -262,7 +262,7 @@ export default function Venda() {
 
             <DivEstilizada>
               <Botao texto='Adicionar produto' tipo='submit' />
-              <Botao texto='Finalizar compra' onClick={irParaCupom} />
+              <Botao texto='Finalizar compra' onClick={finalizarCompra} />
             </DivEstilizada>
           </FormEstilizado>
 
