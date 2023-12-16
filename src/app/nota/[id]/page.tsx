@@ -103,18 +103,6 @@ const CupomVenda = () => {
       }
     };
 
-    const finalizarCompra = async () => {
-      try {
-      await http.request({
-          url: '/produto-solicitacao/finalizar/' + params.id,
-          method: 'PUT',
-        });
-  
-      } catch (error) {
-        console.error('Erro:', error);
-      }
-    };
-
     const token = localStorage.getItem('token');
       setTimeout(() => {
         if (token) {
@@ -125,7 +113,7 @@ const CupomVenda = () => {
       }, 2000);
   
     carregarCarrinho(); 
-    finalizarCompra(); 
+ 
   }, []);
 
   const dataAtual = new Date();

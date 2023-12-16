@@ -178,7 +178,29 @@ export default function Venda() {
         }
       };
 
-      const finalizarCompra = () => {
+      const finalizarCompra = async () => {
+        try {
+        await http.request({
+            url: '/produto-solicitacao/finalizar/' + params.id,
+            method: 'PUT',
+          });
+    
+          irParaNota();
+        } catch (error) {
+          toast.error(`Erro ao cadastrar. Tente novamente. ${error.message}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      };
+  
+      const irParaNota = () => {
         push('/nota/' + params.id)
       };
       
