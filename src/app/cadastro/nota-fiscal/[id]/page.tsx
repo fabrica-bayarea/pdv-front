@@ -112,7 +112,7 @@ export default function NotaFiscal() {
         setValue,
         control,
         formState: { errors },
-      } = useForm<Inputs>(({
+      } = useForm(({
         resolver: yupResolver(form),
       }))
 

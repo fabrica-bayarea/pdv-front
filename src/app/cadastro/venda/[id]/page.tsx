@@ -186,7 +186,7 @@ export default function Venda() {
           });
     
           irParaNota();
-        } catch (error) {
+        } catch (error: any) {
           toast.error(`Erro ao cadastrar. Tente novamente. ${error.message}`, {
             position: "top-right",
             autoClose: 3000,

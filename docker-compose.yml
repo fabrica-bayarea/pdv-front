@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  pdv_front:
+    container_name: pdv_front
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:3000
+    volumes:
+      - ./src:/app/src

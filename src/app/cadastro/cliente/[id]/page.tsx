@@ -121,7 +121,7 @@ useEffect(() => {
           setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
         }
         if (atributos.includes(atributo)) {
-          setValue(atributo, autor[atributo]);
+          setValue(atributo as any, autor[atributo]);
         }
       }
     });
