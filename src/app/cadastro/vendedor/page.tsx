@@ -133,7 +133,7 @@ export default function Vendedor() {
                 top: -6,
                 left: -6,
                 zIndex: 1,
-                color: "#da2a38",
+                color: "#5F0000",
                 alignItems: "center",
                 justifyContent: "center"
             }}

@@ -26,7 +26,7 @@ const Rotulo = styled.label`
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #DA2A38;
+    color: #5F0000;
 `
 
 const Container = styled.div`

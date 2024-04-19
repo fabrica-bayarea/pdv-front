@@ -89,16 +89,16 @@ const SidebarItem = ({ item }: { item: any }) => {
   if (item.childrens) {
     switch (item.icon) {
       case "FaHandHoldingDollar":
-        iconComponent = <FaHandHoldingDollar color="#DA2A38" size={25} />;
+        iconComponent = <FaHandHoldingDollar color="#5F0000" size={25} />;
         break;
       case "FaLocationArrow":
-        iconComponent = <FaLocationArrow color="#DA2A38" size={25} />;
+        iconComponent = <FaLocationArrow color="#5F0000" size={25} />;
         break;
       case "FaGear":
-        iconComponent = <FaGear color="#DA2A38" size={25} />;
+        iconComponent = <FaGear color="#5F0000" size={25} />;
         break;
         case "FaClipboardList":
-          iconComponent = <FaClipboardList color="#DA2A38" size={25} />;
+          iconComponent = <FaClipboardList color="#5F0000" size={25} />;
           break;
       default:
         break;

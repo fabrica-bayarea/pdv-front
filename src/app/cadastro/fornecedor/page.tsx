@@ -30,7 +30,7 @@ const DivEstilizada = styled.div`
 
 const Erro = styled.span`
   font-size: 13px;
-  color: #DA2A38;
+  color: #5F0000;
 `
 
 const Loading = styled.div`
@@ -157,7 +157,7 @@ export default function Fornecedor() {
                         top: -6,
                         left: -6,
                         zIndex: 1,
-                        color: "#da2a38",
+                        color: "#5F0000",
                         alignItems: "center",
                         justifyContent: "center"
                     }}

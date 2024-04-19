@@ -30,7 +30,7 @@ const DivEstilizada = styled.div`
 
 const Erro = styled.span`
   font-size: 13px;
-  color: #DA2A38;
+  color: #5F0000;
 `
 
 const Rotulo = styled.label`
@@ -38,7 +38,7 @@ const Rotulo = styled.label`
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #DA2A38;
+    color: #5F0000;
 `
 
 const Loading = styled.div`
@@ -191,7 +191,7 @@ export default function Produto() {
               top: -6,
               left: -6,
               zIndex: 1,
-              color: "#da2a38",
+              color: "#5F0000",
               alignItems: "center",
               justifyContent: "center"
             }}

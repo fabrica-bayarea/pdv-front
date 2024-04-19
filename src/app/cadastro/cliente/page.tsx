@@ -39,7 +39,7 @@ const DivEstilizada = styled.div`
 
 const Erro = styled.span`
   font-size: 13px;
-  color: #da2a38;
+  color: #5F0000;
 `;
 
 const Loading = styled.div`
@@ -160,7 +160,7 @@ const Cliente = () => {
             top: -6,
             left: -6,
             zIndex: 1,
-            color: "#da2a38",
+            color: "#5F0000",
             alignItems: "center",
             justifyContent: "center"
           }}

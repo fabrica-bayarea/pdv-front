@@ -14,7 +14,7 @@ export const DivEstilizada = styled.div`
 
 export const Erro = styled.span`
   font-size: 13px;
-  color: #DA2A38;
+  color: #5F0000;
 `
 
 export const Loading = styled.div`

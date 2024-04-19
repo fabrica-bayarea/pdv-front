@@ -11,7 +11,7 @@ const BotaoEstilizado = styled.button<ButtonProps>`
   color: #fff;
   border: none;
   border-radius: 8px;
-  background-color: ${props => (props.secundario ? '#f08080' : '#DA2A38')};
+  background-color: ${props => (props.secundario ? '#5F0000' : '#5F0000')};
   cursor: pointer;
   margin-right: 40px;
 `;

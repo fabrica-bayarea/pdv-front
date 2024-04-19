@@ -59,7 +59,7 @@ export default function PaginaPadrao({ children }: Props) {
   return (
     <Main>
       <Header>
-        <FaList onClick={toggleSidebar} size={40} color="#DA2A38" />
+        <FaList onClick={toggleSidebar} size={40} color="#5F0000" />
         <Image src={logo} alt='Logo' width={50} height={50} /> 
       </Header>
       <FlexContainer>

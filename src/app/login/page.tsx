@@ -56,28 +56,29 @@ const Login = () => {
   }))
 
   const Main = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  `;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 100px; 
+  width: 80%; 
+  text-align:  left;
+`;
+
 
   const ContainerTopo = styled.div`
       justify-content: flex-start;
-      margin-top: 57px;
   `
 
   const Titulo = styled.h1`
-    color: #DA2A38;
-    text-align: center;
-    font-size: 64px;
-    margin-top: 20px;
-  `
+  font-family: 'Italiana', serif; 
+  color: #5F0000;
+  text-align: left; 
+  font-size: 80px;
+`;
 
   const ContainerLogin = styled.div`
       justify-content: flex-start;
-      margin-top: 57px;
+      margin-top: 0;
       width: 20%;
   `
 
@@ -95,11 +96,12 @@ const Login = () => {
     align-items: center;
     gap: 20px;
     padding-bottom: 30px;
+    color: #5F0000;
   `
 
   const Erro = styled.span`
     font-size: 13px;
-    color: #DA2A38;
+    color: #5F0000;
   `
 
   const onSubmit: SubmitHandler<Inputs> = async (dados) => {
@@ -142,7 +144,7 @@ const Login = () => {
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h3" 
                 component="h2" 
-                sx={{ color: '#DA2A38', textAlign: 'center' }}
+                sx={{ color: '#5F0000', textAlign: 'center' }}
             >
               Acesso negado!
             </Typography>
