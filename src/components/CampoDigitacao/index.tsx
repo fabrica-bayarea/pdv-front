@@ -19,6 +19,11 @@ const Campo = styled.input`
     padding: 16px;
     border: none;
 
+    &:focus{
+
+      outline: none;
+
+    }
 `;
 
 const Rotulo = styled.label`
