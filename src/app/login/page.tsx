@@ -62,7 +62,7 @@ const Login = () => {
     display: flex;
     justify-content: space-between;
     height: 100vh;
-    background-color: #E4E4E4;
+    background-color: #F6F6F6;
   `;
 
   const StyledColumn = styled.div`
@@ -80,10 +80,10 @@ const Login = () => {
 
   const Titulo = styled.h1`
     font-family: "Italiana", serif;
-    color: #5f0000;
+    color: var(--color-primary);
     width: 100%;
     text-align: center;
-    font-size: 80px;
+    font-size: var(--font-size-0);
   `;
 
   const ContainerLogin = styled.div`
@@ -104,7 +104,7 @@ const Login = () => {
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    color: #5f0000;
+    color: var(--color-primary);
   `;
 
   const Erro = styled.span`
@@ -166,7 +166,7 @@ const Login = () => {
         </ContainerTopo>
 
         <StyledColumn>
-        <Image src={wordCloud} alt="logo" width={320} height={420}/>
+        <Image src={wordCloud} alt="logo" width={450} height={420}/>
         </StyledColumn>
 
         <StyledColumn>

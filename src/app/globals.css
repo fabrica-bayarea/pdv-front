@@ -13,8 +13,32 @@
   body{
     font-family: 'Inter', sans-serif;
     font-size: 16px;
-    color: #000;
   }
   
+:root{
 
+  --color-primary: #5F0000;
+  --color-grey-950: #F4F4F4;
+  --color-grey-900: #E9E9E9;
+  --color-grey-800: #D3D3D3;
+  --color-grey-700: #BDBDBD;
+  --color-grey-600: #A7A7A7;
+  --color-grey-500: #919191;
+  --color-grey-400: #707070;
+  --color-grey-300: #4F4F4F;
+  --color-grey-200: #2E2E2E;
+  --color-grey-100: #181818;
+  --color-fixed-black: #0D0D0D;
+
+  --font-size-0: 5rem; /* 80px */
+  --font-size-3: 1.125rem; /* 18px */
+
+  --font-weight-0: 700;
+
+  --gap-login-form: 16px;
+  --gap-aside-menu: 30px;
+
+  --width-btn: 100px;
+  --height-btn: 40px;
+}
   
