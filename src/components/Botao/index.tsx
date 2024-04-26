@@ -6,8 +6,8 @@ interface ButtonProps {
 }
 
 const BotaoEstilizado = styled.button<ButtonProps>`
-  width: 100px;
-  height: 40px;
+  width: var(--width-btn);
+  height: var(--height-btn);
   color: #fff;
   border: none;
   border-radius: 8px;

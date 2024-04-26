@@ -10,10 +10,12 @@ import Link from "next/link";
 
 const SidebarItemWrapper = styled.div`
   padding: .75em 1em;
-  display: block;
+  /* display: block; */
   transition: background-color .15s;
-  border-radius: 5px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-aside-menu);
 
   &.open {
     .toggle-btn { 
@@ -27,7 +29,6 @@ padding: .75em 1em;
 display: flex;
 align-items: center;
 transition: background-color .15s;
-border-radius: 5px;
 margin-bottom: 10px;
 `
 
@@ -47,8 +48,6 @@ const ToggleButton = styled(HiArrowDown)`
 `;
 
 const SidebarContent = styled.div`
-  padding-top: .25em;
-  height: 0;
   overflow: hidden;
   background-color: "#000";
     &.open {
