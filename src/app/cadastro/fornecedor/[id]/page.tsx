@@ -1,19 +1,18 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
-import { mask } from 'remask'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/Menu'; 
+import Titulo from '@/components/Titulo';
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import { mask } from 'remask';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import "react-toastify/dist/ReactToastify.css";
-import { CircularProgress } from '@mui/material'
+import { CircularProgress } from '@mui/material';
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -21,23 +20,23 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
+`;
 
 type Inputs = {
     cnpj?: string | undefined
@@ -49,7 +48,7 @@ type Inputs = {
 }
 
 
-const form = Yup.object().shape({             // cria as regras para formatação
+const form = Yup.object().shape({
     cnpj: Yup.string()
       .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, 'CNPJ inválido'),
       inscricao_estadual: Yup.string(),
@@ -64,8 +63,8 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 
 export default function Fornecedor() {
-    const params = useParams()
-    const { push } = useRouter()
+    const router = useRouter();
+    const { id } = router.query;
 
     const [loading, setLoading] = useState(true);
 
@@ -75,11 +74,11 @@ export default function Fornecedor() {
         if (token) {
           setLoading(false);
         } else {
-          push('/erro');
+          router.push('/erro');
         }
       }, 2000);
   
-    }, [push]);
+    }, [router]);
 
     const {
         register,
@@ -91,8 +90,8 @@ export default function Fornecedor() {
       }))
 
       useEffect(() => {
-        if (params && loading === false) {
-          http.get('/fornecedor/' + params.id).then(resultado => {
+        if (id && loading === false) {
+          http.get('/fornecedor/' + id).then(resultado => {
             const fornecedor = resultado.data;
         
             for (let atributo in fornecedor) {
@@ -107,7 +106,7 @@ export default function Fornecedor() {
           });
         }
       
-      }, [params])
+      }, [id])
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -124,10 +123,9 @@ export default function Fornecedor() {
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // data.nascimento = new Date(data.nascimento).toISOString();
+        console.log(data) 
         try{
-            await http.put('/fornecedor/' + params.id, data);
+            await http.put('/fornecedor/' + id, data); 
             toast.success('Cadastro feito!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -139,13 +137,12 @@ export default function Fornecedor() {
                 theme: "light",
                 });
           
-                push('/gerenciamento/fornecedor')
+                router.push('/gerenciamento/fornecedor')
         } catch(error){
             console.log(error)
         }    
     }
 
-    // Objeto para facilitar a adição de mascaras no formulario
     const addMasks = {
         onChange: formatMask,
     };

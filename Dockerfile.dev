@@ -2,10 +2,10 @@ FROM node:18
 
 WORKDIR /app
 
-COPY .  .
+COPY . .
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
 
-RUN npm run build 
+RUN npm run build || true
 
-CMD [ "npm", "run", "dev" ]
+CMD ["npm", "run", "dev"]

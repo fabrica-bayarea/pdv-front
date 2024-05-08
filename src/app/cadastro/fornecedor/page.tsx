@@ -1,19 +1,18 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useRouter } from 'next/navigation'
-import { SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
-import { mask } from 'remask'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/Menu';
+import Titulo from '@/components/Titulo';
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import { mask } from 'remask';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 
 const FormEstilizado = styled.form`
@@ -22,23 +21,23 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
+`;
 
 
 type Inputs = {
@@ -51,7 +50,7 @@ type Inputs = {
 }
 
 
-const form = Yup.object().shape({             // cria as regras para formatação
+const form = Yup.object().shape({
     cnpj: Yup.string()
       .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, 'CNPJ inválido')
       .required('CNPJ é obrigatório'),
@@ -111,8 +110,7 @@ export default function Fornecedor() {
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // data.nascimento = new Date(data.nascimento).toISOString();
+        console.log(data) 
         try{
             await http.post('/fornecedor', data);
             toast.success('Cadastro feito!', {
@@ -142,7 +140,6 @@ export default function Fornecedor() {
         }    
     }
 
-    // Objeto para facilitar a adição de mascaras no formulario
     const addMasks = {
         onChange: formatMask,
     };

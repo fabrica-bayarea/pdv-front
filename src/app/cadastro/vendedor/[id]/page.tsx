@@ -1,19 +1,19 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
-import { mask } from 'remask'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/PaginaPadrao';
+import Titulo from '@/components/Titulo';
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import { mask } from 'remask';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import "react-toastify/dist/ReactToastify.css";
-import { CircularProgress } from '@mui/material'
+import { CircularProgress } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -21,35 +21,34 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
+`;
 
 type Inputs = {
-    cpf?: string
-    email?: string
-    nome?: string
-    telefone?: string
-    endereco?: string
-    dataNascimento?: string
-}
+    cpf?: string;
+    email?: string;
+    nome?: string;
+    telefone?: string;
+    endereco?: string;
+    dataNascimento?: string;
+};
 
-
-const form = Yup.object().shape({             // cria as regras para formatação
+const form = Yup.object().shape({
     cpf: Yup.string()
       .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
     email: Yup.string()
@@ -63,12 +62,9 @@ const form = Yup.object().shape({             // cria as regras para formataçã
     dataNascimento: Yup.string(),
 });
 
-
 export default function Vendedor() {
-
-    const params = useParams()
-    const { push } = useRouter()
-
+    const params = useParams();
+    const { push } = useRouter();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -99,16 +95,16 @@ export default function Vendedor() {
           });
         }
       
-      }, [params])
-    
+      }, [params]);
+
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
-      } = useForm<Inputs>(({
+      } = useForm<Inputs>({
         resolver: yupResolver(form),
-      }))
+      });
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -128,9 +124,8 @@ export default function Vendedor() {
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // data.nascimento = new Date(data.nascimento).toISOString();
-        try{
+        console.log(data);
+        try {
             await http.put('/vendedor/' + params.id, data);
             toast.success('Edição feita!', {
                 position: "top-right",
@@ -141,11 +136,9 @@ export default function Vendedor() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                }); 
-            
-            push('/gerenciamento/vendedor')
-                
-        } catch(error){
+            });
+            push('/gerenciamento/vendedor');
+        } catch(error) {
             toast.error('Erro no cadastro!', {
               position: "top-right",
               autoClose: 5000,
@@ -159,7 +152,6 @@ export default function Vendedor() {
         }    
     }
 
-    // Objeto para facilitar a adição de mascaras no formulario
     const addMasks = {
         onChange: formatMask,
     };
@@ -228,7 +220,5 @@ export default function Vendedor() {
       )}
 
   </>
-    )
-
-
+    );
 }

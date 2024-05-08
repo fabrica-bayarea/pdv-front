@@ -1,30 +1,29 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useRouter } from 'next/navigation'
-import { SubmitHandler, useForm } from "react-hook-form"
-import { ToastContainer, toast } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css"
-import { mask } from 'remask'
-import * as Yup from 'yup'
-import { DivEstilizada, Erro, FormEstilizado, Loading } from './vendedor_styled'
-import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/PaginaPadrao';
+import Titulo from '@/components/Titulo';
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { mask } from 'remask';
+import * as Yup from 'yup';
+import { DivEstilizada, Erro, FormEstilizado, Loading } from './vendedor_styled';
+import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 type Inputs = {
-    cpf: string
-    email: string
-    nome: string
-    telefone: string
-    endereco: string
-    dataNascimento: string
-}
+    cpf: string;
+    email: string;
+    nome: string;
+    telefone: string;
+    endereco: string;
+    dataNascimento: string;
+};
 
-const form = Yup.object().shape({             // cria as regras para formatação
+const form = Yup.object().shape({
     cpf: Yup.string()
       .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
       .required('CPF é obrigatório'),
@@ -43,7 +42,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 
 export default function Vendedor() {
-    const { push } = useRouter()
+    const { push } = useRouter();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -63,10 +62,9 @@ export default function Vendedor() {
         handleSubmit,
         setValue,
         formState: { errors },
-      } = useForm<Inputs>(({
+      } = useForm<Inputs>({
         resolver: yupResolver(form),
-      }))
-
+      });
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -86,9 +84,7 @@ export default function Vendedor() {
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data) // o data vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // data.nascimento = new Date(data.nascimento).toISOString();
-        try{
+        try {
             await http.post('/vendedor', data);
             toast.success('Cadastro feito!', {
                 position: "top-right",
@@ -99,11 +95,9 @@ export default function Vendedor() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                });
-
-          
-                push('/gerenciamento/vendedor')
-        } catch(error){
+            });
+            push('/gerenciamento/vendedor');
+        } catch(error) {
             toast.error('Erro no cadastro!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -113,7 +107,7 @@ export default function Vendedor() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                });
+            });
         }    
     }
 
@@ -124,7 +118,6 @@ export default function Vendedor() {
 
     return (
         <>
-        
         {loading ? (
         <Loading>
             <CircularProgress

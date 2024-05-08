@@ -1,20 +1,19 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http, httpTeste } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useParams, useRouter } from 'next/navigation'
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
-import { mask } from 'remask'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/PaginaPadrao';
+import Titulo from '@/components/Titulo';
+import { http, httpTeste } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import { mask } from 'remask';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import Select from "react-select";
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import "react-toastify/dist/ReactToastify.css";
-import { CircularProgress } from '@mui/material'
+import { CircularProgress } from '@mui/material';
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -22,16 +21,16 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Rotulo = styled.label`
     display: block;
@@ -39,15 +38,14 @@ const Rotulo = styled.label`
     font-size: 16px;
     line-height: 19px;
     color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
-
+`;
 
 type Inputs = {
     tipoDeNota: { label?: string | undefined}
@@ -56,7 +54,7 @@ type Inputs = {
     numeroDaNota?: string | undefined
     dataEmissao?: string | undefined
     dataEntrada?: string | undefined
-}
+};
 
 const form = Yup.object().shape({             // cria as regras para formatação
     tipoDeNota: Yup.object().shape({
@@ -73,8 +71,9 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 
 export default function NotaFiscal() {
-  const params = useParams()
-  const { push } = useRouter()
+  const router = useRouter();
+  const params = router.query;
+  const { push } = useRouter();
 
   const [loading, setLoading] = useState(true);
 
@@ -274,7 +273,5 @@ export default function NotaFiscal() {
   )}
 
 </>
-    )
-
-
+    );
 }

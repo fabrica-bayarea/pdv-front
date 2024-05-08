@@ -1,28 +1,27 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import styled from 'styled-components'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/Menu';
+import Titulo from '@/components/Titulo';
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import styled from 'styled-components';
 import * as Yup from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup"
-import { mask } from 'remask'
-import { http, httpTeste } from '@/services'
-import { ToastContainer, toast } from 'react-toastify'
+import { yupResolver } from "@hookform/resolvers/yup";
+import { mask } from 'remask';
+import { http, httpTeste } from '@/services';
+import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router';
 import Select from "react-select";
-import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 type Inputs = {
-  codigo: string
-  nome: string
-  situacao: string
-  grupoReceita: string
+  codigo: string;
+  nome: string;
+  situacao: string;
+  grupoReceita: string;
   bandeira: { label: string };
-}
+};
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -30,16 +29,16 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Rotulo = styled.label`
     display: block;
@@ -47,14 +46,14 @@ const Rotulo = styled.label`
     font-size: 16px;
     line-height: 19px;
     color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
+`;
 
 const schema = Yup.object().shape({             // cria as regras para formatação
     codigo: Yup.string()
@@ -73,7 +72,7 @@ const schema = Yup.object().shape({             // cria as regras para formataç
 const Finalizador = () => {
   const [loading, setLoading] = useState(true);
 
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -114,42 +113,42 @@ const Finalizador = () => {
         bandeira: bandeiraSelecionada,
       };
       console.log(dadosParaEnviar)
-    // try {
-    //   http.request({
-    //       url: '/finalizadores',
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json'
-    //       },
-    //       data: data
-    // })
+    try {
+      http.request({
+          url: '/finalizadores',
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          data: data
+    })
 
-    // toast.success('Cadastro feito!', {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    //   });
+    toast.success('Cadastro feito!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
 
-    //   push('/gerenciamento/finalizador')
+      push('/gerenciamento/finalizador')
 
-    // }  catch(error) {
-    //   console.log(error) 
-    //   toast.error('Erro ao fazer o cadastro!', {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //     }); 
-    // }
+    }  catch(error) {
+      console.log(error) 
+      toast.error('Erro ao fazer o cadastro!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        }); 
+    }
     try {
       await http.request({
         url: '/finalizador',
@@ -271,4 +270,4 @@ const Finalizador = () => {
   )
 }
 
-export default Finalizador
+export default Finalizador;

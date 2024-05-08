@@ -1,20 +1,19 @@
-"use client"
-import Botao from '@/components/Botao'
-import CampoDigitacao from '@/components/CampoDigitacao'
-import Menu from '@/components/PaginaPadrao'
-import Titulo from '@/components/Titulo'
-import { http, httpTeste } from '@/services'
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useRouter } from 'next/navigation'
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { toast, ToastContainer } from 'react-toastify'
-import { mask } from 'remask'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import Botao from '@/components/Botao';
+import CampoDigitacao from '@/components/CampoDigitacao';
+import Menu from '@/components/PaginaPadrao';
+import Titulo from '@/components/Titulo';
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import { mask } from 'remask';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
+import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -22,16 +21,16 @@ const FormEstilizado = styled.form`
     gap: 20px;
     padding-bottom: 30px;
     margin-top: 25px;
-`
+`;
 
 const DivEstilizada = styled.div`
     display: flex;
-`
+`;
 
 const Erro = styled.span`
   font-size: 13px;
   color: #5F0000;
-`
+`;
 
 const Rotulo = styled.label`
     display: block;
@@ -39,27 +38,25 @@ const Rotulo = styled.label`
     font-size: 16px;
     line-height: 19px;
     color: #5F0000;
-`
+`;
 
 const Loading = styled.div`
   height: 100%;
    display: flex;
    align-items: center;
    justify-content: center;
-`
-
+`;
 
 type Inputs = {
     tipoDeNota: { label: string }
-    modelo: { label: string },
+    modelo: { label: string }
     fornecedorId: string
     dataEmissao: string
     dataEntrada: string
     numeroDaNota: string  
 }
 
-
-const form = Yup.object().shape({             // cria as regras para formatação
+const form = Yup.object().shape({
     tipoDeNota: Yup.object().shape({
         label: Yup.string().required("Required"),
       }),
@@ -72,9 +69,9 @@ const form = Yup.object().shape({             // cria as regras para formataçã
       }),
 });
 
-
 export default function NotaFiscal() {
-  const { push } = useRouter()
+  const router = useRouter();
+  const { push } = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -86,96 +83,92 @@ export default function NotaFiscal() {
         push('/erro');
       }
     }, 2000);
-
   }, [push]);
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        control,
-        formState: { errors },
-      } = useForm<Inputs>(({
-        resolver: yupResolver(form),
-      }))
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: yupResolver(form),
+  });
 
+  function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
+    const nome = event.target.name;
+    const valor = event.target.value;
 
-    function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
-        const nome = event.target.name;
-        const valor = event.target.value;
-
-        switch (nome) {
-            case "dataEntrada":
-                setValue("dataEntrada", mask(valor, '99/99/9999'));
-                break;
-            case "dataEmissao":
-                setValue("dataEmissao", mask(valor, '99/99/9999'));
-                break;    
-        }
+    switch (nome) {
+      case "dataEntrada":
+        setValue("dataEntrada", mask(valor, '99/99/9999'));
+        break;
+      case "dataEmissao":
+        setValue("dataEmissao", mask(valor, '99/99/9999'));
+        break;    
     }
+  }
 
-    const onSubmit: SubmitHandler<Inputs> = async (dados) => {
-        console.log(dados) // o dados vem dos register que pega os textos do input "automaticamnte" pelo react-hook-form
-        // dados.nascimento = new Date(dados.nascimento).toISOString();
-        const tipoDeNotaSelecionado = dados.tipoDeNota ? dados.tipoDeNota.label : null;
-        const modeloSelecionado = dados.modelo ? dados.modelo.label : null;
+  const onSubmit: SubmitHandler<Inputs> = async (dados) => {
+    console.log(dados);
+    const tipoDeNotaSelecionado = dados.tipoDeNota ? dados.tipoDeNota.label : null;
+    const modeloSelecionado = dados.modelo ? dados.modelo.label : null;
 
-        const dadosParaEnviar = {
-          ...dados,
-          tipoDeNota: tipoDeNotaSelecionado,
-          modelo: modeloSelecionado,
-        };
-        console.log(dadosParaEnviar)
-        try {
-            await http.request({
-              url: '/nota-fiscal',
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              data: dadosParaEnviar
-            });
-
-            toast.success('Cadastro feito!', {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-      
-            setTimeout(() => {
-              push('/gerenciamento/nota-fiscal');
-            }, 1000);
-      
-          } catch (error) {
-            console.error(error);
-
-            toast.error('Erro ao fazer o cadastro!', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
-    }
-
-    // Objeto para facilitar a adição de mascaras no formulario
-    const addMasks = {
-        onChange: formatMask,
+    const dadosParaEnviar = {
+      ...dados,
+      tipoDeNota: tipoDeNotaSelecionado,
+      modelo: modeloSelecionado,
     };
 
-    return (
-        <>
-          {loading ? (
-          <Loading>
+    try {
+      await http.request({
+        url: '/nota-fiscal',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: dadosParaEnviar
+      });
+
+      toast.success('Cadastro feito!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        push('/gerenciamento/nota-fiscal');
+      }, 1000);
+
+    } catch (error) {
+      console.error(error);
+
+      toast.error('Erro ao fazer o cadastro!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
+  const addMasks = {
+    onChange: formatMask,
+  };
+
+  return (
+    <>
+      {loading ? (
+        <Loading>
           <CircularProgress
             size={68}
             sx={{
@@ -203,7 +196,7 @@ export default function NotaFiscal() {
             draggable
             pauseOnHover
             theme="light"
-              />
+          />
       
           <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
 
@@ -262,7 +255,5 @@ export default function NotaFiscal() {
       )}
 
     </>
-    )
-
-
+  );
 }
