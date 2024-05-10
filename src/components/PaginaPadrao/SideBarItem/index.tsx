@@ -3,7 +3,6 @@ import { HiArrowDown } from 'react-icons/hi';
 import { FaClipboardList, FaLocationArrow } from "react-icons/fa";
 import { FaHandHoldingDollar, FaGear } from "react-icons/fa6";
 import styled from "styled-components";
-import rec from './rec.png';
 import Image from "next/image";
 import { Divider } from "@mui/material";
 import Link from "next/link";
@@ -76,7 +75,7 @@ const ContainerLink = styled.div`
   display: flex;
   margin-top: 10px;
   flex-direction: column;
-  padding-left: 60px;
+  padding-left: 10px;
   gap: 10px;
 `
 
@@ -103,6 +102,8 @@ const SidebarItem = ({ item }: { item: any }) => {
         break;
     }
 
+    
+
     return (
       <SidebarItemWrapper className={open ? "open" : ""}>
         <SidebarTitle>
@@ -122,11 +123,19 @@ const SidebarItem = ({ item }: { item: any }) => {
       </SidebarItemWrapper>
     );
   } else {
+    const estiloIcone = {
+      background: 'black',
+      width: '24px',
+      height: '24px',
+      borderRadius: '12px 0',
+    };
+    
     return (
         <ContainerLink>
             <SideBarSubList>
                 <SidebarPlainLink href={item.path || "#"} className="plain">
-                <Image src={rec} alt="" />
+                {/* <Image src={rec} alt="" /> */}
+                <div style={estiloIcone}></div>
                 {item.title}
                 </SidebarPlainLink> 
             </SideBarSubList>

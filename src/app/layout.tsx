@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import StyledComponentsRegistry from './styled-components-register'
-
+import Footer from './Footer';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -19,9 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-         <script async src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/bootstrap-icons.svg"/>      
-     </Head>
-      <body className={inter.className}><StyledComponentsRegistry>{children}</StyledComponentsRegistry></body>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/bootstrap-icons.svg"/>      
+      </Head>
+      <body className={inter.className}>
+        <StyledComponentsRegistry>
+          {children}
+        </StyledComponentsRegistry>
+        <Footer />
+      </body>
     </html>
   )
 }

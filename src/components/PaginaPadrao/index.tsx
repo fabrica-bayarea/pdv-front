@@ -4,8 +4,6 @@ import items from './data/SideBar.json';
 import styled from "styled-components";
 import SidebarItem from './SideBarItem';
 import { FaList } from "react-icons/fa";
-import logo from '../../../public/logoIesb.png'
-import Image from 'next/image';
 
 interface Props {
   children?: React.ReactNode
@@ -17,16 +15,16 @@ const Sidebar = styled.div`
   background-color: #F6F6F6;
   /* height: 100%; */
   overflow: auto;
-  padding-top: 50px;
+  padding-top: 0px;
   transition: transform 0.3s;
 `;
 
 const Header = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: ;
   gap: 10px; 
   align-items: center; 
-  padding: 10px; 
+  padding: 0px; 
   width: 350px;
   background-color: #F6F6F6;
   cursor: pointer;
@@ -60,7 +58,6 @@ export default function PaginaPadrao({ children }: Props) {
     <Main>
       <Header>
         <FaList onClick={toggleSidebar} size={40} color="#5F0000" />
-        <Image src={logo} alt='Logo' width={50} height={50} /> 
       </Header>
       <FlexContainer>
         <Sidebar style={{ transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)" }}>

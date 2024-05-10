@@ -2,6 +2,18 @@ FROM node:18
 
 WORKDIR /app
 
+COPY app/cadastro app/cadastro
+
+COPY app/login /app/login
+
+COPY app/error /app/error
+
+COPY app/gerenciamento /app/gerenciamento
+
+COPY app/nota /app/nota
+
+COPY scr/style /scr/style
+
 COPY . .
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error

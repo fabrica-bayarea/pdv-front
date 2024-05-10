@@ -6,14 +6,16 @@ interface ButtonProps {
 }
 
 const BotaoEstilizado = styled.button<ButtonProps>`
-  width: var(--width-btn);
-  height: var(--height-btn);
+  width: 180px;
+  height: 50px;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   background-color: ${props => (props.secundario ? '#5F0000' : '#5F0000')};
   cursor: pointer;
-  margin-right: 40px;
+  box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.25);
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 16px;
 `;
 
 interface Props {

@@ -1,5 +1,5 @@
 "use client";
-import wordCloud from "../../../public/wordCloud.jpg";
+// import wordCloud from "../../../public/wordCloud.jpg";
 import CampoDigitacao from "@/components/CampoDigitacao";
 import Image from "next/image"
 import styled from "styled-components";
@@ -60,18 +60,15 @@ const Login = () => {
 
   const Main = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     height: 100vh;
-    background-color: #F6F6F6;
+    background-color: #E3E3E3;
   `;
 
   const StyledColumn = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    height: 100%;
-
   `;
 
   const ContainerTopo = styled.div`
@@ -79,12 +76,19 @@ const Login = () => {
   `;
 
   const Titulo = styled.h1`
-    font-family: "Italiana", serif;
-    color: var(--color-primary);
-    width: 100%;
-    text-align: center;
-    font-size: var(--font-size-0);
-  `;
+  font-family: "Italiana", serif;
+  .italiana-regular {
+    font-family: "Italiana", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  color: var(--color-primary);
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size-0);
+
+  padding:20px;
+`;
 
   const ContainerLogin = styled.div`
     /* justify-content: flex-start; */
@@ -96,19 +100,21 @@ const Login = () => {
     flex-direction: column;
     gap: 20px;
     padding-bottom: 30px;
-    margin-top: 25px;
+    margin-top: 100px;
   `;
 
   const DivBotoes = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    color: var(--color-primary);
-  `;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 16px; 
+  color: var(--color-primary);
+
+`;
+
 
   const Erro = styled.span`
-    font-size: 13px;
+    font-size: 16px;
     color: #5f0000;
   `;
 
@@ -165,9 +171,6 @@ const Login = () => {
           />
         </ContainerTopo>
 
-        <StyledColumn>
-        <Image src={wordCloud} alt="logo" width={450} height={420}/>
-        </StyledColumn>
 
         <StyledColumn>
           <ContainerLogin>
