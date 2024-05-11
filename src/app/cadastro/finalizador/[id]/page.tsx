@@ -84,9 +84,9 @@ const Finalizador = () => {
   }, [router]);
 
   useEffect(() => {
-    const { id } = router; 
-    if (id) {
-      http.get('/finalizador/' + id).then((resultado) => {
+    const {} = router; 
+    {
+      http.get('/finalizador/' ).then((resultado) => {
         const finalizador = resultado.data;
         setBandeiraFinalizador(finalizador?.bandeira);
         for (let atributo in finalizador) {

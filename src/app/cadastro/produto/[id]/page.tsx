@@ -4,7 +4,7 @@ import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -100,11 +100,11 @@ export default function Produto() {
         resolver: yupResolver(form),
     });
 
-    const { id } = router.query;
+    const {} = router;
 
     useEffect(() => {
-        if (id && loading === false) {
-            http.get('/produto/' + id).then(resultado => {
+        if (loading === false) {
+            http.get('/produto/').then(resultado => {
                 const produtos = resultado.data;
 
                 for (let atributo in produtos) {
@@ -125,10 +125,10 @@ export default function Produto() {
             });
         }
 
-    }, [id])
+    }, [])
 
     const onSubmit: SubmitHandler<Inputs> = async (dados) => {
-        console.log(dados); // os dados vêm dos registros que pegam os textos dos inputs automaticamente pelo react-hook-form
+        console.log(dados);
         const unidade_medidaSelecionado = dados.unidade_medida ? dados.unidade_medida.label : null;
 
         const dadosParaEnviar = {
@@ -138,7 +138,7 @@ export default function Produto() {
         console.log(dadosParaEnviar)
 
         try {
-            await http.put('/produto/' + id, dadosParaEnviar);
+            await http.put('/produto/');
 
             toast.success('Edição feita!', {
                 position: "top-right",

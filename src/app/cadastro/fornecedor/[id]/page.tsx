@@ -1,10 +1,10 @@
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
-import Menu from '@/components/Menu'; 
+import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
@@ -64,7 +64,7 @@ const form = Yup.object().shape({
 
 export default function Fornecedor() {
     const router = useRouter();
-    const { id } = router.query;
+    const {} = router;
 
     const [loading, setLoading] = useState(true);
 
@@ -90,8 +90,8 @@ export default function Fornecedor() {
       }))
 
       useEffect(() => {
-        if (id && loading === false) {
-          http.get('/fornecedor/' + id).then(resultado => {
+        if (loading === false) {
+          http.get('/fornecedor/').then(resultado => {
             const fornecedor = resultado.data;
         
             for (let atributo in fornecedor) {
@@ -106,7 +106,7 @@ export default function Fornecedor() {
           });
         }
       
-      }, [id])
+      }, [])
 
     function formatMask(event: React.ChangeEvent<HTMLInputElement>) {
         const nome = event.target.name;
@@ -125,7 +125,7 @@ export default function Fornecedor() {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data) 
         try{
-            await http.put('/fornecedor/' + id, data); 
+            await http.put('/fornecedor/', data); 
             toast.success('Cadastro feito!', {
                 position: "top-right",
                 autoClose: 5000,

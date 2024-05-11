@@ -4,7 +4,7 @@ import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http, httpTeste } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import { mask } from 'remask';
@@ -72,7 +72,7 @@ const form = Yup.object().shape({             // cria as regras para formataçã
 
 export default function NotaFiscal() {
   const router = useRouter();
-  const params = router.query;
+  const params = router;
   const { push } = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -91,7 +91,7 @@ export default function NotaFiscal() {
 
   useEffect(() => {
     if (params && loading === false) {
-      http.get('/nota-fiscal/' + params.id).then(resultado => {
+      http.get('/nota-fiscal/' + params).then(resultado => {
         const notas = resultado.data;
     
         for (let atributo in notas) {
@@ -144,7 +144,7 @@ export default function NotaFiscal() {
         console.log(dadosParaEnviar)
 
         try {
-          await http.put('/nota-fiscal/' + params.id, dadosParaEnviar);
+          await http.put('/nota-fiscal/' + params, dadosParaEnviar);
   
         toast.success('Edição feita!', {
           position: "top-right",

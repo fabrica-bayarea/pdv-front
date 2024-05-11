@@ -3,7 +3,7 @@ import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -59,7 +59,7 @@ const form = Yup.object().shape({
 const Vendedor = () => {
   const router = useRouter(); // Usando useRouter do Next.js
   const [loading, setLoading] = useState(true);
-  const { id } = router.query; // Obtendo o ID da rota
+  const {} = router;
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -73,8 +73,8 @@ const Vendedor = () => {
   }, [router]);
 
   useEffect(() => {
-    if (id && loading === false) {
-      http.get('/vendedor/' + id).then(resultado => {
+    if (loading === false) {
+      http.get('/vendedor/' ).then(resultado => {
         const vendedor = resultado.data;
 
         for (let atributo in vendedor) {
@@ -87,7 +87,7 @@ const Vendedor = () => {
         }
       });
     }
-  }, [id, loading]);
+  }, [loading]);
 
   const {
     register,
@@ -118,7 +118,7 @@ const Vendedor = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
     try {
-      await http.put('/vendedor/' + id, data);
+      await http.put('/vendedor/');
       toast.success('Edição feita!', {
         position: "top-right",
         autoClose: 5000,

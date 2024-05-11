@@ -3,7 +3,7 @@ import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -21,7 +21,7 @@ type Inputs = {
   email?: string | undefined;
   telefone?: string | undefined;
   endereco?: string | undefined;
-  dataNascimento?: string | undefined;
+  data_nascimento?: string | undefined;
 }
 
 const FormEstilizado = styled.form`
@@ -59,7 +59,7 @@ const schema = Yup.object().shape({
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
   telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
   endereco: Yup.string(),
-  dataNascimento: Yup.string()
+  data_nascimento: Yup.string()
 });
 
 const FormCliente = () => {
@@ -99,21 +99,21 @@ const FormCliente = () => {
       case "telefone":
         setValue("telefone", mask(valor, '(99) 99999-9999'));
         break;
-      case "dataNascimento":
-        setValue("dataNascimento", mask(valor, '9999-99-99'));
+      case "data_nascimento":
+        setValue("data_nascimento", mask(valor, '9999-99-99'));
         break;
     }
   }
 
   useEffect(() => {
-    const params = router.query; 
+    const params = router; 
     if (params) {
-      http.get('/clientes/' + params.id).then((resultado: { data: any; }) => {
+      http.get('/clientes/').then((resultado: { data: any; }) => {
         const autor = resultado.data;
         const atributos: any[] = ["cpf", "email", "nome", "telefone", "endereco"];
 
         for (let atributo in autor) {
-          if (atributo === 'dataNascimento') {
+          if (atributo === 'data_nascimento') {
             setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
           }
           if (atributos.includes(atributo)) {
@@ -127,7 +127,7 @@ const FormCliente = () => {
   const onSubmit: SubmitHandler<Inputs> = (data: ICliente) => {
     try {
       http.request({
-        url: '/cliente/' + router.query.id, 
+        url: '/cliente/' + router, 
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -208,12 +208,12 @@ const FormCliente = () => {
               <Erro>{errors.telefone?.message}</Erro>
               <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")} />
               <Erro>{errors.endereco?.message}</Erro>
-              <CampoDigitacao tipo="text" label="dataNascimento" placeholder="Insira sua data" register={{
-                ...register('dataNascimento', {
+              <CampoDigitacao tipo="text" label="data_nascimento" placeholder="Insira sua data" register={{
+                ...register('data_nascimento', {
                   onChange: (e: any) => { handleChange(e) },
                 })
               }} />
-              <Erro>{errors.dataNascimento?.message}</Erro>
+              <Erro>{errors.data_nascimento?.message}</Erro>
 
               <DivEstilizada>
                 <Botao texto='Confirmar' tipo='submit' />
