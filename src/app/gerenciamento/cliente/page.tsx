@@ -113,7 +113,7 @@ const GerenciamentoCliente = () => {
                     </TableCell>
                     <TableCell align="right">{usuario.email}</TableCell>
                     <TableCell align="right">{usuario.telefone}</TableCell>
-                    <TableCell align="right">{usuario.data_nascimento}</TableCell>
+                    <TableCell align="right">{usuario.dataNascimento}</TableCell>
                     <TableCell align="right">
                       <Link href={'/cadastro/cliente/' + usuario.id}>
                         <EditIcon />

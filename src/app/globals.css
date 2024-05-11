@@ -8,9 +8,12 @@
 }
 
 html, body {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   margin: 0; 
   padding: 0;
+  background-color: rgba(55, 55, 55, 0.08);
 }
 
 body {

@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
-import { mask } from 'remask';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import Select from "react-select";

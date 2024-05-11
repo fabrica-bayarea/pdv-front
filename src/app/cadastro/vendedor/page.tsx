@@ -1,10 +1,10 @@
+"use client"
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
 import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import { DivEstilizada, Erro, FormEstilizado, Loading } from './vendedor_styled';
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 type Inputs = {
     cpf: string;

@@ -1,7 +1,7 @@
 [
     {
         "title": "Cadastro",
-        "icon": "FaLocationArrow",
+        "icon": "FaAddressCard",
         "childrens": [
             {
                 "title": "Cadastro de produtos",
@@ -32,7 +32,7 @@
     },
     {
         "title": "Vendas",
-        "icon": "FaHandHoldingDollar",
+        "icon": "FaMoneyBillTrendUp",
         "childrens": [
             {
                 "title": "Registro de vendas",
@@ -42,7 +42,7 @@
     },
     {
         "title": "Menu Gerencial",
-        "icon": "FaGear",
+        "icon": "FaUserTie",
         "childrens": [
             {
                 "title": "Clientes",
@@ -72,7 +72,7 @@
     },
     {
         "title": "Estoque",
-        "icon": "FaClipboardList",
+        "icon": "FaCubesStacked",
         "childrens": [
             {
                 "title": "Ajuste de estoque",

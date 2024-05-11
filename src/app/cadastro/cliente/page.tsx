@@ -22,7 +22,7 @@ type Inputs = {
   email: string;
   telefone: string;
   endereco: string;
-  data_nascimento: string;
+  dataNascimento: string;
 };
 
 const FormEstilizado = styled.form`
@@ -61,7 +61,7 @@ const schema = Yup.object().shape({
     .matches(/^[aA-zZ\s]+$/, 'Digite um nome válido!'),
   telefone: Yup.string().required('Telefone é obrigatório!').matches(/\(\d{2}\) \d{5}-\d{4}/, 'Digite um telefone válido!'),
   endereco: Yup.string().required('Endereço é obrigatório!'),
-  data_nascimento: Yup.string().required('Nascimento é obrigatório!'),
+  dataNascimento: Yup.string().required('Nascimento é obrigatório!'),
 });
 
 const Cliente = () => {
@@ -103,8 +103,8 @@ const Cliente = () => {
       case 'telefone':
         setValue('telefone', mask(valor, '(99) 99999-9999'));
         break;
-      case 'data_nascimento':
-        setValue('data_nascimento', mask(valor, '99/99/9999'));
+      case 'dataNascimento':
+        setValue('dataNascimento', mask(valor, '99/99/9999'));
         break;
     }
   }
@@ -228,16 +228,16 @@ const Cliente = () => {
             <CampoDigitacao
               tipo="text"
               label="Nascimento"
-              placeholder="Insira seu data_nascimento"
+              placeholder="Insira seu dataNascimento"
               register={{
-                ...register('data_nascimento', {
+                ...register('dataNascimento', {
                   onChange: (e) => {
                     handleChange(e);
                   },
                 }),
               }}
             />
-            <Erro>{errors.data_nascimento?.message}</Erro>
+            <Erro>{errors.dataNascimento?.message}</Erro>
 
             <DivEstilizada>
               <Botao texto="Confirmar" tipo="submit" />

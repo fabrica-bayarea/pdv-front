@@ -1,6 +1,6 @@
+"use client"
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
-import Menu from '@/components/Menu';
 import Titulo from '@/components/Titulo';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styled from 'styled-components';
@@ -10,10 +10,11 @@ import { mask } from 'remask';
 import { http, httpTeste } from '@/services';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from 'next/router';
 import Select from "react-select";
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import Menu from '@/components/PaginaPadrao'
+import { useRouter } from 'next/navigation';
 
 type Inputs = {
   codigo: string;

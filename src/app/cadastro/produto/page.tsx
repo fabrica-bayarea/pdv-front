@@ -1,19 +1,19 @@
+"use client"
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
 import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
-import { mask } from 'remask';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const FormEstilizado = styled.form`
     display: flex;

@@ -10,10 +10,9 @@ interface Props {
 }
 
 const Sidebar = styled.div`
-  width: 350px;
+  height: 100%;
   flex-shrink: 0;
-  background-color: #F6F6F6;
-  /* height: 100%; */
+  background-color: rgba(218, 210, 210, 1);
   overflow: auto;
   padding-top: 0px;
   transition: transform 0.3s;
@@ -25,8 +24,8 @@ const Header = styled.div`
   gap: 10px; 
   align-items: center; 
   padding: 0px; 
-  width: 350px;
-  background-color: #F6F6F6;
+  width:100%;
+  background-color:rgba(218, 210, 210, 1);
   cursor: pointer;
 `;
 
@@ -43,8 +42,13 @@ const FlexContainer = styled.div`
 `;
 
 const Conteudo = styled.div`
-    padding-left: 90px;
+    display: flex;
     height: 100%;
+    overflow-y: scroll;
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(55, 55, 55, 0.08);
 `
 
 export default function PaginaPadrao({ children }: Props) {
@@ -57,7 +61,7 @@ export default function PaginaPadrao({ children }: Props) {
   return (
     <Main>
       <Header>
-        <FaList onClick={toggleSidebar} size={40} color="#5F0000" />
+        <FaList onClick={toggleSidebar} size={40} color="black" />
       </Header>
       <FlexContainer>
         <Sidebar style={{ transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)" }}>

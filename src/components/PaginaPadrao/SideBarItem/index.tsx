@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { HiArrowDown } from 'react-icons/hi';
-import { FaClipboardList, FaLocationArrow } from "react-icons/fa";
-import { FaHandHoldingDollar, FaGear } from "react-icons/fa6";
+import { FaAddressCard, FaClipboardList, FaLocationArrow, FaUserTie } from "react-icons/fa";
+import { FaHandHoldingDollar, FaGear, FaUserPen, FaMoneyBillTrendUp, FaCubesStacked } from "react-icons/fa6";
 import styled from "styled-components";
-import Image from "next/image";
 import { Divider } from "@mui/material";
 import Link from "next/link";
 
 const SidebarItemWrapper = styled.div`
-  padding: .75em 1em;
-  /* display: block; */
-  transition: background-color .15s;
-  /* margin-bottom: 30px; */
   display: flex;
   flex-direction: column;
-  gap: var(--gap-aside-menu);
-
+  gap: 5px;
+  padding: 25px;
+  transition: background-color .15s;
   &.open {
     .toggle-btn { 
       transform: rotate(180deg);
@@ -24,7 +20,6 @@ const SidebarItemWrapper = styled.div`
 `;
 
 const SideBarSubList = styled.div`
-padding: .75em 1em;
 display: flex;
 align-items: center;
 transition: background-color .15s;
@@ -34,7 +29,6 @@ margin-bottom: 10px;
 const SidebarTitle = styled.div`
   display: flex;
   font-size: 1.2em;
-  justify-content: space-around;
 `;
 
 const ToggleButton = styled(HiArrowDown)`
@@ -48,27 +42,31 @@ const ToggleButton = styled(HiArrowDown)`
 
 const SidebarContent = styled.div`
   overflow: hidden;
+  height: 0;
+  transform: scaleY(0);  
+  transform-origin: top;
+  transition: transform 0.2s;
   background-color: "#000";
-    &.open {
+  &.open {
     height: auto;
+    transform: scaleY(1);
   }
 `;
 
 const SidebarPlainLink = styled(Link)`
+  display: flex;
+  align-items: center;  
   color: #000;
   text-decoration: none;
-  display: flex;
-  align-items: center;
   gap: 15px;
   &:hover {
     text-decoration: underline;
   }
 `;
   
-
 const IconContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap:20px;
 `;
 
 const ContainerLink = styled.div`
@@ -86,23 +84,37 @@ const SidebarItem = ({ item }: { item: any }) => {
 
   if (item.childrens) {
     switch (item.icon) {
-      case "FaHandHoldingDollar":
-        iconComponent = <FaHandHoldingDollar color="#5F0000" size={25} />;
+      // case "FaHandHoldingDollar":
+      //   iconComponent = <FaHandHoldingDollar color="black" size={25} />;
+      //   break;
+      // case "FaLocationArrow":
+      //   iconComponent = <FaLocationArrow color="black" size={25} />;
+      //   break;
+      // case "FaGear":
+      //   iconComponent = <FaGear  color="black" size={25} />;
+      //   break;
+      // case "FaClipboardList":
+      //   iconComponent = <FaClipboardList color="black" size={25} />;
+      //   break;
+// ----------------------------------------------------------------------------------
+      case "FaAddressCard":
+        iconComponent = <FaAddressCard color="black" size={25} />;
         break;
-      case "FaLocationArrow":
-        iconComponent = <FaLocationArrow color="#5F0000" size={25} />;
+      case "FaMoneyBillTrendUp":
+        iconComponent = <FaMoneyBillTrendUp color="black" size={25} />;
         break;
-      case "FaGear":
-        iconComponent = <FaGear color="#5F0000" size={25} />;
-        break;
-        case "FaClipboardList":
-          iconComponent = <FaClipboardList color="#5F0000" size={25} />;
+        case "FaUserTie":
+          iconComponent = <FaUserTie color="black" size={25} />;
           break;
+      case "FaUserTie":
+        iconComponent = <FaUserTie color="black" size={25} />;
+        break;
+      case "FaCubesStacked":
+        iconComponent = <FaCubesStacked color="black" size={25} />;
+        break;
       default:
         break;
     }
-
-    
 
     return (
       <SidebarItemWrapper className={open ? "open" : ""}>

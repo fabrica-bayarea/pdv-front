@@ -1,9 +1,9 @@
+"use client"
 import Botao from '@/components/Botao';
 import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
 import { http } from '@/services';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { ICliente } from '@/interfaces/ICliente';
 import { IVendedor } from '@/interfaces/IVendedor';
+import { useRouter } from 'next/navigation';
 
 const FormEstilizado = styled.form`
     display: flex;

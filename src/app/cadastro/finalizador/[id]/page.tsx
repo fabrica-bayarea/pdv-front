@@ -1,6 +1,6 @@
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
-import Menu from '@/components/Menu';
+import Menu from '@/components/PaginaPadrao'
 import Titulo from '@/components/Titulo';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import styled from 'styled-components';
@@ -10,7 +10,7 @@ import { mask } from 'remask';
 import { http, httpTeste } from '@/services';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/router'; // Importar o hook useRouter
+import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
@@ -84,7 +84,7 @@ const Finalizador = () => {
   }, [router]);
 
   useEffect(() => {
-    const { id } = router.query; // Acessar os parâmetros da rota usando router.query
+    const { id } = router; 
     if (id) {
       http.get('/finalizador/' + id).then((resultado) => {
         const finalizador = resultado.data;

@@ -1,19 +1,19 @@
 import Botao from '@/components/Botao';
-import CampoDigitacao from '@/components/CampoDigitacao';
-import Menu from '@/components/Menu';
+import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { http } from '@/services';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/router';
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { mask } from 'remask';
-import { http } from '@/services';
-import { ICliente } from '@/interfaces/ICliente';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; 
-import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import { ICliente } from '@/interfaces/ICliente';
+import { mask } from 'remask';
+import CampoDigitacao from '@/components/CampoDigitacao';
 
 type Inputs = {
   cpf?: string | undefined;
@@ -21,7 +21,7 @@ type Inputs = {
   email?: string | undefined;
   telefone?: string | undefined;
   endereco?: string | undefined;
-  data_nascimento?: string | undefined;
+  dataNascimento?: string | undefined;
 }
 
 const FormEstilizado = styled.form`
@@ -59,7 +59,7 @@ const schema = Yup.object().shape({
     .matches(/^[aA-zZ\s]+$/, "Digite um nome válido!"),
   telefone: Yup.string().matches(/\(\d{2}\) \d{5}-\d{4}/, "Digite um telefone válido!"),
   endereco: Yup.string(),
-  data_nascimento: Yup.string()
+  dataNascimento: Yup.string()
 });
 
 const FormCliente = () => {
@@ -99,8 +99,8 @@ const FormCliente = () => {
       case "telefone":
         setValue("telefone", mask(valor, '(99) 99999-9999'));
         break;
-      case "data_nascimento":
-        setValue("data_nascimento", mask(valor, '99/99/9999'));
+      case "dataNascimento":
+        setValue("dataNascimento", mask(valor, '9999-99-99'));
         break;
     }
   }
@@ -113,7 +113,7 @@ const FormCliente = () => {
         const atributos: any[] = ["cpf", "email", "nome", "telefone", "endereco"];
 
         for (let atributo in autor) {
-          if (atributo === 'data_nascimento') {
+          if (atributo === 'dataNascimento') {
             setValue(atributo, new Date(autor[atributo]).toLocaleDateString());
           }
           if (atributos.includes(atributo)) {
@@ -208,12 +208,12 @@ const FormCliente = () => {
               <Erro>{errors.telefone?.message}</Erro>
               <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")} />
               <Erro>{errors.endereco?.message}</Erro>
-              <CampoDigitacao tipo="text" label="data_nascimento" placeholder="Insira sua data" register={{
-                ...register('data_nascimento', {
+              <CampoDigitacao tipo="text" label="dataNascimento" placeholder="Insira sua data" register={{
+                ...register('dataNascimento', {
                   onChange: (e: any) => { handleChange(e) },
                 })
               }} />
-              <Erro>{errors.data_nascimento?.message}</Erro>
+              <Erro>{errors.dataNascimento?.message}</Erro>
 
               <DivEstilizada>
                 <Botao texto='Confirmar' tipo='submit' />
