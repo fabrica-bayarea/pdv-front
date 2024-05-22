@@ -4,27 +4,27 @@
         "icon": "FaAddressCard",
         "childrens": [
             {
-                "title": "Cadastro de produtos",
+                "title": "Cadastro de Produtos",
                 "path": "/cadastro/produto"
             },
             {
-                "title": "Cadastro de clientes",
+                "title": "Cadastro de Clientes",
                 "path": "/cadastro/cliente"
             },
             {
-                "title": "Cadastro de vendedores",
+                "title": "Cadastro de Vendedores",
                 "path": "/cadastro/vendedor"
             },
             {
-                "title": "Cadastro de finalizadores",
+                "title": "Cadastro de Finalizadores",
                 "path": "/cadastro/finalizador"
             },
             {
-                "title": "Cadastro de fornecedores",
+                "title": "Cadastro de Fornecedores",
                 "path": "/cadastro/fornecedor"
             },
             {
-                "title": "Cadastro de notas fiscais",
+                "title": "Cadastro de Notas Fiscais",
                 "path": "/cadastro/nota-fiscal"
             }
 
@@ -35,7 +35,7 @@
         "icon": "FaMoneyBillTrendUp",
         "childrens": [
             {
-                "title": "Registro de vendas",
+                "title": "Registro de Vendas",
                 "path": "/cadastro/venda"
             }
         ]
@@ -75,17 +75,28 @@
         "icon": "FaCubesStacked",
         "childrens": [
             {
-                "title": "Ajuste de estoque",
+                "title": "Ajuste de Estoque",
                 "path": "/profile"
             },
             {
-                "title": "Ajuste de custos",
+                "title": "Ajuste de Custos",
                 "path": "/logout"
             },
             {
-                "title": "Contagem mensal",
+                "title": "Contagem Mensal",
                 "path": "/logout"
             }
+        ]
+    },
+    {
+        "title": "Carrinho",
+        "icon": "FaCartPlus",
+        "childrens": [
+            {
+                "title": " Carrinho de Compras",
+                "path": "/carrinho"
+            }
+          
         ]
     }
 ]

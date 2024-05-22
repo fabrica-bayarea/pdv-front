@@ -184,7 +184,7 @@ export default function NotaFiscal() {
         </Loading>
       ) : (
         <Menu>
-          <Titulo texto="Cadastro de nota fiscal" />
+          <Titulo texto="Cadastro de Nota Fiscal" />
           
           <ToastContainer
             position="top-right"

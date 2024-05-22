@@ -185,7 +185,7 @@ export default function Venda() {
         </Loading>
       ) : (
         <Menu>
-          <Titulo texto="Registro de venda" />
+          <Titulo texto="Registro de Venda" />
 
           <ToastContainer
             position="top-right"

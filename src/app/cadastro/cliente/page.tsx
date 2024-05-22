@@ -182,7 +182,7 @@ const Cliente = () => {
             theme="light"
           />
 
-          <Titulo texto="Cadastro de cliente" />
+          <Titulo texto="Cadastro de Cliente" />
 
           <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
             <CampoDigitacao
