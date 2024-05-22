@@ -223,7 +223,7 @@ const Finalizador = () => {
               theme="light"
           />
 
-            <Titulo texto="Cadastro de finalizador"  />
+            <Titulo texto="Cadastro de Finalizador"  />
 
             <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
               <CampoDigitacao tipo="text" label="Código" placeholder="Insira o código do finalizador" register={{...register('codigo', {

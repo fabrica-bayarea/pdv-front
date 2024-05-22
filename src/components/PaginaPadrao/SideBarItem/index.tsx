@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-no-undef */
 import React, { useState } from "react";
 import { HiArrowDown } from 'react-icons/hi';
-import { FaAddressCard, FaClipboardList, FaLocationArrow, FaUserTie } from "react-icons/fa";
-import { FaHandHoldingDollar, FaGear, FaUserPen, FaMoneyBillTrendUp, FaCubesStacked } from "react-icons/fa6";
+import { FaAddressCard, FaCartPlus, FaClipboardList, FaLocationArrow, FaUserTie } from "react-icons/fa";
+import { FaCartShopping, FaCubesStacked, FaMoneyBillTrendUp } from "react-icons/fa6";
 import styled from "styled-components";
 import { Divider } from "@mui/material";
 import Link from "next/link";
@@ -20,11 +21,11 @@ const SidebarItemWrapper = styled.div`
 `;
 
 const SideBarSubList = styled.div`
-display: flex;
-align-items: center;
-transition: background-color .15s;
-margin-bottom: 10px;
-`
+  display: flex;
+  align-items: center;
+  transition: background-color .15s;
+  margin-bottom: 10px;
+`;
 
 const SidebarTitle = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const SidebarPlainLink = styled(Link)`
   
 const IconContainer = styled.div`
   display: flex;
-  gap:20px;
+  gap: 20px;
 `;
 
 const ContainerLink = styled.div`
@@ -75,7 +76,7 @@ const ContainerLink = styled.div`
   flex-direction: column;
   padding-left: 10px;
   gap: 10px;
-`
+`;
 
 const SidebarItem = ({ item }: { item: any }) => {
   const [open, setOpen] = useState(false);
@@ -83,7 +84,7 @@ const SidebarItem = ({ item }: { item: any }) => {
   let iconComponent = null;
 
   if (item.childrens) {
-    switch (item.icon) {
+    switch (item.icon) { 
       // case "FaHandHoldingDollar":
       //   iconComponent = <FaHandHoldingDollar color="black" size={25} />;
       //   break;
@@ -103,15 +104,15 @@ const SidebarItem = ({ item }: { item: any }) => {
       case "FaMoneyBillTrendUp":
         iconComponent = <FaMoneyBillTrendUp color="black" size={25} />;
         break;
-        case "FaUserTie":
-          iconComponent = <FaUserTie color="black" size={25} />;
-          break;
       case "FaUserTie":
         iconComponent = <FaUserTie color="black" size={25} />;
         break;
       case "FaCubesStacked":
         iconComponent = <FaCubesStacked color="black" size={25} />;
         break;
+        case "FaCartPlus":
+          iconComponent = <FaCartPlus color="black" size={25} />;
+          break;
       default:
         break;
     }
@@ -122,8 +123,7 @@ const SidebarItem = ({ item }: { item: any }) => {
           <IconContainer>
             {iconComponent}
             {item.title}
-            </IconContainer>
-          
+          </IconContainer>
           <ToggleButton className="bi-chevron-down toggle-btn" onClick={() => setOpen(!open)} />
         </SidebarTitle>
         <SidebarContent className={open ? "open" : ""}>
@@ -143,15 +143,14 @@ const SidebarItem = ({ item }: { item: any }) => {
     };
     
     return (
-        <ContainerLink>
-            <SideBarSubList>
-                <SidebarPlainLink href={item.path || "#"} className="plain">
-                {/* <Image src={rec} alt="" /> */}
-                <div style={estiloIcone}></div>
-                {item.title}
-                </SidebarPlainLink> 
-            </SideBarSubList>
-        </ContainerLink>
+      <ContainerLink>
+        <SideBarSubList>
+          <SidebarPlainLink href={item.path || "#"} className="plain">
+            <div style={estiloIcone}></div>
+            {item.title}
+          </SidebarPlainLink>
+        </SideBarSubList>
+      </ContainerLink>
     );
   }
 };

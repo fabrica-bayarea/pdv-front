@@ -1,5 +1,6 @@
 
 export interface IProduto {
+    imagem: string | undefined
     nome?: string 
     marca?: string 
     descricao?: string 

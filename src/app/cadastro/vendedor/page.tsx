@@ -136,7 +136,7 @@ export default function Vendedor() {
         ) : (
         <Menu>
 
-            <Titulo texto="Cadastro de vendedor" />
+            <Titulo texto="Cadastro de Vendedor" />
 
             <ToastContainer
             position="top-right"

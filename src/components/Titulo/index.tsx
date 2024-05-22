@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+
 const TituloEstilizado = styled.h1`
     color: #5F0000;
-    font-family: Inter;
+    font-family: Italiana;
     font-size: 40px;
     font-weight: 700;
 `

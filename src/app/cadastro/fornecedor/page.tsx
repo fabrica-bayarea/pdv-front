@@ -162,7 +162,7 @@ export default function Fornecedor() {
                 </Loading>
             ) : (
             <Menu>
-                <Titulo texto="Cadastro de fornecedor" />
+                <Titulo texto="Cadastro de Fornecedor" />
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
