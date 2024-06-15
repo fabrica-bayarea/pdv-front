@@ -98,5 +98,15 @@
             }
           
         ]
+    },
+    {
+        "title": "Configurações",
+        "icon": "FaGears",
+        "childrens": [
+            {
+                "title": "Configurações Gerais",
+                "path": "/configuracoes/gerais"
+            }
+        ]
     }
 ]

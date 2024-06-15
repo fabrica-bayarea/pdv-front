@@ -44,8 +44,12 @@ footer {
   --color-grey-100: #181818;
   --color-fixed-black: #0D0D0D;
 
-  --font-size-0: 80px;
-  --font-size-3: 14px;
+  --font-family-italiana: "Italiana", sans-serif;
+
+  --font-size-0: 5rem; /* 80px */
+  --font-size-1: 2.75rem; /* 44px */
+  --font-size-2: 2.375rem; /* 38px */
+  --font-size-3: 0.875rem; /* 14px */
 
   --font-weight-0: 500;
 

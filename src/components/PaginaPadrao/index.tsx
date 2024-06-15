@@ -20,7 +20,7 @@ const Sidebar = styled.div`
 
 const Header = styled.div`
   display: flex;
-  flex-direction: ;
+  flex-direction: row;
   gap: 10px; 
   align-items: center; 
   padding: 0px; 
@@ -71,7 +71,7 @@ export default function PaginaPadrao({ children }: Props) {
         {children}
       </Conteudo>
       </FlexContainer>
-      
+
     </Main>
   );
 }

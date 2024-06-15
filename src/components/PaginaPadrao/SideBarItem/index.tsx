@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { HiArrowDown } from 'react-icons/hi';
 import { FaAddressCard, FaCartPlus, FaClipboardList, FaLocationArrow, FaUserTie } from "react-icons/fa";
-import { FaCartShopping, FaCubesStacked, FaMoneyBillTrendUp } from "react-icons/fa6";
+import { FaCartShopping, FaCubesStacked, FaMoneyBillTrendUp, FaGears } from "react-icons/fa6";
 import styled from "styled-components";
 import { Divider } from "@mui/material";
 import Link from "next/link";
@@ -112,6 +112,9 @@ const SidebarItem = ({ item }: { item: any }) => {
         break;
         case "FaCartPlus":
           iconComponent = <FaCartPlus color="black" size={25} />;
+          break;
+      case "FaGears":
+        iconComponent = <FaGears color="black" size={25} />
           break;
       default:
         break;
