@@ -1,3 +1,4 @@
+"use client"
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
 import Menu from '@/components/PaginaPadrao'
@@ -23,6 +24,10 @@ type Inputs = {
   bandeira: { label?: string | '' };
 };
 
+interface Props {
+  texto: string;
+  tipo: string;
+}
 const FormEstilizado = styled.form`
   display: flex;
   flex-direction: column;

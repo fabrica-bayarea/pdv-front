@@ -18,22 +18,41 @@ const CartItemContainer = styled.div`
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 10px 0;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0;
+
+    & > * {
+      margin-bottom: 10px;
+    }
+  }
 `;
 
 const ItemDetails = styled.div`
   flex-grow: 1;
   padding-left: 20px;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 0;
+  }
 `;
 
 const ItemImage = styled.img`
   width: 100px;
   height: 100px;
   object-fit: cover;
+
+  @media screen and (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
   const { produto, quantidade } = item;
-  const preco = produto.preco ? parseFloat(produto.preco) : 0; 
+  const preco = parseFloat(produto.preco) || 0;
 
   return (
     <CartItemContainer>

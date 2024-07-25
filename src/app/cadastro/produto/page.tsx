@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import axios, { AxiosError } from 'axios';
 
 const FormEstilizado = styled.form`
     display: flex;
@@ -63,24 +64,24 @@ const form = Yup.object().shape({
     nome: Yup.string().required('O campo nome é obrigatório!'),
     marca: Yup.string().required('O campo marca é obrigatório!'),
     descricao: Yup.string()
-        .min(4, 'O nome precisa ter mais de 10 caracteres!')
+        .min(10, 'A descrição precisa ter mais de 10 caracteres!')
         .max(100)
         .required('O campo descrição é obrigatório!'),
-    cnpj_fornecedor: Yup.string().required('O campo obrigatório!'),
+    cnpj_fornecedor: Yup.string().required('O campo CNPJ do fornecedor é obrigatório!'),
     codigo_produto: Yup.string()
         .matches(/^[0-9]+$/, 'O campo deve conter apenas números.')
-        .required('O campo obrigatório!'),
-    nome_categoria: Yup.string().required('O campo obrigatório!'),
+        .required('O campo código do produto é obrigatório!'),
+    nome_categoria: Yup.string().required('O campo nome da categoria é obrigatório!'),
     unidade_medida: Yup.object().shape({
-        label: Yup.string().required("Required"),
-    }),
-    preco: Yup.number().required('O campo obrigatório!'),
-    estoque_atual: Yup.number().positive().required('O campo obrigatório!'),
+        label: Yup.string().required("O campo unidade de medida é obrigatório!"),
+    }).required("O campo unidade de medida é obrigatório!"),
+    preco: Yup.number().required('O campo preço é obrigatório!'),
+    estoque_atual: Yup.number().positive().required('O campo estoque atual é obrigatório!'),
 });
 
 export default function Fornecedor() {
 
-    const { push } = useRouter()
+    const { push } = useRouter();
 
     const [loading, setLoading] = useState(true);
 
@@ -93,7 +94,6 @@ export default function Fornecedor() {
                 push('/erro');
             }
         }, 2000);
-
     }, [push]);
 
     const {
@@ -104,24 +104,25 @@ export default function Fornecedor() {
         formState: { errors },
     } = useForm<Inputs>({
         resolver: yupResolver(form),
-    })
+    });
 
     const onSubmit: SubmitHandler<Inputs> = async (dados) => {
-        console.log(dados); // os dados vêm dos registros que pegam os textos dos inputs automaticamente pelo react-hook-form
+        console.log(dados); 
         const unidade_medidaSelecionado = dados.unidade_medida ? dados.unidade_medida.label : null;
 
         const dadosParaEnviar = {
             ...dados,
             unidade_medida: unidade_medidaSelecionado
         };
-        console.log(dadosParaEnviar)
+        console.log(dadosParaEnviar);
 
         try {
             await http.request({
                 url: '/produto',
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 data: dadosParaEnviar
             });
@@ -142,18 +143,49 @@ export default function Fornecedor() {
             }, 1000);
 
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error)) {
+                // Erro de resposta do servidor
+                if (error.response?.status === 404 && error.response?.data?.message) {
+                    toast.error(`Erro: ${error.response.data.message}`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else {
+                    console.error('Response data:', error.response?.data);
+                    console.error('Response status:', error.response?.status);
+                    console.error('Response headers:', error.response?.headers);
 
-            toast.error('Erro ao fazer o cadastro!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+                    toast.error('Erro ao fazer o cadastro!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            } else {
+                // Outro erro
+                console.error('Error message:', error);
+                toast.error('Erro ao fazer o cadastro!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         }
     }
 
@@ -196,7 +228,7 @@ export default function Fornecedor() {
                         <CampoDigitacao tipo="text" label="Marca" placeholder="Insira a marca" register={register('marca')} />
                         <Erro>{errors.marca?.message}</Erro>
 
-                        <CampoDigitacao tipo="text" label="Descrição" placeholder="Inscrição Estadual" register={register("descricao")} />
+                        <CampoDigitacao tipo="text" label="Descrição" placeholder="Insira a descrição" register={register("descricao")} />
                         <Erro>{errors.descricao?.message}</Erro>
 
                         <CampoDigitacao tipo="text" label="CNPJ do Fornecedor" placeholder="Insira o CNPJ do fornecedor" register={register("cnpj_fornecedor")} />
@@ -218,14 +250,15 @@ export default function Fornecedor() {
                                     options={[
                                         { label: "kg - quilograma" },
                                         { label: "mg - miligrama" },
-                                        { label: "cm - centimetros" },
-                                        { label: "mm - milimetros" },
+                                        { label: "cm - centímetros" },
+                                        { label: "mm - milímetros" },
                                         { label: "l - litros" },
                                         { label: "ml - mililitros" },
                                     ]}
                                 />
                             )}
                         />
+                        <Erro>{errors.unidade_medida?.label?.message}</Erro>
 
                         <CampoDigitacao tipo="text" label="Preço" placeholder="Insira o preço" register={register("preco")} />
                         <Erro>{errors.preco?.message}</Erro>

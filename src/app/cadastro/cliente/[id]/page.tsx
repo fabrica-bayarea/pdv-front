@@ -1,3 +1,5 @@
+"use client"; // Diretiva para indicar que este é um componente de cliente
+
 import Botao from '@/components/Botao';
 import Menu from '@/components/PaginaPadrao';
 import Titulo from '@/components/Titulo';
@@ -10,7 +12,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from 'react';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 import { ICliente } from '@/interfaces/ICliente';
 import { mask } from 'remask';
 import CampoDigitacao from '@/components/CampoDigitacao';
@@ -189,38 +191,39 @@ const FormCliente = () => {
 
             <Titulo texto="Cadastro de cliente" />
 
-            <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
-              <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={{
-                ...register('cpf', {
-                  onChange: (e: any) => { handleChange(e) },
-                })
-              }} />
-              <Erro>{errors.cpf?.message}</Erro>
-              <CampoDigitacao tipo="text" label="Email" placeholder="Insira seu endereço de email" register={register("email")} />
-              <Erro>{errors.email?.message}</Erro>
-              <CampoDigitacao tipo="text" label="Nome" placeholder="Insira seu endereço de email" register={register("nome")} />
-              <Erro>{errors.nome?.message}</Erro>
-              <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={{
-                ...register('telefone', {
-                  onChange: (e: any) => { handleChange(e) },
-                })
-              }} />
-              <Erro>{errors.telefone?.message}</Erro>
-              <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")} />
-              <Erro>{errors.endereco?.message}</Erro>
-              <CampoDigitacao tipo="text" label="data_nascimento" placeholder="Insira sua data" register={{
-                ...register('data_nascimento', {
-                  onChange: (e: any) => { handleChange(e) },
-                })
-              }} />
-              <Erro>{errors.data_nascimento?.message}</Erro>
+            <Box sx={{ padding: 2 }}> {/* Adiciona Box para envolver o conteúdo */}
+              <FormEstilizado onSubmit={handleSubmit(onSubmit)}>
+                <CampoDigitacao tipo="text" label="CPF" placeholder="Insira seu CPF" register={{
+                  ...register('cpf', {
+                    onChange: (e: any) => { handleChange(e) },
+                  })
+                }} />
+                <Erro>{errors.cpf?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Email" placeholder="Insira seu endereço de email" register={register("email")} />
+                <Erro>{errors.email?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Nome" placeholder="Insira seu endereço de email" register={register("nome")} />
+                <Erro>{errors.nome?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Telefone" placeholder="Insira seu telefone" register={{
+                  ...register('telefone', {
+                    onChange: (e: any) => { handleChange(e) },
+                  })
+                }} />
+                <Erro>{errors.telefone?.message}</Erro>
+                <CampoDigitacao tipo="text" label="Endereço" placeholder="Insira seu endereco" register={register("endereco")} />
+                <Erro>{errors.endereco?.message}</Erro>
+                <CampoDigitacao tipo="text" label="data_nascimento" placeholder="Insira sua data" register={{
+                  ...register('data_nascimento', {
+                    onChange: (e: any) => { handleChange(e) },
+                  })
+                }} />
+                <Erro>{errors.data_nascimento?.message}</Erro>
 
-              <DivEstilizada>
-                <Botao texto='Confirmar' tipo='submit' />
-                <Botao texto='Cancelar' secundario={true.toString()} />
-              </DivEstilizada>
-            </FormEstilizado>
-
+                <DivEstilizada>
+                  <Botao texto='Confirmar' tipo='submit' />
+                  <Botao texto='Cancelar' secundario={true.toString()} />
+                </DivEstilizada>
+              </FormEstilizado>
+            </Box>
           </Menu>
         </>
       )}

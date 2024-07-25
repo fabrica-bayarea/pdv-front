@@ -1,3 +1,4 @@
+"use client"
 import Botao from '@/components/Botao';
 import CampoDigitacao from '@/components/CampoDigitacao';
 import Menu from '@/components/PaginaPadrao';

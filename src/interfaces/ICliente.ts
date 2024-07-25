@@ -6,5 +6,5 @@ export interface ICliente {
     nome?: string | undefined,
     telefone?: string | undefined,
     endereco?: string | undefined,
-    nascimento?: string | undefined,
+    data_nascimento?: string | undefined,
 }

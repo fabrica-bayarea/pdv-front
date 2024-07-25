@@ -76,27 +76,17 @@
         "childrens": [
             {
                 "title": "Ajuste de Estoque",
-                "path": "/profile"
+                "path": "/estoque/AjusteDeEstoque"
             },
             {
                 "title": "Ajuste de Custos",
-                "path": "/logout"
+                "path": "/estoque/AjusteDeCustos"
             },
             {
                 "title": "Contagem Mensal",
-                "path": "/logout"
+                "path": "/estoque/ContagemMensal"
             }
-        ]
-    },
-    {
-        "title": "Carrinho",
-        "icon": "FaCartPlus",
-        "childrens": [
-            {
-                "title": " Carrinho de Compras",
-                "path": "/carrinho"
-            }
-          
         ]
     }
+    
 ]

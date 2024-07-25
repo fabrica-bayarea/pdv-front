@@ -110,9 +110,6 @@ const SidebarItem = ({ item }: { item: any }) => {
       case "FaCubesStacked":
         iconComponent = <FaCubesStacked color="black" size={25} />;
         break;
-        case "FaCartPlus":
-          iconComponent = <FaCartPlus color="black" size={25} />;
-          break;
       default:
         break;
     }

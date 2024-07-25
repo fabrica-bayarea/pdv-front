@@ -5,5 +5,5 @@ export interface IVendedor {
     nome?: string | undefined,
     telefone?: string | undefined,
     endereco?: string | undefined,
-    nascimento?: string | undefined,
+    dataNascimento?: string | undefined,
 }

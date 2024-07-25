@@ -14,6 +14,7 @@ import { DivEstilizada, Erro, FormEstilizado, Loading } from './vendedor_styled'
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { IVendedor } from '@/interfaces/IVendedor';
 
 type Inputs = {
     cpf: string;
@@ -84,8 +85,19 @@ export default function Vendedor() {
         }
     }
 
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data: IVendedor) => {
         try {
+            console.log(data);
+            const dataNascimento = data.dataNascimento;
+            if (dataNascimento) {
+            const partes = dataNascimento.split('/');
+            if (partes?.length && partes.length >= 3) {
+                const dia = partes[0];
+                const mes = partes[1];
+                const ano = partes[2];
+                data.dataNascimento = [ano, mes, dia].join('-');
+            }
+            }
             await http.post('/vendedor', data);
             toast.success('Cadastro feito!', {
                 position: "top-right",

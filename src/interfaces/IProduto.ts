@@ -1,5 +1,11 @@
+import { ReactNode } from "react"
+import { Key } from "react-hook-form/dist/types/path/common"
 
 export interface IProduto {
+    id: Key | null | undefined
+    quantidade: ReactNode
+    valor: ReactNode
+    nome_produto: any
     imagem: string | undefined
     nome?: string 
     marca?: string 

@@ -83,11 +83,7 @@ const GerenciamentoCliente = () => {
         </Loading>
       ) : (
         <PaginaPadrao>
-          <Logout>
-            <IconButton onClick={logout}>
-              <LogoutIcon />
-            </IconButton>
-          </Logout>
+     
 
           <Titulo texto='Gerenciamento de Cliente' />
 

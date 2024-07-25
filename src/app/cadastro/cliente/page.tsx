@@ -111,6 +111,16 @@ const Cliente = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data: ICliente) => {
     console.log(data);
+    const dataNascimento = data['data_nascimento'];
+    if (dataNascimento) {
+      const partes = dataNascimento.split('/');
+      if (partes?.length && partes.length >= 3) {
+        const dia = partes[0];
+        const mes = partes[1];
+        const ano = partes[2];
+        data['data_nascimento'] = [ano, mes, dia].join('-');
+      }
+    }
     try {
       await http.request({
         url: '/cliente',
