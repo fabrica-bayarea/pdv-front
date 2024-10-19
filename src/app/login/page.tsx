@@ -135,7 +135,7 @@ const Login = () => {
           push("/cadastro/cliente");
         }, 1000);
       } else {
-        throw new Error("Acesso negado!");
+        throw new Error("Acesso!");
       }
     } catch (error) {
       setOpen(true);

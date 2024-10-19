@@ -102,6 +102,7 @@ const Logout = styled.div`
                   <TableCell align="right">Nome</TableCell>
                   <TableCell align="right">Marca</TableCell>
                   <TableCell align="right">Preço</TableCell>
+                  <TableCell align="right">Quantidade em Estoque</TableCell>
                   <TableCell align="right"> <BuildIcon /> </TableCell>
                 </TableRow>
               </TableHead>
@@ -112,11 +113,12 @@ const Logout = styled.div`
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {produto.tipoDeproduto}
+                      {produto.id}
                     </TableCell>
                     <TableCell align="right">{produto.nome}</TableCell>
                     <TableCell align="right">{produto.marca}</TableCell>
                     <TableCell align="right">{produto.preco}</TableCell>
+                    <TableCell align="right">{produto.estoque_atual}</TableCell>
                     <TableCell align="right">
                       <Link href={'/cadastro/produto/' + produto.id}>
                         <EditIcon />
